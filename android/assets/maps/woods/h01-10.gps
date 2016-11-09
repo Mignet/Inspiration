@@ -1,0 +1,20 @@
+	SetPlayState(0);
+	playmusic("music\BGM_wood.mid");
+	fadein(2,0,100);
+	LoadMap("maps\woods\woods10.map");
+	SetPlayerShow(1);                  //主角不显示
+	
+	SetPlayerPos(18, 7);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+If($process!7,"exit");
+If($temp4=1,"exit");
+if($temp6=1,"exit");
+	say("兰特：安德利卡尔终于回来了，有了它就好办的多。","lt");
+	say("兰特：赶快装备上，然后向西边追击菲利斯吧。","lt");
+	Set($temp6,1);
+exit:
+	return;
+	

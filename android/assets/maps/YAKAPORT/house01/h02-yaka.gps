@@ -1,0 +1,72 @@
+	if($process=4,"P04");
+	if($process=5,"P05")
+	SetPlayState(0);
+	LoadMap("maps\yakaport\yaka01.map");
+	playmusic("music\BGM_yaka.mid");
+	call("maps\yakaport\addnpc-yaka01.gps");		//添加NPC
+	
+	//(开门）产生门开着的效果
+	SetPlayState(0);
+	SetMapCell(1, 23, 22, 197, 3);
+	SetMapCell(1, 24, 22, 198, 3);
+	SetMapCell(1, 23, 23, 217, 3);
+	SetMapCell(1, 24, 23, 218, 3);
+
+	SetPlayerPos(23, 24);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	
+	//关门
+	SetMapCell(1, 23, 22, 93, 3);
+	SetMapCell(1, 24, 22, 94, 3);
+	SetMapCell(1, 23, 23, 113, 3);
+	SetMapCell(1, 24, 23, 114, 3);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	Delay(200);
+	if($process=0,"P00");
+	if($Process=3,"P03");
+	if($process=6,"P06");
+	return;
+P00:	
+	if($temp5=0,"P00talk00");
+	return;
+	
+P00talk00:
+	set($temp5,1);
+	return;
+
+P03:
+	if($temp1<3,"P03talk01");	
+	if($temp2=1,"P03talk01");
+	if($temp4=1,"P03talk01");
+	Say("兰特：那么……就从这位镇长身上开始调查吧。","lt");
+	Set($temp2,1);
+
+	return;
+
+P03talk01:
+	
+	return;
+P04:
+	Say("哈非：现在应该找到月亮要紧！","");
+	MoveDirectTo(2,2);
+	return;
+P06:
+	if($Temp1=1,"P06talk01");
+	Say("月亮：兰特大人，我们去什么地方找哥哥呢？","moon");
+	Say("兰特：就是那个古老的墓地。","lt");
+	Say("月亮：………………","moon");
+	Say("兰特：怎么了？害怕？","lt");
+	Say("月亮：不……为了救哥哥我什么都不怕……","moon");
+	Say("兰特：那么那个墓地在什么地方？","lt");
+	Say("月亮：从北边出城后，向西边走就可以了。","moon");
+	Say("兰特：好的，那么我们必须快点动身了。","lt");
+	set($temp1,1);
+P06talk01:
+	return;
+P05:
+	Say("兰特：快到二楼去看看圣剑！","lt");
+	MoveDirectTo(2,2);
+	return;	

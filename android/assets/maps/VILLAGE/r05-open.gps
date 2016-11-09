@@ -1,0 +1,16 @@
+
+	//开门
+	SetPlayState(0);
+	SetMapCell(0, 30, 18, 109, 1);
+	SetMapCell(0, 31, 18, 110, 1);
+	SetMapCell(0, 30, 19, 129, 1);
+	SetMapCell(0, 31, 19, 130, 1);
+	
+	SetMapBlock(30, 19, 0);             //取消门口阻挡
+	SetMapHook(30, 19, 127);            //删除开门陷阱
+	AddMapHook(30, 19, "vil-r05.gps"); //加入进门陷阱
+	
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;

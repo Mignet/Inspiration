@@ -1,0 +1,14 @@
+	SetPlayState(0);
+	fadein(2,0,100);
+
+	playmusic("music\BGM_vil.mid");
+	LoadMap("maps\village\village.map");
+	SetDisplayState(1);		//设置地图属性为黑暗
+
+	SetPlayerPos(50, 1);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

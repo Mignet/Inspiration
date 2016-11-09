@@ -1,0 +1,57 @@
+
+	if($position=5,"A2");
+	if($position=7,"A3");
+	if($case1=6,"A4");
+	set($position,6);
+	if($case1=8,"A1");
+	if($case0=8,"A1");
+	return;
+A1:
+	SetMapBlock(10, 6, 1);     //…Ë÷√8Œª÷√◊Ëµ≤
+	return;
+A2:
+	if($case1!6,"A5");
+	SetMapCell(1, 9, 6, 14, 4);
+	SetMapCell(1, 8, 6, 13, 4);
+	set($case1,7);
+	if($case0=8,"Block2");
+	SetMapBlock(9, 6, 0);     //Ω‚≥˝7Œª÷√◊Ëµ≤
+	PlaySound("sound\E-push.wav");
+	set($position,6);
+	if($case1=8,"A1");
+	if($case0=8,"A1");
+	return;
+A3:
+	if($case2=4,"A6");
+	if($case1!6,"A5");
+	SetMapCell(1, 7, 6, 14, 4);
+	SetMapCell(1, 8, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,5);
+	set($position,6);
+	if($case1=8,"A1");
+	if($case0=8,"A1");
+	if($case0=16,"Block");
+	return;
+A4:
+	return;
+A5:
+	set($position,6);
+	if($case1=8,"A1");
+	if($case0=8,"A1");
+	return;
+Block:
+	SetMapBlock(8, 8, 1);     //…Ë÷√16Œª÷√◊Ëµ≤
+	return;
+A6:
+	if($case1!6,"A5");
+	SetMapCell(1, 7, 6, 14, 4);
+	SetMapCell(1, 8, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,5);
+	set($position,6);
+	SetMapBlock(7, 6, 1); 
+	return;
+Block2:
+	SetMapBlock(9, 6, 1);     //…Ë÷√7Œª÷√◊Ëµ≤
+	return;

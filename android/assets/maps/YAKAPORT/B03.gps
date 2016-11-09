@@ -1,0 +1,75 @@
+	SetPlayState(0);	/////
+	FadeIn(2, 0, 100);
+	
+	LoadMap("MAPS\YAKAPORT\house01\h02(1).map"); //载入亚卡上半部分地图
+	Delay(300);
+
+	SetPlayerShow(1);     	
+	
+	LoadPlayer(0, "ini\player.ini", "哈非");  
+
+	Delay(300);
+	
+	SetPlayerPos( 9, 8);		//设置主角在楼梯口
+	
+	SetPlayerDir(1);	
+	CenterPlayer();		
+	AddNpc("maps\yakaport\npc.npc", "兰特#", 10, 8);  //加入NPC
+	SetNpcDir("兰特#", 1);
+	
+	
+	FadeOut(2);
+
+	delay(300);
+
+	say("哈非：就是在这边了。","ht");
+
+	MoveNpc("兰特#", 9, 8);
+	MoveTo(8,8);
+
+
+	SetNpcDir("兰特#",0);
+	SetPlayerDir(0);
+
+	delay(300);
+
+	MoveTo(8,9);
+
+	say("哈非：请跟我来。","ht");
+
+	MoveNpc("兰特#",6,13);
+
+	MoveTo(4,12);
+	
+	SetplayerDir(0);
+
+	delay(300);
+
+	Say("哈非：大概有点简陋啦，请您委屈一下。","ht");
+	delay(300);
+	Say("兰特：不，这已经很好了。","lt");
+	delay(300);
+	Say("哈非：是吧！我也很喜欢这间房子，特别是门外那个可以看到海的窗子，真的是太漂亮了！","hf");
+	delay(300);
+	Say("兰特：……","lt");
+	delay(300);
+
+	MoveTo(4,13);
+	SetPlayerDir(3);
+	Say("哈非：对了，兰特大人，不如我们去逛逛亚卡吧，虽然不是商船到来的日子，但是还是十分热闹的！","hf");
+	delay(300);
+	Say("哈非：我请你吃这里有名的奥尼兰德煎饼！你要知道，那味道真不是盖的！","hf");
+	delay(300);
+	Say("兰特：谢谢了，我有点累，想要休息一下，我们改天再去吧。","lt");
+	delay(300);
+	Say("哈非：这样啊，那就算了。您慢慢休息，我先出去了。","hf");
+	delay(300);
+	Say("兰特：嗯，再见。","lt");
+	delay(300);	
+	Say("哈非：再见。","hf");
+	delay(300);	
+	MoveNpc("兰特#",5,15);
+	MoveTo(8,9);
+	delay(600);	
+	
+	return;

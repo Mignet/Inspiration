@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("亚卡其实只是一个港口，人们都住在不远的一个村子里面。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

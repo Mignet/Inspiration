@@ -1,0 +1,85 @@
+//进门后与宝箱的第二轮对话
+	
+	if( $pickup=0,"Say");       //一个苹果都还没捡
+	if( $question>1, "Exit");   //不是第二次和宝箱对话
+	set( $question, 2);
+	set( $pickup,0);
+	SetPlayState(0);
+
+	//对话
+	GameMessage("宝箱：“那么换我拿了哦。”");
+	Say("……","lt");
+	
+	if( $remain=8, "Cha1");
+	if( $remain=7, "Cha2");
+	if( $remain=6, "Cha3");
+
+Cha1:
+        //还剩8个苹果
+	Add( $remain,-1);              //剩余苹果数减1
+	Delay(300);
+	SetMapCell(1, 8, 11, 13, 4);   //删除苹果的图象
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(8, 11, 127);        //删除陷阱
+	GameMessage("3313@@");
+	SetMapBlock(8, 11, 0);
+	
+	GameMessage("宝箱：“这么拿……你觉得如何？”");
+	SetPlayState(1);
+	return;
+
+Cha2:
+        //剩7个
+	Add( $remain,-3);
+	Delay(300); 
+	SetMapCell(1, 8, 9, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 8, 7, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 10, 6, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(8, 9, 127);
+	SetMapHook(8, 7, 127);
+	SetMapHook(10, 6, 127);
+	SetMapBlock(8, 9, 0);
+	SetMapBlock(8, 7, 0);
+	SetMapBlock(10, 6, 0);
+	GameMessage("宝箱：“怎么样？”");
+	set( $question, 2);
+	SetPlayState(1);
+	return;
+
+Cha3:
+        //剩6个
+	Add( $remain,-2); 
+	Delay(300);
+	SetMapCell(1, 8, 7, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 10, 6, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(8, 7, 127);
+	SetMapHook(10, 6, 127);
+	SetMapBlock(8, 7, 0);
+	SetMapBlock(10, 6, 0);
+	GameMessage("宝箱：“阿门……”");
+	set( $question, 2);
+	SetPlayState(1);
+	return;
+
+Exit:
+	call("maps\yakaport\house02\h08-pick\box0-2.gps")；  //转入第三轮
+	return;
+
+Say:
+	SetPlayState(0);
+	PlaySound("sound\E-cannot.wav");
+	GameMessage("宝箱：“你还没拿吧？不要骗我哦。”");
+	Delay(30);
+	SetPlayState(1);
+	return;

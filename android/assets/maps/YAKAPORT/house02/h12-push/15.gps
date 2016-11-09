@@ -1,0 +1,33 @@
+	if($position=16,"A1");  //人从16来 跳转（人从14来，继续）
+	if($case0=15,"A2");     //（人从14来）case0在15跳转（不在继续）
+	set($position,15);      //确定人的当前位置
+	return;
+A1:
+	if($case0=15,"A3");    //（人从14来）case0在15位 跳转
+	set($position,15);     //（case0不在15位）确定人的位置
+	return;
+A2:
+	SetMapCell(1, 8, 8, 14, 4);
+	SetMapCell(1, 7, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,16);        //确定case0的位置
+	set($position,15);     
+	return;
+A3:
+	if($case2=14,"Exit0")
+	SetMapCell(1, 6, 8, 14, 4);
+	SetMapCell(1, 7, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	Say("呀，这可怎么推得出来啊？","hf");
+	say("管理员：你看出来了？","");	
+	set($case0,14);
+	set($position,15);
+	SetMapBlock(6, 8, 1);     //设置14位置阻挡
+	if($case2=10,"Exit");
+	return;
+Exit:
+	SetMapBlock(6, 7, 1);     //设置10位置阻挡
+	return;
+Exit0:
+	Say("哈非：堵住了……","");
+	return;

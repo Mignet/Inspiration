@@ -1,0 +1,19 @@
+
+	SetPlayState(0);
+	LoadMap("maps\hill\hill07.map");
+if($process!7,"P07");
+
+	SetPlayerShow(0);                  //Ö÷½Ç²»ÏÔÊ¾
+	call("script\a13.gps");
+	return;
+
+P07:
+	SetPlayerPos(22, 29);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+
+
+	return;

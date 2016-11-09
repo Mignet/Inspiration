@@ -1,0 +1,10 @@
+
+	SetPlayState(0);
+	LoadMap("maps\village\room04.map");
+	SetPlayerPos(16, 17);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

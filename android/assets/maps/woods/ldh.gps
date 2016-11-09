@@ -1,0 +1,4 @@
+	say("这里埋着LDH,墓碑上刻着……","");
+	GameMessage("我又懶、又醜，但我很善良");		
+
+	return;

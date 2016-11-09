@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("偷偷告诉你，我见过圣剑！是一把好巨大的剑，要四个人才抬的动！","");
+	SetPlayState(1);
+	Delay(200);
+	return;

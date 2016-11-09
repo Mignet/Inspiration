@@ -1,0 +1,7 @@
+
+	SetPlayState(0);
+	PlaySound("sound\CLICK02.wav");
+	GameMessage("цеиовекЬ║ё");
+	SetPlayState(1);
+	Delay(200);
+	return;

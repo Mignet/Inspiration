@@ -1,0 +1,7 @@
+	
+	SetPlayState(0);
+	
+	AddNpc("maps\yakaport\npc#(0).npc", "025",  6, 12);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "026", 14,  9);  //加入NPC
+
+	return;

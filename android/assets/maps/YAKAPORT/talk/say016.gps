@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("看到港口码头那个浪头了吗？都快拍上岸了！","");
+	SetPlayState(1);
+	Delay(200);
+	return;

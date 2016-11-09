@@ -1,0 +1,18 @@
+
+	SetPlayState(0);
+	LoadMap("maps\hill\hill05.map");
+	SetPlayerPos(37, 28);
+	SetPlayerDir(2);
+	CenterMap(40,29);
+	playmusic("music\BGM_hill2.mid");
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	if($temp2=3,"talk01");
+	say("兰特：好，前面就要到山顶了。","lt");
+	Say("兰特：准备好和菲利斯决战吧。","lt");
+	set($temp2,3);
+	return;
+
+talk01:
+	return;

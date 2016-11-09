@@ -1,0 +1,10 @@
+	if($process=3,"P03");
+	if($process=4,"P04");
+	return;
+P03:
+	say("兰特：安德利卡尔就放在这里吧。","lt");
+	return;
+P04:
+	return;
+
+	

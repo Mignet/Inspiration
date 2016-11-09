@@ -1,0 +1,73 @@
+	if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process=7,"P07");
+	
+P00:
+	if($temp6=0,"P00talk00"); //如果还没有离开,跳转到pootalk01,如果已经离开过,那么就是下面的内容
+	if($temp6=1,"P00talk01");
+	if($temp6=2,"P00talk02");
+	if($temp6=3,"P00talk03");
+	if($temp6=4,"Exit");
+P00talk00:
+	say("月亮：为什么现在会有这么大的风浪呢？","moon");
+	set($temp6,1);
+	return;
+
+P00talk01:
+	say("月亮：哥哥能够在这样的风浪中驾船，我觉得很了不起。","moon");
+	say("哈非：哈哈……差点都没命了……","hf");
+	set($temp6,2);	
+	return;
+P00talk02:
+	say("月亮：海盗们很可怕吗？","moon");
+	Say("哈非：非常可怕！","hf");
+	set($temp6,3);
+	return;
+P00talk03:
+	say("月亮：兰特大人看起来有点冷漠的样子。","moon");
+	Say("哈非：才不是呢，兰特大人待人其实很亲切。","hf");
+	Say("月亮：那兰特大人是从什么地方来的呢？","moon");
+	Say("哈非：那个……我只知道他在岗浦顿上的我的船。","hf");
+	set($temp6,4);
+	return;
+
+P01:
+	Say("月亮：镇长来了吧？和妈妈在说些什么？","moon");
+	return;
+
+P02:
+	Say("月亮：哥哥你又要出去？","moon");
+	Say("哈菲：老妈叫我去取菜刀啦。","hf");
+	return;
+
+P03:
+	Say("月亮：………………兰特大人，你好。","moon");
+	Say("兰特：你好。","lt");
+	if($temp5>0,"Exit");
+	if($temp1>2,"Exit");
+	Say("兰特：对了，打听一下，亚卡港里最年长的人是谁？","lt");
+	Say("月亮：年纪最大啊？大概就是镇长先生了吧。","moon");
+	Say("兰特：那么这位镇长先生家在什么地方？","lt");
+	Say("兰特：就在城东北边！要不要我带你去？","moon");
+	Say("兰特：………………不用了，谢谢。","lt");
+	Say("<c8>（那就从这个镇长身上开始调查吧。）</c>","lt");
+	set($temp5,1);
+	set($temp4,1);
+Exit:
+	return;
+P04:
+	Say("哈菲：月亮还在二楼，我得赶快去带她逃跑。","hf");
+	return;
+P05:
+	Say("月亮：………………兰特大人，你好。","moon");
+	Say("兰特：你好。","lt");
+	Say("<c8>（必须马上到旅馆二楼看看。）</c>","lt");
+	return;
+P07:
+	Say("月亮：兰特大人请不必担心我们。","moon");
+	SetNpcDir("月亮",3);
+	return;

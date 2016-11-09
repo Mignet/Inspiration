@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("听说过安德鲁斯么？那是一个非常美丽的国家。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

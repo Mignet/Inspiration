@@ -1,0 +1,19 @@
+		
+	SetPlayState(0);
+	stopmusic();
+	LoadMap("maps\yakaport\house02\h09.map");
+	call("maps\yakaport\house02\addnpc-h09.gps");		//添加NPC
+	SetPlayerPos(7, 15);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	if($process!0,"talk01");
+	if($temp1!0,"talk01");
+	say("哈非：咦？没人啊。","hf");
+	say("哈非：到柜台叫叫好了。","hf");
+	return;
+talk01:
+	
+	return;

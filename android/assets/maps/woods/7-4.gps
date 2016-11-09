@@ -1,0 +1,8 @@
+	SetPlayState(0);
+	LoadMap("maps\woods\woods04.map");
+	SetPlayerPos(12, 22);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	return;

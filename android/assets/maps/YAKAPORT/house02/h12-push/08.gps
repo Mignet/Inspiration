@@ -1,0 +1,102 @@
+	if($position=12,"A1");   //人从12位置来（从下而上）跳转
+	if($case0=8,"A5");       //（人从7位置来）如果case0在8位置 跳转
+	if($case1=8,"A5");       //（人从7位置来）如果case1在8位置 跳转
+	set($position,8);        
+	return;
+A5:
+	return;
+A1:
+	if($case0=8,"A2");       //（人从12位置来）如果case0在8位置跳转
+	if($case1=8,"A3");       //（人从12位置来）如果case1在8位置跳转
+	set($position,8);
+	return;
+A2:
+	if($case1=2,"A4");       //（人从12来，case0=8）case1在2位 跳转 
+	SetMapCell(1, 10, 5, 14, 4);
+	SetMapCell(1, 10, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	PlaySound("sound\E-get.wav");
+	set($case0,2);           //确定case0的位置
+	SetMapBlock(10, 5, 1);   //设置8处的阻挡
+	SetMapBlock(9, 6, 0);    //开7位置的开关
+	add( $finish,1);         //确定完成个数
+	if($finish=1,"Fin1");
+	if($finish=2,"Fin2");
+	if($finish=3,"Fin3");
+
+	return;
+A3:
+	if($case0=2,"A4");       //（人从12来，case1=8）case0在2位 跳转 
+	SetMapCell(1, 10, 5, 14, 4);
+	SetMapCell(1, 10, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,2);
+	SetMapBlock(10, 5, 1);
+	add( $finish,1);
+	if($finish=1,"Fin1");
+	if($finish=2,"Fin2");
+	if($finish=3,"Fin3");
+	return;
+A4:
+	return;
+
+Fin1:
+	Say("哈非：好象没什么难的，不过后面的有点棘手了。","hf");
+	//SetPlayState(1);
+	Delay(300);
+	return;
+Fin2:
+	Say("哈非：呵呵，剩一个了。","hf");
+	//SetPlayState(1);
+	Delay(300);
+	return;
+Fin3:
+	PlaySound("sound\E-win.wav");
+	Say("哈非：左推右推，总算全搞定了。","hf");
+	call("maps\yakaport\house02\h12-push\del.gps");
+	MoveTo(6,10);
+	Say("哈非：怎么样，干得不错吧？","hf");
+	say("管理员：不错不错，实在是帮了大忙了！","");
+	say("哈非：哈哈……我就说了，我……</n>糟了！光顾着推箱子，把正事都忘了！","hf");
+	say("管理员：什么事啊？那么急？","");
+	say("哈非：其实我是出来找恢复剂的，但是费根那里什么都没有……","hf");
+	say("管理员：恢复剂啊……我这里就有啊。","");
+	say("哈非：咦？？？！！！","hf");	
+	say("管理员：你忘了这里是什么地方么？等着。","");
+	MoveNpc("042",8 ,6);
+	delay(800);
+	SetplayerDir(0);
+	delay(300);
+	SetplayerDir(3);
+	delay(1500);
+	SetplayerDir(2);
+	
+	//SetNpcDir("042",2);
+	delay(1500);
+	
+	say("管理员：就是这里了。","");
+	MoveNpc("042", 8, 10);
+	delay(2500);
+	SetplayerDir(3);
+	
+	say("管理员：来，恢复剂，当作你帮忙的报酬吧。","");
+	say("哈非：啊！真的非常感谢！","hf");
+	say("管理员：哪里，我要感谢你才是真的。来，收下吧。","");
+	say("哈非：那我就不客气了！","hf");
+	GameMessage("得到恢复剂一瓶");
+	say("管理员：嗯，你出去后，我就要把门锁上了，毕竟这里是仓库啊，随便放人进来可不好。","");
+	say("哈非：嘿嘿，这样啊，那我就告辞了。","hf");
+	Say("管理员：再见。","");	
+	set($temp1,0);
+	set($temp2,0);
+	set($temp3,0);
+	set($temp4,0);
+	set($temp5,0);
+	set($temp6,0);
+	AddObject("给兰特的恢复瓶", 1);
+
+	set($win1,2);
+	set($process,1);
+	//SetPlayState(1);
+	Delay(300);
+	return;

@@ -1,0 +1,13 @@
+	if($case1=4,"A1");	
+	
+	set($position,14);
+	return;
+A1:
+	if($case2!10,"A2");
+	SetMapBlock(6, 6, 1);     //设置4位置的阻挡
+	SetMapBlock(6, 7, 1);     //设置10位置的阻挡
+	return;
+A2:
+	SetMapBlock(6, 6, 1);     //设置4位置的阻挡
+	SetMapBlock(6, 5, 1);     //设置1位置的阻挡
+	return;

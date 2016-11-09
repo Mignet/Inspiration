@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="src" path="/Inspiration-core"/>
+	<classpathentry sourcepath="E:/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.9.4/c20bb066ad1fd8dba2a3fafdc3b5730d20f59768/gdx-backend-android-1.9.4-sources.jar" kind="lib" path="E:/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.9.4/194b33382d6d58fad031521ba3331d926c476c9b/gdx-backend-android-1.9.4.jar"/>
+	<classpathentry sourcepath="E:/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-ai/1.8.0/154b2fbb50894a944607cd74f7dba1073d31a967/gdx-ai-1.8.0-sources.jar" kind="lib" path="E:/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-ai/1.8.0/ec30677d8ab1a8b8aa4b853c5f4e4b1361f50bf5/gdx-ai-1.8.0.jar"/>
+	<classpathentry sourcepath="E:/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.9.4/f0e4d245a67fc96707610a4260a325fa034c93d1/gdx-1.9.4-sources.jar" kind="lib" path="E:/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.9.4/4b4b7962d1bc75af0438f5c81ec1010557bc9ee5/gdx-1.9.4.jar"/>
+</classpath>

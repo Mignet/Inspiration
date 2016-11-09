@@ -1,0 +1,20 @@
+if($process=2,"P02");
+	//开门
+	SetPlayState(0);
+	SetMapCell(1, 23, 22, 247, 4);
+	SetMapCell(1, 24, 22, 248, 4);
+	SetMapCell(1, 23, 23, 267, 4);
+	SetMapCell(1, 24, 23, 268, 4);
+	
+	SetMapBlock(23, 23, 0);             //取消门口阻挡
+	SetMapHook(23, 23, 127);            //删除开门陷阱
+	AddMapHook(23, 23, "yaka-h02.gps"); //加入进门陷阱
+	SetCPType(23,23,1);
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;
+
+P02:
+	Say("哈非:老妈发飙了，空着手回去一定会被整的很惨的。","");
+	return;

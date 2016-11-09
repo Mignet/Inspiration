@@ -1,0 +1,11 @@
+	
+	SetPlayState(0);
+	LoadMap("maps\castle\rooms\k-room04.map");
+	SetPlayerPos(12, 15);
+	Delay(300);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

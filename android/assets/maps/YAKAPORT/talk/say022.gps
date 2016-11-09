@@ -1,0 +1,8 @@
+	
+
+	SetPlayState(0);
+	say("知道史来姆吗？现在人们找到办法对付它们后对付它们就变得很容易了。","");
+	setNpcDir("022",0);
+	SetPlayState(1);
+	Delay(200);
+	return;

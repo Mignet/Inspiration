@@ -1,0 +1,20 @@
+	if($process=4,"P04");
+
+	SetPlayState(0);
+	SetMapCell(1, 32, 30, 197, 3);
+	SetMapCell(1, 33, 30, 198, 3);
+	SetMapCell(1, 32, 31, 217, 3);
+	SetMapCell(1, 33, 31, 218, 3);
+	
+	SetMapBlock(32, 31, 0);             //取消门口阻挡
+	SetMapHook(32, 31, 127);            //删除开门陷阱
+	AddMapHook(32, 31, "yaka-h11.gps"); //加入进门陷阱
+	SetCPType(32,31,1);
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;
+P04:
+	Say("哈非：他们还在里面说些什么……","");
+	Say("趁他们没有发现我，赶快去通知月亮吧！","");
+	return;

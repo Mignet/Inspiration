@@ -1,0 +1,95 @@
+	PlaySound("sound\opendoor.wav");
+	AddNpc("maps\yakaport\npc.npc","月亮", 9, 16);
+	SetNpcDir("月亮",2);
+	
+	say("月亮：哎？兰特大人。","moon");
+	Say("兰特：你好，月亮小姐。","lt");
+	MoveNpc("月亮",9,11);
+	SetMapHook(8, 9, 127);
+	SetMapHook(9, 9, 127);
+	SetMapHook(10,9,127);
+	MoveTo( 8, 13);
+	SetPlayerDir(1);
+	say("兰特：该死！！！","lt");
+	SetNpcDir("月亮",0);
+	say("月亮：怎么了？兰特大人。发生什么事了吗？？","moon");
+	SetPlayerDir(2);
+	say("兰特：啊，没什么。谢谢。","lt");
+	say("月亮：这样啊…………","moon");
+	MoveNpc("月亮",9,10);
+	SetplayerDir(1);
+	delay(200);
+	SetNpcDir("月亮",0);
+	say("月亮：兰特大人，你知道哥哥他做什么去了吗？","moon");
+
+	SetplayerDir(2);
+	Say("兰特：哎？","lt");
+	say("月亮：刚才哥哥他神神秘秘的走出去，嘴里说着些什么“这个城市就由我来拯救吧”一类的话。","moon");
+	say("我觉得好像是要发生什么事的样子……","moon");
+	
+	say("兰特：“这个城市就由我来拯救吧”？？？","lt");
+	SetPlayerDir(1);
+	
+	say("<c8>（看样子哈非拿走了安德利卡尔……）</c>","lt");
+
+	say("<c8>（安德利卡尔，你在什么地方？）</c>","lt");
+	delay(500);
+	
+	say("………………………………","");
+	say("<c8>（城外西北方向……）</c>","lt");
+	SetplayerDir(2);
+
+	say("月亮小姐，你知道城外西北方向有什么古老一点的地方吗？","lt");
+	say("月亮：西北啊……有一座很破旧的墓地，似乎有几百年的样子。大家都不敢到那个地方去。","moon");
+	say("兰特：<c8>（就是那里了。）</c>","lt");
+	SetPlayerDir(1);
+
+	say("<c8>（事到如今，只有带上月亮，尽快赶到那里，在哈非没有做出什么蠢事之前把祭品交给菲利斯。）</c>","lt");
+	SetPlayerDir(2);
+	say("兰特：月亮小姐，看样子你哥哥是要去做一件非常危险的事情。","lt");
+	say("月亮：非常危险的事情？",""moon);
+	say("兰特：是的，说不定性命都要丢掉。","lt");
+	Say("月亮：！！！！！","moon");
+	Say("兰特：但是，你却可以救他。","lt");
+	Say("月亮：我？我可以救哥哥？？我该怎样做？？！","moon");
+	Say("兰特：你和我一起去找他，找到了你自然而然就知道了。你愿意和我走吗？","lt");
+	Say("月亮：………………","moon");
+	Say("月亮：我相信你，兰特大人……","moon");
+	MoveNpcTo("月亮", 8, 10);
+	MoveNpcTo("月亮", 8, 13);
+
+	DelNpc("月亮");
+
+	set($process,6);
+	Set($temp1,0);
+	Set($temp2,0);
+	Set($temp3,0);
+	Set($temp4,0);
+	Set($temp5,0);
+	Set($temp6,0);
+
+	delay(1000);
+
+	say("兰特：安德利卡尔不在手上，最好做点准备……","lt");
+
+	MoveTo(3,13);
+	setplayerDir(2);
+
+	Say("兰特：就带上这些吧。","lt");
+
+	addObject("恢复瓶", 10);
+	addobject("生命的水滴",6);
+	Addobject("小皮甲",1);
+	addobject("铁剑",1);
+
+	GameMessage("得到恢复瓶十个");
+	GameMessage("得到生命的水滴六个");
+	GameMessage("得到小皮甲一件");
+	GameMessage("得到铁剑一把");
+
+	Say("兰特：不要忘记装备了。","lt");
+	Say("整理好装备就立即出发。","lt");
+	
+	return;
+	
+	

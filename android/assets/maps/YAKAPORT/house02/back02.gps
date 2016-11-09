@@ -1,0 +1,7 @@
+	if($temp6=1,"A01");
+	return;
+A01:
+say("哈非：还是不要去打搅镇长先生的好。","hf");
+	Moveto(10,13);
+	
+	return;

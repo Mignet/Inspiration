@@ -1,0 +1,39 @@
+ 	if( $question=0,"No");
+	if( $pickup>2, "Exit");       //拿了3个了
+	Add( $pickup, 1);        
+	Add( $remain, -1);       
+	SetPlayState(0);
+	SetMapCell(1, 8, 13, 13, 4);  //删除苹果的图象
+	PlaySound("sound\E-get.wav");
+	
+	//对话
+	Say("还拿不拿呢？……","lt");
+	Delay(300);
+	GameMessage("宝箱：“拿吧，拿吧，还有这么多。”");
+	
+	SetMapHook(8, 13, 127);       //删除陷阱
+	SetMapBlock(8, 13, 0);
+	SetPlayState(1);
+	Delay(200);
+	return;
+	
+Exit:
+	SetPlayState(0);
+	PlaySound("sound\E-cannot.wav");
+	Say("已经拿了3个了，再拿就犯规了。","lt");
+	Delay(300);
+	SetPlayState(1);
+	return;
+
+No:
+	SetPlayState(0);
+	Delay(300);
+	Say("好奇怪的苹果，一看就知道不能吃。","lt");
+	GameMessage("宝箱：“当然啰，那是道具。”");
+	PlaySound("sound\E-strange.wav");
+	MoveTo(8, 15);
+	Delay(300);
+	SetPlayerDir(0);
+	Say("嗯？","lt");
+	SetPlayState(1);
+	return;

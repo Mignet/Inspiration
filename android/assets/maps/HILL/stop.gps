@@ -1,0 +1,10 @@
+
+	SetPlayState(0);
+	
+	
+	
+	GameMessage("·前方施工，立人禁止·");
+
+	SetPlayState(1);
+	Delay(200);
+	return;

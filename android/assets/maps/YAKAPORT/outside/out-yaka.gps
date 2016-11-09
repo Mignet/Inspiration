@@ -1,0 +1,31 @@
+
+	SetPlayState(0);
+	playmusic("music\BGM_yaka.mid");
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//添加NPC
+	SetPlayerPos(23, 7);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+
+if($process=6,"P06");
+if($process=7,"P07");
+
+	return;
+P06:
+	if($temp6=1,"P06talk01");
+	Say("月亮：兰特大人，你不是说要去救哥哥吗？","");
+	Say("兰特：我只是回来检查一下，马上就出发。","");
+	Say("月亮：请快一些，我很担心哥哥……","");
+	Set($temp6,1);
+P06talk01:
+	return;
+P07:
+	if($temp6=1,"P07talk01");
+	say("兰特：菲利斯是不可能逃到这边来的，我应该往另一个方向去追。","");
+	Set($temp6,1);
+	
+P07talk01:
+	return;

@@ -1,0 +1,79 @@
+	SetMapHook(8, 13, 127);
+	SetMapHook(9, 13, 127);
+	SetMapHook(10, 13, 127);
+	SetMapHook(11, 13, 127);
+	Delay(300);
+	SetPlayerDir(1);
+	delay(500);
+	say("哈非：那不会是…………","");
+	Delay(500);
+	Say("兰特的圣剑！","");
+	MoveTo(4,13);
+	Say("那个家伙居然忘记了带出去……实在是有够笨！","");
+	SetPlayerDir(3);
+	Delay(500);
+	SetPlayerDir(1);
+
+	Say("如果这把剑真的是圣剑的话，那么打败什么菲利斯肯定不在话下了！","");
+	Say("好！那个菲利斯什么的东西，就让我来打败好了！！","");
+	SetMapCell(2, 3, 12, 299, 1);
+	SetMapCell(2, 3, 13, 299, 1);
+	SetMapBlock(3, 13, 0);
+
+	
+
+	set($process,5);
+	Set($temp1,0);
+	Set($temp2,0);
+	Set($temp3,0);
+	Set($temp4,0);
+	Set($temp5,0);
+	Set($temp6,0);
+	
+	SetPlayState(0);
+	
+	FadeIn(2, 0, 100);
+
+	LoadMap("maps\yakaport\house02\h11.map");
+	LoadPlayer(0, "ini\player.ini", "兰特");	//更换主角为兰特
+	
+	SetPlayerPos(4, 12);
+	SetPlayerDir(1);	
+	CenterPlayer();
+
+	AddNpc("maps\yakaport\npc#(0).npc","040", 3,12);
+	setNpcDir("040",3);
+	AddNpc("Maps\yakaport\npc.npc","哈非母", 6, 14);
+	SetNpcDir("哈非母",0);
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	
+	Say("兰特：！！！！！！！！","lt02");
+	MoveTo(5,12);
+	delay(200);
+	Say(" 安德利卡尔！","lt02");
+	MoveNpcTo("040",5,12);
+	
+	Say("镇长：守护者大人……发生了什么事了……？","");
+
+	setplayerdir(1);
+
+	Say("兰特：没什么，我必须回到我的住处看看，先告辞了。","lt");
+
+	SetPlayerDir(3);
+	Say("关于祭品的事情，不用你管了，我会处理的。","lt");
+
+	Say("镇长：是是，劳您费心了。","");
+
+	Return;	
+
+
+
+	
+	
+
+
+
+
+

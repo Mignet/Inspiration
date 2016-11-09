@@ -1,0 +1,83 @@
+	
+
+	SetPlayState(0);
+	Delay(300);
+	if($win1!0,"Exit");
+	SetPlayState(0);
+	playmusic("music\BGM_game.mid");
+	LoadMap("maps\yakaport\house02\h12-push\h12.map");
+	AddNpc("maps\yakaport\npc#(0).npc", "042", 5, 10); 
+	SetPlayerPos(7,11);
+	SetPlayerDir(2);
+	FadeOut(2);
+	SetPlayerDir(1);
+	delay(300);
+	SetNpcDir("042",3);
+	delay(300);
+	say("管理员：哈非？你怎么进来的？","");
+	
+	say("哈非：门没锁。","hf");
+	Say("管理员：哎……我头大的门也忘记锁了……","");
+	Say("哈非：怎么了？","hf");
+	Say("管理员：过几天这里要存放一些不能见光的货物，我正在想办法把那些窗子封起来……","");
+	Say("哈非：用点布什么的不就成了？","hf");
+	Say("管理员：没有啊！费根那里什么都没有！真是急死我了……","");
+
+	MoveTo(7, 10);
+	delay(300);
+
+	SetPlayerDir(3);
+	delay(300);
+
+	SetPlayerDir(1);
+	delay(300);
+
+	SetPlayerDir(2);
+	delay(300);
+
+	SetPlayerDir(1);
+	delay(300);
+
+	Say("哈非：你看这些箱子能用吗？","hf");	
+	Say("管理员：这些箱子能做什么？","");
+	Say("哈非：把他们推到窗子前面，不就可以挡住光线了吗？","hf");
+	Say("管理员：这……","");
+	setNpcDir("042",2);
+	delay(800);
+	SetNpcDir("042",3);
+	Say("管理员：这看上去并不容易。","");
+	Say("哈非：包在我身上啦！我干这个最在行。","hf");
+	Say("管理员：那就拜托你了……","");
+	set($win1,1);
+	SetPlayState(1);
+	return;
+Exit:
+	SetPlayState(0);
+	playmusic("music\BGM_game.mid");
+	LoadMap("maps\yakaport\house02\h12-push\h12.map");
+	AddNpc("maps\yakaport\npc#(0).npc", "042", 5, 10); 
+	if($win1=1,"Exit0");
+	call("maps\port\push\del.gps");
+	SetPlayerPos(7,11);
+	SetPlayerDir(2);
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;
+Exit0:
+	SetPlayerPos(7,11);
+	SetPlayerDir(2);
+	FadeOut(2);
+	SetNpcDir("042",3);
+	delay(300);
+	say("管理员：哈非？你怎么又来了？</n>我好不容易才把箱子复原的……","");
+	Say("哈非：我刚才想了想，这次应该不会推错了。再给我一次机会吧。","hf");
+	Say("管理员：……","");
+	say("哈非：哎呀，你就答应吧～我不推成功今天晚上觉都睡不安稳啊！","hf");
+	
+	say("管理员：……","");
+	delay(500);
+	say("管理员：好吧，就再给你一次机会……","");
+	SetPlayState(1);
+	Delay(200);
+	return;

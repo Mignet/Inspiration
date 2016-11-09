@@ -1,0 +1,11 @@
+
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h04.map");
+	call("maps\yakaport\house01\addnpc-h04.gps");		//Ìí¼ÓNPC
+	SetPlayerPos(15,12);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

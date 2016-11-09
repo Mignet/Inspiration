@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("听说这附近有一座神秘的城堡，但是好像没人知道怎么去。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

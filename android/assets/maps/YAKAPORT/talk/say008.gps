@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("不知为什么，城外的怪物多了起来。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

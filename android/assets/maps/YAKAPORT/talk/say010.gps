@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("听老一辈的说，似乎亚卡隐藏了一个什么秘密。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

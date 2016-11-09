@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("酒店老板：有空请来这里坐坐。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

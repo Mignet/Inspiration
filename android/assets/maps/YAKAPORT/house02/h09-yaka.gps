@@ -1,0 +1,34 @@
+
+	if($process!0,"P00")
+	if($Temp6!0,"P00")
+	Say("我还是在城里面到处转转，找找看好了。","hf");
+	Set($Temp6,1);
+P00:
+	SetPlayState(0);
+	playmusic("music\BGM_yaka.mid");
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//添加NPC
+	
+	//(开门）产生门开着的效果
+	SetPlayState(0);
+	SetMapCell(1, 6, 31, 197, 3);
+	SetMapCell(1, 7, 31, 198, 3);
+	SetMapCell(1, 6, 32, 217, 3);
+	SetMapCell(1, 7, 32, 218, 3);
+	
+	Delay(100);
+	SetPlayerPos(6, 33);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	
+	//关门
+	SetMapCell(1, 6, 31, 93, 3);
+	SetMapCell(1, 7, 31, 94, 3);
+	SetMapCell(1, 6, 32, 113, 3);
+	SetMapCell(1, 7, 32, 114, 3);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	Delay(200);
+	return;
+	

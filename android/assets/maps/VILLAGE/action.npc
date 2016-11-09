@@ -1,0 +1,42 @@
+[Npc]
+Npc=拔剑	
+Max_Npc=1
+
+[拔剑]
+Id=0;				// 编号，一般没什么用
+Name=拔剑			// 名字
+Width=64			// 宽度
+Height=48			// 高度
+Max_Step=5			// 一个方向有几祯
+Max_Dir=4			// 一共有几个方向
+StepList=_StepList		// 步数索引（不用管）
+DirList=_DirList		// 方向索引（不用管）
+StepSize=8			// 每步走的距离（单位：象素）
+StepSize2=4			// 
+Script=script\null.gps		// 对话的脚本 
+
+x=304				// 位置X
+y=240				// 位置Y
+oldx=				// 不填
+oldy=				// 不填
+CurrentStep=0;			// 初始化的步数
+CurrentDir=3;			// 初始化的方向
+LastDir=3;			// 同上即可
+bActive=0;			// 是否自由走动
+bShow=1;			// 是否显示
+SurfaceFileName=pic\action.bmp	// 图片文件
+
+// 以下两个数据不用改，每个文件有一套就行了
+[_StepList]
+StepList[0]=0			// 第一步调用0号图片（站立）
+StepList[1]=1   		// 第二步调用1号图片（左脚）
+StepList[2]=2   		// 第三步调用0号图片（站立）
+StepList[3]=3   		// 第一步调用2号图片（右脚）
+
+
+[_DirList]
+DirList[0]=0			
+DirList[1]=1			
+DirList[2]=2			
+DirList[3]=3			
+		

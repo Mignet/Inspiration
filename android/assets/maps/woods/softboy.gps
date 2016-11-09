@@ -1,0 +1,5 @@
+	say("这里埋着softboy,墓碑上刻着……","");
+	GameMessage("下辈子再也不做游戏。");		
+	
+
+	return;

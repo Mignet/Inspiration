@@ -1,0 +1,22 @@
+
+ 	if( $pickup>2, "Exit");
+	Add( $pickup, 1);
+	Add( $remain, -1);
+	SetPlayState(0);
+	SetMapCell(1, 8, 7, 13, 4);
+	PlaySound("sound\E-get.wav");
+	SetMapHook(8, 7, 127);
+	SetMapBlock(8, 7, 0);
+
+	Say("再来一个。","lt");
+	GameMessage("宝箱：“好啊。”");
+	SetPlayState(1);
+	Delay(200);
+	return;
+	
+Exit:
+	SetPlayState(0);
+	PlaySound("sound\E-cannot.wav");
+	Say("已经拿了3个了，再拿就犯规了。","lt");
+	SetPlayState(1);
+	return;

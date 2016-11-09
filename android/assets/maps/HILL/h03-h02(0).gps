@@ -1,0 +1,10 @@
+
+	SetPlayState(0);
+	LoadMap("maps\hill\hill02.map");
+	SetPlayerPos(28, 13);
+	SetPlayerDir(1);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

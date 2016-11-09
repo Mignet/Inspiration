@@ -1,0 +1,90 @@
+	
+//进门后与宝箱的第一轮对话
+
+	if( $joke=1,"No");
+	if( $joke=2,"Oh");
+	if( $win=2,"Yes");        //玩家已经赢过
+	if( $win=1,"Yeah")        //玩家失败（而后没有出门）
+        if( $question>0, "Exit"); //不是（本次进门后）第一次与宝箱对话
+	set( $question, 1);
+	SetPlayState(0);
+	if( $game=1,"Game");      //不是第一次比赛
+	set( $game,1);
+
+	//对话
+	GameMessage("宝箱：“啊？有人进来了？”");
+	GameMessage("宝箱：“…………”");
+	GameMessage("宝箱：“圣剑守护者？？！！”");
+	Say("兰特：………………","lt");
+	GameMessage("宝箱：“啊？守护者大人，你能满足我一个愿望吗？？！！”");
+	Say("兰特：你说。","lt");
+
+	GameMessage("宝箱：“我一直在等待有人进来，好和他们玩一个游戏……”");
+	GameMessage("宝箱：“但是我却一直等不到……”");
+	GameMessage("宝箱：“虽然这很失礼，但是我还是要请求您满足我的愿望！”");
+	Say("兰特：有意思，说吧。","lt");
+	GameMessage("宝箱：“多谢……地上面有九个苹果，我们轮流捡。”");
+	GameMessage("宝箱：“每次只能捡1到3个，捡到最后一个苹果的就是赢家。”");
+	GameMessage("宝箱：“大致就是这样。”");
+	Say("兰特：大概懂了，来吧。","lt");
+	GameMessage("宝箱：“那么，守护者大人你先开始吧，每捡完一次跟我说一声。”");
+	SetPlayState(1);
+	return;
+
+Exit:
+	call("maps\yakaport\house02\h08-pick\box0-1.gps");  //进入第二轮
+	return;
+
+Game:
+        //不是第一次比赛
+	SetPlayState(0);
+	GameMessage("宝箱：“守护者大人？你愿意再陪我玩一次？”");
+	Say("兰特：来吧。","lt");
+	GameMessage("宝箱：“那么，从你开始，每捡完一次跟我说一声。”");
+	SetPlayState(1);
+	return;
+
+Yes:
+        //宝箱输了
+	SetPlayState(0);
+	GameMessage("宝箱：“真不愧是守护者大人……”");
+	Say("……","lt");
+	GameMessage("宝箱：“那么，兰特大人，告诉你一个秘密……”");
+	set( $joke, 1);
+	Delay(30);
+	SetPlayState(1);
+	GameMessage("宝箱：“调查城墙上的某个木桶，可以到达一个神秘的地方……”");
+	GameMessage("宝箱：“但是您去不去都无所谓，因为那里一个人都没有”");
+	GameMessage("宝箱：“去那里也不会发生什么。”");	
+	GameMessage("宝箱：“如果您感兴趣，不妨去找找看。”");	
+	Set($temp6,1);
+	return;
+
+Yeah:
+        //宝箱赢了
+	SetPlayState(0);
+	GameMessage("宝箱：“守护者大人一定是手下留情了……”");
+	Say("……","lt");
+	GameMessage("宝箱：“谢谢了，守护者大人。我开心。”");
+        Delay(30);
+	SetPlayState(1);
+	return;
+
+No:
+	SetPlayState(0);
+	GameMessage("宝箱：“真想再和守护者大人交手。”");
+	Say("……","lt");
+	GameMessage("宝箱：“可惜没有机会了！守护者大人太厉害了……”");
+	//set( $joke, 2);
+	Delay(30);
+	SetPlayState(1);
+	return;
+Oh:
+	SetPlayState(0);
+	GameMessage("宝箱：“你到底想怎么样？！”");
+	Say("……不至于吧？","lt");
+	GameMessage("宝箱：“啊！！！求你行行好，放过我吧~~~！”");
+	set( $joke, 1);
+	Delay(30);
+	SetPlayState(1);
+	return;

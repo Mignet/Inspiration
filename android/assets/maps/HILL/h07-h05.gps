@@ -1,0 +1,10 @@
+SetPlayState(0);
+	LoadMap("maps\hill\hill05.map");
+	SetPlayerPos(22, 1);
+	SetPlayerDir(3);
+	CenterPlayer();
+	playmusic("music\BGM_hill2.mid");
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

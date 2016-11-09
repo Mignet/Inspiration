@@ -1,0 +1,45 @@
+	
+	//开门
+	if($process=1,"P00");
+	if($process=2,"P00");
+	if($process=4,"P00");
+	if($process=3,"P01");
+	if($process=5,"P01");
+	if($process=6,"P06");
+	if($process=7,"P01");
+	//开门
+	SetPlayState(0);
+	SetMapCell(1, 40, 19, 247, 4);
+	SetMapCell(1, 41, 19, 248, 4);
+	SetMapCell(1, 40, 20, 267, 4);
+	SetMapCell(1, 41, 20, 268, 4);
+	
+	SetMapBlock(40, 20, 0);             //取消门口阻挡
+	SetMapHook(40, 20, 127);            //删除开门陷阱
+	AddMapHook(40, 20, "yaka-h12.gps"); //加入进门陷阱
+	SetCPType(40,20,1);
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;
+P00:
+	SetPlayState(0);
+	PlaySound("sound\CLICK02.wav");
+	say("管理人：这里用不着你来帮忙了。","");
+	SetPlayState(1);
+	Delay(200);
+	return;
+P01:
+	SetPlayState(0);
+	PlaySound("sound\CLICK02.wav");
+	say("管理人：我没见过你，不能让你进来。","");
+	SetPlayState(1);
+	Delay(200);
+	return;
+P06:
+	SetPlayState(0);
+	PlaySound("sound\CLICK02.wav");
+	say("管理人：即使是月亮小姐，也不能进来。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

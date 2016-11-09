@@ -1,0 +1,110 @@
+//进门后第三次与宝箱对话
+
+	if( $win=1,"Yeah");
+	if( $win=2,"Yes");
+	if( $pickup=0,"Say");
+	set( $pickup,0);
+	
+	GameMessage("宝箱：“ 那么又到我拿了吧？”");
+	SetPlayState(0);
+	Say("……","lt");
+
+	if( $remain=3, "Cha1");
+	if( $remain=2, "Cha2");
+	if( $remain=1, "Cha3");
+	if( $remain=0, "Cha4");
+
+Cha1:
+	//剩3个
+	Add( $remain,-3);  
+	Delay(300);
+	SetMapCell(1, 12, 9, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 12, 11, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 12, 13, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 9, 127);
+	SetMapHook(12, 11, 127);
+	SetMapHook(12, 13, 127);
+	SetMapBlock(12, 9, 0);
+	SetMapBlock(12, 11, 0);
+	SetMapBlock(12, 13, 0);
+	PlaySound("sound\E-lost.wav");
+	GameMessage("宝箱：“通吃啦。咳~~无敌真寂寞……哈哈……”");
+	GameMessage("宝箱：“啊……对不起……”");
+	Say("兰特：……","lt");
+	set( $win,1);
+	SetPlayState(1);
+	return;
+Cha2:
+	//剩2个
+	Add( $remain,-2); 
+	Delay(300);
+	SetMapCell(1, 12, 11, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 12, 13, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 11, 127);
+	SetMapHook(12, 13, 127);
+	SetMapBlock(12, 11, 0);
+	SetMapBlock(12, 13, 0);
+	PlaySound("sound\E-lost.wav");
+	GameMessage("宝箱：“两个还怕拿不了？咳~~无敌真寂寞……哈哈……”");
+	GameMessage("宝箱：“啊……对不起……”");
+	Say("兰特：……","lt");
+	set( $win,1);
+	SetPlayState(1);
+	return;
+Cha3:
+	//剩1个
+	Add( $remain,-1); 
+	Delay(300);
+	SetMapCell(1, 12, 13, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 13, 127);
+	SetMapBlock(12, 13, 0);
+	PlaySound("sound\E-lost.wav");
+	GameMessage("宝箱：“为什么要留一个给我呢？咳~~无敌真寂寞……哈哈……”");
+	GameMessage("宝箱：“啊……对不起……”");
+	Say("兰特：……","lt");
+	set( $win,1);
+	SetPlayState(1);
+	return;
+Cha4:
+	//剩0个
+	Delay(300);
+	GameMessage("宝箱：“啊？就没了？你没作弊吧？！……”");
+	Say("没有。","lt");
+	GameMessage("宝箱：“这是偶然！运气……你到底有没有作弊？……”");
+	Say("……","lt");
+	set( $win,2);
+	SetPlayState(1);
+	return;
+
+Say:
+	SetPlayState(0);
+	PlaySound("sound\E-cannot.wav");
+	GameMessage("宝箱：“你还没拿吧？不要骗我哦。”");
+	SetPlayState(1);
+	return;
+
+Yeah:
+	SetPlayState(0);
+	GameMessage("宝箱：“再接再厉吧！下次来我们再玩。”");
+	Say("!@@#$#$……","lt");
+	SetPlayState(1);
+	return;
+Yes:
+	//这几句好象没什么用了
+	SetPlayState(0);
+	GameMessage("宝箱：“这是偶然！运气……你到底有没有作弊？……”");
+	Say("……","lt");
+	SetPlayState(1);
+	return;

@@ -1,0 +1,44 @@
+	if( $case2=4,"A3");
+	if( $case2!10,"Exit");
+	if( $position=14,"To4");
+	if( $position=4,"To14");
+	return;
+To4:
+	set($case2,4);
+	set($position,10);
+	SetMapCell(1, 6, 6, 14, 4);
+	SetMapCell(1, 6, 7, 13, 4);
+	PlaySound("sound\E-push.wav");
+	if($case1=5,"Block");
+	return;
+To14:	
+	if($case0=14,"Exit0")
+	set($position,10);
+	set($case2,14);
+	SetMapCell(1, 6, 8, 14, 4);
+	SetMapCell(1, 6, 7, 13, 4);
+	SetMapBlock(6, 8, 1);
+	PlaySound("sound\E-push.wav");
+	Say("哈非：哟，这怎么能推得出来呢？","hf");
+	Say("管理人：……","");
+	if($case0=15,"Exit1")
+	return;
+Exit:
+	set($position,7);
+ 	return;
+Block:
+	SetMapBlock(7, 6, 1);
+	return;
+A3:
+	SetMapBlock(6, 6, 0);     //解除4位置的阻挡
+	set($position,14);
+	if( $case2!10,"Exit");
+	if( $position=14,"To4");
+	if( $position=4,"To14");
+	return;
+Exit0:
+	Say("哈非：堵住了……","");
+	return;
+Exit1:
+	SetMapBlock(7,8,1);
+	return;

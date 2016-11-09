@@ -1,0 +1,23 @@
+	Say("兰特：把安德利卡尔带出去可能会被人认出来……","lt");
+	SetMapHook(6, 13, 127);
+	SetMapHook(6, 14, 127);
+	MoveTo(4, 13);
+	setplayerdir(1);
+	
+	Delay(500);
+//添加圣剑
+	SetMapCell(2, 3, 12, 75, 6);
+	SetMapCell(2, 3, 13, 95, 6);
+	SetMapBlock(3, 13, 1);
+	AddMapHook(3, 13, "sword.gps");
+	SetCPType(3,13,0);
+	say("兰特：还是放在这里吧。","lt");
+
+	delay(300);
+	
+	setplayerdir(3);
+
+	say("兰特：那么检查一下装备,接着出发去调查吧。","lt");
+
+	delobject("安德利卡尔",1);
+	return;

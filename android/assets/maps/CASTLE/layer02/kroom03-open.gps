@@ -1,0 +1,16 @@
+
+	//开门
+	SetPlayState(0);
+	SetMapCell(1, 12, 17, 247, 4);
+	SetMapCell(1, 13, 17, 248, 4);
+	SetMapCell(1, 12, 18, 267, 4);
+	SetMapCell(1, 13, 18, 268, 4);
+
+	SetMapBlock(12, 18, 0);             //取消门口阻挡
+	SetMapHook(12, 18, 127);            //删除开门陷阱
+	AddMapHook(12, 18, "kansa-r03.gps"); //加入进门陷阱
+	
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;

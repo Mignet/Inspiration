@@ -1,0 +1,25 @@
+	SetPlayState(0);
+	LoadMap("maps\yakaport\yaka01.map");
+	call("maps\yakaport\addnpc-yaka01.gps");		//添加NPC
+	
+	//(开门）
+	SetPlayState(0);
+	SetMapCell(1, 14, 12, 247, 4);
+	SetMapCell(1, 15, 12, 248, 4);
+	SetMapCell(1, 14, 13, 267, 4);
+	SetMapCell(1, 15, 13, 268, 4);
+	SetPlayerPos(14,14);
+	SetPlayerDir(0);
+	CenterPlayer()
+	
+	FadeOut(2);
+
+	//关门
+	SetMapCell(1, 14, 12, 241, 4);
+	SetMapCell(1, 15, 12, 242, 4);
+	SetMapCell(1, 14, 13, 261, 4);
+	SetMapCell(1, 15, 13, 262, 4);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	Delay(200);
+	return;

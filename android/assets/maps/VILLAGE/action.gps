@@ -1,0 +1,50 @@
+	if($Temp5=0,"P00")
+	SetPlayState(0);
+	
+	FadeIn(2,0,100);
+	LoadMap("maps\woods\recall.map");
+	AddNpc("maps\woods\npc.npc", "雷0", 11, 12);
+	AddNpc("maps\woods\npc.npc", "奥塞罗", 11, 14);	
+	AddNpc("maps\woods\npc.npc", "兰特0", 10, 15);
+	AddNpc("maps\woods\npc.npc", "骑士甲", 5, 16);
+	AddNpc("maps\woods\npc.npc", "骑士乙", 17, 16);
+	
+	SetDisplayState(0);
+	SetPlayerPos(1, 0);
+	CenterMap(11,19);
+	//SetPlayerDir(2);
+	FadeOut(2);
+	Delay(3000);
+	
+	
+
+
+
+	//SetPlayState(1);
+	//Moveto(25, 65);
+	//SetPlayerDir(1);
+	//AddNpc("maps/village/action.npc","拔剑",25,65);
+	//SetPlayerShow("兰特"，1);
+	//MoveNpcTo("拔剑"，24，65);
+	//SetPlayerShow("兰特"，0);
+	//DelNpc("拔剑");
+
+	FadeIn(2,0,100);
+	LoadMap("MAPS\VILLAGE\village.map"); //载入地图
+	playmusic("music\BGM_vil.mid");
+
+	SetDisplayState(1);		//设置地图属性为黑暗
+	SetPlayerPos(27, 70);
+	SetPlayerDir(2);
+	Centerplayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	Say("刚才我是在做梦?","lt");
+	Say("这个情景好像在那见过","lt");
+	Say("五百年前吗?","lt");
+	Say("不理它,我得赶快上路,在菲利斯还未恢复力量之前解决他","lt");
+	Set($Temp5,0);
+	return;
+P00:
+	return;

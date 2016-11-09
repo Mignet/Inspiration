@@ -1,0 +1,33 @@
+	if($temp2=2,"talk01");
+	say("兰特：看来这个村子已经完全荒废了，菲利斯的速度太惊人了。","lt");
+	say("必须在它恢复肉体之前打败它。","lt");
+	SetPlayState(0);
+	playmusic("music\BGM_hill.mid");
+	LoadMap("maps\hill\hill01.map");
+	SetDisplayState(0);
+	SetPlayerPos(4, 28);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	delay(500);
+	say("兰特：黑暗术消失了？","lt");
+	say("看来菲利斯现在连维持那么点范围的黑暗都不行。","lt");
+	say("那么现在正是除掉它的时候。","lt");
+	set($temp2,2);
+	
+	return;
+
+talk01:
+	SetPlayState(0);
+	playmusic("music\BGM_hill.mid");
+	LoadMap("maps\hill\hill01.map");
+	SetDisplayState(0);
+	SetPlayerPos(4, 28);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

@@ -1,0 +1,7 @@
+	if($case1=2,"P00")	
+	SetPlayState(0);
+	set($position,2);
+	Say("哈非：要把箱子到这儿来吧，好好想想。","hf");
+	SetPlayState(1);
+P00:
+	return;

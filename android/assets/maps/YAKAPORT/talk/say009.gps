@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("明天海浪会卷到岸上来么？","");
+	SetPlayState(1);
+	Delay(200);
+	return;

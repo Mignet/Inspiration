@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Inspiration-desktop</name>
+	<comment/>
+	<projects/>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments/>
+		</buildCommand>
+	</buildSpec>
+	<linkedResources>
+		<link>
+			<name>assets</name>
+			<type>2</type>
+			<location>PARENT-1-PROJECT_LOC/android/assets</location>
+		</link>
+	</linkedResources>
+</projectDescription>

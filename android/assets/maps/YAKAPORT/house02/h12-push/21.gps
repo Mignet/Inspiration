@@ -1,0 +1,19 @@
+	SetMapBlock(12,8,0);	
+	if( $case0!21,"A1");
+ 	if( $position=18,"Say");	
+	set($position,21);
+	set($case0,18);
+	SetMapCell(1, 10, 8, 14, 4);
+	SetMapCell(1, 10, 9, 13, 4);
+	PlaySound("sound\E-push.wav");
+	return;
+Say:
+	PlaySound("sound\E-cannot.wav");
+	say("管理员：你还想把箱子推到哪去？","");
+	MoveTo(10,8);
+	SetPlayerDir(0);
+	Say("哈非：不行吗？早说嘛……","hf");
+	return;
+A1:
+	set($position,21);
+	return;

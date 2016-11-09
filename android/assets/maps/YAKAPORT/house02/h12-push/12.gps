@@ -1,0 +1,34 @@
+	if($position=18,"A1");
+	if($case0=12,"A2");
+	set($position,12);
+	return;
+A2:
+	SetMapCell(1, 10, 8, 14, 4);
+	SetMapCell(1, 10, 7, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,18);
+	set($position,12);
+	return;
+A1:
+	if($case0!12,"Exit");
+	if($case1=8,"Exit0")
+	SetMapCell(1, 10, 6, 14, 4);
+	SetMapCell(1, 10, 7, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,8);
+	set($position,12);
+	if($case1=2,"A3");
+	if($case1=7,"A4");
+	return;
+A3:
+	SetMapBlock(10, 6, 1);     //设置8位置的阻挡
+	return;
+A4:
+	SetMapBlock(9, 6, 1);//锁7位置
+	return;
+Exit:
+	set($position,12);
+	return;
+Exit0:
+	Say("哈非：堵住了…………","");
+	return;

@@ -1,0 +1,48 @@
+
+	SetPlayState(0);
+	//if($bridge!0,"Exit");
+	
+	SetMapCell(1, 9, 19, 13, 4);
+	SetMapCell(1, 9, 20, 13, 4);
+	SetMapCell(1, 9, 21, 13, 4);
+	SetMapCell(1, 9, 22, 13, 4);
+	SetMapCell(1, 10, 19, 13, 4);
+	SetMapCell(1, 10, 20, 13, 4);
+	SetMapCell(1, 10, 21, 13, 4);
+	SetMapCell(1, 10, 22, 13, 4);
+	SetMapCell(1, 11, 19, 13, 4);
+	SetMapCell(1, 11, 20, 13, 4);
+	SetMapCell(1, 11, 21, 13, 4);
+	SetMapCell(1, 11, 22, 13, 4);
+	SetMapCell(1, 12, 19, 13, 4);
+	SetMapCell(1, 12, 20, 13, 4);
+	SetMapCell(1, 12, 21, 13, 4);
+	SetMapCell(1, 12, 22, 13, 4);
+	SetMapCell(1, 13, 19, 13, 4);
+	SetMapCell(1, 13, 20, 13, 4);
+	SetMapCell(1, 13, 21, 13, 4);
+	SetMapCell(1, 13, 22, 13, 4);
+	SetMapCell(1, 14, 19, 13, 4);
+	SetMapCell(1, 14, 20, 13, 4);
+	SetMapCell(1, 14, 21, 13, 4);
+	SetMapCell(1, 14, 22, 13, 4);
+
+	SetMapBlock(9, 20, 1); 
+	SetMapBlock(9, 21, 1); 
+	SetMapBlock(9, 22, 1);
+	SetMapBlock(14, 20, 1); 
+	SetMapBlock(14, 21, 1); 
+	SetMapBlock(14, 22, 1); 	
+	SetMapBlock(10, 19, 0); 
+	SetMapBlock(11, 19, 0); 
+	SetMapBlock(12, 19, 0);
+	SetMapBlock(13, 19, 0); 
+	SetMapBlock(10, 23, 0); 
+	SetMapBlock(11, 23, 0); 
+	SetMapBlock(12, 23, 0);
+	SetMapBlock(13, 23, 0); 
+	SetPlayState(1);
+	Delay(200);
+	return;
+Exit:
+	return;

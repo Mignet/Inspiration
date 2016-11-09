@@ -1,0 +1,5 @@
+	say("这里埋着endedman,墓碑上刻着……","");
+	GameMessage("…………………………");	
+
+
+	return;

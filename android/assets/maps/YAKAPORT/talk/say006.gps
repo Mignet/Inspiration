@@ -1,0 +1,7 @@
+ 	
+
+	SetPlayState(0);
+	say("亚卡处于拉托亚的西南部，地理位置并不是很好。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

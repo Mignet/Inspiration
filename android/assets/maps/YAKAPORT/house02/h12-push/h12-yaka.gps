@@ -1,0 +1,87 @@
+	if($case0!18,"P00")
+	if($case1!7,"P00")
+	if($case2!10,"P00")
+	set($case0,18);
+	set($case1,7);
+	set($case2,10);	
+	set($finish,0);
+	SetPlayState(0);
+	if($win1=2,"A1");
+	Say("管理员：怎么了？推完了？","");
+	Say("哈非：那个……我出去想想再来……","hf");
+	Say("管理员：你还没有推呢，就承认失败了吗？</n>……就在这儿想吧，想好再推。","");
+	Say("哈非：…………","hf");
+	MoveDirectTo(2,1);
+	return;
+P00:
+	set($case0,18);
+	set($case1,7);
+	set($case2,10);	
+	set($finish,0);
+	SetPlayState(0);
+	if($win1=2,"A1");
+	
+	Say("管理员：怎么了？推完了？","");
+	Say("哈非：那个……我出去想想再来……","hf");
+	Say("管理员：原来失败了啊……哎……我又要费力把箱子复原了……","");
+	Say("哈非：相信我，下次一定可以完成的！","hf");
+	
+	SetPlayState(0);	
+	playmusic("music\BGM_yaka.mid");
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//添加NPC
+	//(开门）
+	SetPlayState(0);
+	SetMapCell(1, 40, 19, 247, 4);
+	SetMapCell(1, 41, 19, 248, 4);
+	SetMapCell(1, 40, 20, 267, 4);
+	SetMapCell(1, 41, 20, 268, 4);
+	SetPlayerPos(40,21);
+	SetPlayerDir(0);
+	CenterPlayer()
+	
+	FadeOut(2);
+	//SetPlayState(1);
+
+	//关门
+	SetMapCell(1, 40, 19, 241, 4);
+	SetMapCell(1, 41, 19, 242, 4);
+	SetMapCell(1, 40, 20, 261, 4);
+	SetMapCell(1, 41, 20, 262, 4);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+
+	Say("哈非：放弃了吗？这可是重要线索啊……","hf");
+	Say("……","hf");
+	Say("哈非：感觉上还是再回去看看比较好。","hf");
+
+	return;
+A1:
+	SetPlayState(0);	
+	playmusic("music\BGM_yaka.mid");
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//添加NPC
+
+	//(开门）
+	SetPlayState(0);
+	SetMapCell(1, 40, 19, 247, 4);
+	SetMapCell(1, 41, 19, 248, 4);
+	SetMapCell(1, 40, 20, 267, 4);
+	SetMapCell(1, 41, 20, 268, 4);
+	SetPlayerPos(40,21);
+	SetPlayerDir(0);
+	CenterPlayer()
+	
+	FadeOut(2);
+	//SetPlayState(1);
+
+	//关门
+	SetMapCell(1, 40, 19, 241, 4);
+	SetMapCell(1, 41, 19, 242, 4);
+	SetMapCell(1, 40, 20, 261, 4);
+	SetMapCell(1, 41, 20, 262, 4);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+
+	Say("哈非：哈！没想到居然在这里找到恢复剂！赶快拿给兰特大人吧！！","hf");
+	return;

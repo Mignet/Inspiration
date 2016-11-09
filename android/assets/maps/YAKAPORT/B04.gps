@@ -1,0 +1,58 @@
+	SetPlayState(0);	/////
+	FadeIn(2, 0, 100);
+	
+	LoadMap("MAPS\YAKAPORT\house01\h02(0).map"); 
+	Delay(300);
+
+	SetPlayerShow(1);     	
+	
+
+	Delay(300);
+	
+	SetPlayerPos( 8, 25);		//设置主角在楼梯口
+	
+	SetPlayerDir(3);	
+	CenterPlayer();		
+	AddNpc("maps\yakaport\npc.npc", "哈非母", 7, 30);  //加入NPC
+	
+	
+	FadeOut(2);
+
+	delay(300);
+
+	SetPlayState(1);
+	
+	MoveTo(9,25);
+	say("哈非：兰特大人看上去似乎很疲惫啊……","hf");
+	delay(1000);
+	say("哈非：哈，当然了。从遥远的安德鲁斯过来，又和海盗王单挑，一定是会很累了","hf");
+	delay(300);
+	SetPlayerDir(1);	
+	delay(300);
+	SetPlayerDir(3);
+	delay(300);
+	SetPlayerDir(0);
+	delay(300);
+	say("哈非：嗯……不如我去弄点给兰特大人<c4>恢复体力的药品</c>吧……","hf");
+	delay(300);
+	say("<d6>……………………</d>","");
+
+	say("哈非：好！就这么办！","hf");
+
+	delay(300);
+
+	AddMapHook(10, 30, "b05.gps");
+
+	AddMapHook(11, 30, "b05.gps");
+
+	AddMapHook(12, 30, "b05.gps");
+
+	AddMapHook(8, 35, "b06.gps");
+
+	AddMapHook(9, 35, "b06.gps");
+
+	AddMapHook(7, 36, "b06.gps");
+
+	AddMapHook(10, 36, "b06.gps");
+	
+	return;

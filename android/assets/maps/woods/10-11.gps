@@ -1,0 +1,15 @@
+	
+if($process=6,"P06");
+	SetPlayState(0);
+	LoadMap("maps\woods\woods11.map");
+	SetPlayerPos(6, 1);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	return;
+P06:
+	Say("月亮：你不是说哥哥就在这附近吗？","moon");
+	Say("兰特：好吧，我们再仔细找找。","lt");
+	MoveDirectTo(2,2);
+	return;	

@@ -1,0 +1,48 @@
+if($temp3=1,"talk01");
+if($temp3=2,"talk02");
+if($temp3=3,"talk03");
+
+	say("………………………………","");
+	Say("sleepd：这样也会被你找到……","");
+	Say("sleepd：……作为你多管闲事的报答，这几瓶药水你拿去……","");
+
+	AddObject("生命的水滴", 1);
+	
+	GameMessage("得到生命的水滴1个");
+
+	AddObject("魔法瓶",5);
+
+	GameMessage("得到魔法瓶5个");
+	set($temp3,1);
+
+	return;
+
+talk01:
+	Say("………………………………","");
+	Say("sleepd：还要啊……还要就拿去……反正我多的是……","");
+	AddObject("生命的水滴", 4);
+
+	GameMessage("得到生命的水滴4个");
+
+
+	set($temp3,2);
+
+	return;
+talk02:
+	
+	Say("………………………………","");
+	Say("sleepd：你还真不是普通的贪心啊……算了，这些都拿去……","");
+	AddObject("恢复瓶", 70);
+
+	GameMessage("得到恢复瓶XXXXXXXXXX个");
+
+
+	set($temp3,3);
+
+	return;
+talk03:
+	
+	Say("………………………………","");
+	Say("sleepd：全部家当都给你了……还想要啊……","");
+
+	return;

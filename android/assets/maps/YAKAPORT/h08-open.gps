@@ -1,0 +1,27 @@
+	if($kansa!0,"P00");
+	PlaySound("sound\CLICK02.wav");
+	GameMessage("门上着锁。");
+	return;
+P00:
+	if($process=1,"Exit")
+	if($process=2,"Exit")
+	if($process=4,"Exit")
+	//开门
+	SetPlayState(0);
+	SetMapCell(1, 9, 42, 197, 3);
+	SetMapCell(1, 10, 42, 198, 3);
+	SetMapCell(1, 9, 43, 217, 3);
+	SetMapCell(1, 10, 43, 218, 3);
+	
+	SetMapBlock(9, 43, 0);             //取消门口阻挡
+	SetMapHook(9, 43, 127);            //删除开门陷阱
+	AddMapHook(9, 43, "yaka-h08.gps"); //加入进门陷阱
+	SetCPType(9,43,1);
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;
+Exit:
+	PlaySound("sound\CLICK02.wav");
+	GameMessage("门上着锁。");
+	return;

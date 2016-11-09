@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Inspiration-html</name>
+	<comment/>
+	<projects/>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>com.google.gwt.eclipse.core.gwtNature</nature>
+	</natures>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.google.gdt.eclipse.core.webAppProjectValidator</name>
+			<arguments/>
+		</buildCommand>
+	</buildSpec>
+	<linkedResources/>
+</projectDescription>

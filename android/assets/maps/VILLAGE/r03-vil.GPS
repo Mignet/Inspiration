@@ -1,0 +1,24 @@
+
+	SetPlayState(0);
+	LoadMap("maps\village\village.map");
+	SetPlayerPos(25, 40);
+	SetPlayerDir(0);
+	CenterPlayer();
+	
+	//开门
+	
+	SetMapCell(0, 25, 38, 109, 1);
+	SetMapCell(0, 26, 38, 110, 1);
+	SetMapCell(0, 25, 39, 129, 1);
+	SetMapCell(0, 26, 39, 130, 1);
+	FadeOut(2);
+       
+        //关门
+	SetMapCell(0, 25, 38, 107, 1);
+	SetMapCell(0, 26, 38, 108, 1);
+	SetMapCell(0, 25, 39, 127, 1);
+	SetMapCell(0, 26, 39, 128, 1);
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;

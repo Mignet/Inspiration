@@ -1,0 +1,14 @@
+	SetPlayState(0);
+	LoadMap("MAPS\woods\w-v.map"); //‘ÿ»ÎµÿÕº
+	stopmusic();
+	playmusic("music\BGM_wood.mid");
+	SetDisplayState(0);
+	SetPlayerPos(8, 1);
+	SetPlayerDir(0);
+	Centerplayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;
+
+

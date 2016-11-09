@@ -1,0 +1,81 @@
+if($process=6,"P06");
+if($process=7,"P07");
+
+
+P06:
+	if($Temp7=1,"P06talk01");
+	SetPlayState(0);
+	fadein(2,0,100);
+	delay(500);
+	//LoadMap("maps\word\null.map");	
+	//SetPlayerShow(0);                  //主角不显示
+	//FadeOut(2);
+	
+	LoadMap("maps\woods\house01.map");
+	SetPlayerShow(1); 
+
+	SetPlayerPos( 14, 28);
+	SetPlayerDir(2);
+	CenterPlayer();
+	
+	FadeOut(2);
+	SetPlayState(1);
+	
+	return;
+
+P06talk01:
+	Say("兰特：这个枯井下面似乎有什么东西……","lt");
+	Say("月亮：啊，真的。","moon");
+	Say("兰特：下去看看吧。","lt");
+	Say("月亮：可以下去吗？","moon");
+	Say("兰特：应该没有问题的，来吧。","lt");
+
+	SetPlayState(0);
+	fadein(2,0,100);
+	delay(500);
+	//LoadMap("maps\word\null.map");	
+
+	//SetPlayerPos( 14, 28);
+	//SetPlayerDir(2);
+	//CenterPlayer();
+	//SetPlayerShow(0);                  //主角不显示
+	
+	//FadeOut(2);
+	LoadMap("maps\woods\house01.map");
+	SetPlayerShow(1); 
+	SetPlayerPos( 14, 28);
+	SetPlayerDir(2);
+	CenterPlayer();
+	call("script\a12.gps");
+	return;
+	
+P07:
+	SetPlayState(0);
+	stopmusic();
+	fadein(2,0,100);
+	delay(500);
+	//LoadMap("maps\word\null.map");	
+	//SetPlayerShow(0);                  //主角不显示
+	//FadeOut(2);
+	
+	LoadMap("maps\woods\house01.map");
+	SetPlayerShow(1); 
+
+	SetPlayerPos( 14, 28);
+	SetPlayerDir(2);
+	CenterPlayer();
+	//读入哈非	
+	SetMapCell(1, 15, 15, 79, 6);
+	SetMapCell(1, 15, 16, 99, 6);
+	SetMapBlock(15, 16, 1);
+//设立哈非对话脚本
+	AddMapHook(15, 16, "hapei.gps");
+
+//读入月亮
+	AddNpc("maps\yakaport\npc.npc","月亮",14,16);
+	SetNpcDir("月亮",3);
+	
+
+	FadeOut(2);
+	SetPlayState(1);
+	return;

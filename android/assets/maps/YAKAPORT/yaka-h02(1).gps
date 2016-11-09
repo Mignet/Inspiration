@@ -1,0 +1,83 @@
+if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process>5,"P06");
+	
+
+
+P01:
+	
+	SetPlayState(0);
+	playmusic("music\BGM_yh02.mid");
+	LoadMap("maps\yakaport\house01\h02(1).map");
+	SetPlayerPos(9,16);
+	SetPlayerDir(2);
+	CenterPlayer();
+	AddNpc("maps\yakaport\npc.npc", "兰特#", 5, 16);  //加入NPC兰特
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	if($temp2=1,"P01talk01");
+	
+	AddMapHook(6, 13, "a03.gps");
+
+	AddMapHook(6, 14, "a03.gps");
+	
+	return;
+P01talk01:
+	
+	return;
+	
+P03:
+	
+	SetPlayState(0);
+	playmusic("music\BGM_yh02.mid");
+	LoadMap("maps\yakaport\house01\h02(1).map");
+	SetPlayerPos(9,16);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	
+//加入圣剑
+	SetMapCell(2, 3, 12, 75, 6);
+	SetMapCell(2, 3, 13, 95, 6);
+	SetMapBlock(3, 13, 1);
+	AddMapHook(3, 13, "sword.gps");
+
+
+	return;
+P04:
+	
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h02(1).map");
+	SetPlayerPos(9,16);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	//加入圣剑
+	SetMapCell(2, 3, 12, 75, 6);
+	SetMapCell(2, 3, 13, 95, 6);
+	SetMapBlock(3, 13, 1);
+	AddMapHook(3, 13, "sword.gps");
+
+	return;
+P06:
+	
+	SetPlayState(0);
+	playmusic("music\BGM_yh02.mid");
+	LoadMap("maps\yakaport\house01\h02(1).map");
+	SetPlayerPos(9,16);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;
+	

@@ -1,0 +1,10 @@
+	
+	SetPlayState(0);
+	LoadMap("maps\castle\layer02\kansa02.map");
+	SetPlayerPos(3,5);
+	Delay(300);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	return;

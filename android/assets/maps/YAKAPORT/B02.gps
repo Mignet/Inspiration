@@ -1,0 +1,165 @@
+	SetPlayState(0);	/////
+	//FadeIn(2, 0, 100);
+	
+	LoadMap("MAPS\YAKAPORT\house01\h02(0).map"); //载入哈非家一层地图
+	FadeIn(2, 0, 100);	/////
+	Delay(300);
+
+	SetPlayerShow(1);                  //主角显示
+
+	SetPlayerPos( 9, 35);		//设置主角在门口
+
+	SetPlayerDir(2);		//方向向上
+	
+	SetPlayState(1);	/////
+	AddNpc("maps\yakaport\npc.npc", "哈非", 8, 35);  //加入NPC
+	AddNpc("maps\yakaport\npc.npc", "哈非母", 7, 30);  //加入NPC
+	SetPlayState(0);	/////
+	SetNpcDir("哈非", 2);
+
+	CenterPlayer();		
+	playmusic("music\BGM_yh02.mid");");
+	
+	
+	FadeOut(2);
+
+	delay(300);
+
+	say("哈非：老妈！我回来了！","hf");
+
+	MoveNpcTo("哈非", 8, 33);
+	
+	delay(300);
+	
+	setNpcDir("哈非母",0);
+
+	delay(300);
+
+	say("哈非的母亲：哈非？？！！","");
+
+	MoveNpcTo("哈非母",6, 30);
+	SetMapCell(2, 6, 29, 16, 5);
+	SetMapCell(1, 6, 30, 36, 5);
+	SetMapCell(1, 6, 31, 56, 5);
+	PlaySound("sound\Click02.wav");
+	SetMapBlock(6, 31, 0);             //取消阻挡
+	MoveNpcTo("哈非母",6, 32);
+	SetMapCell(2, 6, 29, 132, 5);
+	SetMapCell(1, 6, 30, 0, 5);
+	SetMapCell(1, 6, 31, 20, 5);
+	PlaySound("sound\Click02.wav");
+
+	MoveNpcTo("哈非母",7,33);
+
+	SetNpcDir("哈非母",3);
+	SetNpcDir("哈非",1);
+	say("哈非的母亲：你这个死小子，出一次海怎么现在才回来！跑到什么地方去瞎逛去了？？！！","");
+
+	SetNpcDir("哈非母",0);
+	
+	say("哈非的母亲：咦？……这位是……","");
+
+	SetNpcDir("哈非",0);
+	
+	say("哈非：老妈！这位是兰特大人，我的救命恩人！！","hf");
+
+	say("哈非的母亲：救命恩人？","");
+	
+	SetNpcDir("哈非",1);
+	SetNpcDir("哈非母",3);	
+	say("哈非：老妈！我给你说啊,我在回来的时候，在哈罗德湾那边遇上海盗了！那些家伙挂着画着骷髅的旗帜，气势汹汹的冲过来，可怕极了！我以为自己一定会没命了，那些乘客也都吓的团团转。","hf");
+	SetNpcDir("哈非",0);
+	delay(300);
+	say("哈非：这个时候看见兰特大人一个人迎着海盗走去，要求和海盗王单挑。","hf");
+	SetNpcDir("哈非",1);
+	say("哈非：结果你猜怎么着？才一刀就把海盗王的左手砍掉了！！那些海盗害怕了，一下子就逃走了。我们一船的人的性命这才保住了。所以我一定要拉兰特大人到我们这里来坐坐，好好感谢一下。","hf");
+
+	
+	say("哈非的母亲：哦？你这个死小子不好好练习驾船，这次给海盗追上了吧！看你下次还敢不敢不去师傅那里！！进去好好洗洗，真是的……","");
+	say("哈非：好好好……儿子差点都没命了，当妈的也不心疼……","hf");
+	MoveNpcTo("哈非", 9, 25);
+	SetNpcDir("哈非母",2);
+	delNpc("哈非");
+	
+	delay(300);
+
+	MoveNpcTo("哈非母",9,33);
+
+	SetNpcDir("哈非母",0);
+	
+	delay(300);
+
+	say("哈非的母亲：啊……兰特大人，真的是非常感谢您救了我的儿子……","");
+	say("兰特：任何人都会这么做的，您不用在意。","lt");
+	say("哈非的母亲：啊，不……无论如何，我都要好好报答您。我也没有什么特别的方式，这几天就请您住在我们家，好好休息一下吧。","");
+	say("兰特：那么……打扰了。","lt");
+	
+
+	SetNpcDir("哈非母",2);
+	
+	say("哈非的母亲：哈非！快去打扫干净一间客房给兰特大人住！","");
+
+	say("哈非:是～～～","");
+
+	SetNpcDir("哈非母",0);
+
+	say("哈非的母亲：兰特大人，请您稍等一下，客房马上就准备好。","");
+
+	say("兰特：好的，谢谢。","lt");
+
+	AddNpc("maps\yakaport\npc.npc", "月亮", 9, 25);  //加入NPC
+
+	MoveNpcTo("月亮", 10,29);
+
+	say("月亮：妈妈，哥哥说有客人啊。","moon");
+
+	SetNpcDir("哈非母", 2);
+
+	say("哈非的母亲:月亮，快过来见见你哥哥的救命恩人。","");
+	
+	SetNpcDir("哈非母", 0);
+
+	say("哈非的母亲:兰特大人，这位是我的女儿月亮，也是哈非的妹妹。","");
+
+	MoveTo(10, 34);
+
+	SetNpcDir("哈非母",2);
+
+	Say("兰特：你好，美丽的小姐。","lt");
+
+	say("月亮：你好，兰特大人……","moon");
+
+	delay(300);
+
+	MoveNpcTo("月亮", 9,25);
+
+	DelNpc("月亮");
+
+	say("哈非的母亲：月亮！","");
+	say("哈非的母亲：……这孩子大概在害羞吧。","");
+	say("兰特：……","lt");
+
+	AddNpc("maps\yakaport\npc.npc", "哈非", 9, 25);  //加入NPC
+
+	MoveNpcTo("哈非", 10,31);
+
+	say("哈非：老妈，房间收拾好了。","hf");
+	SetNpcDir("哈非母",0);
+	say("哈非的母亲：兰特大人，房间收拾好了，请让哈非带领您去吧。","");
+	say("兰特：谢谢。","lt");
+	say("哈非：兰特大人，这边啦。","hf");
+	say("兰特：哦。","lt");
+	SetNpcDir("哈非母",2);
+	
+	say("哈非的母亲：哈非！你那是什么口气！","");
+	
+	say("哈非：是～是～","hf");
+
+	delay(300);
+	
+	MoveNpc("哈非", 7,25);
+	MoveTo( 8,25);
+	SetPlayerDir(1);	
+	delay(300);
+
+	return;

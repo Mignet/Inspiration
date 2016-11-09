@@ -1,0 +1,11 @@
+
+	SetPlayState(0);
+	LoadMap("MAPS\yakaport\yaka02.map");
+	SetPlayerPos(47, 10);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	
+	SetPlayState(1);
+	Delay(200);
+	return;

@@ -1,0 +1,44 @@
+	if($position=15,"A2");
+	if($position=17,"A3");
+	if($case0=16,"A4");
+	if($case1=8,"A1");
+	if($case0=8,"A1");
+	set($position,16);
+	return;
+A1:
+	if($case0=2,"Exit");
+	if($case1=2,"Exit");
+	SetMapBlock(10, 6, 0);     //½â³ý8Î»ÖÃ×èµ²
+	set($position,16);
+	return;
+A2:
+	if($case0!16,"A5");
+	SetMapCell(1, 9, 8, 14, 4);
+	SetMapCell(1, 8, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,17);
+	set($position,16);
+	if($case1=8,"A1");
+	if($case0=8,"A1");
+	return;
+A3:
+	if($case0!16,"A5");
+	SetMapCell(1, 7, 8, 14, 4);
+	SetMapCell(1, 8, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,15);
+	set($position,16);
+	//if($case1=8,"A1");
+	//if($case0=8,"A1");
+	return;
+A4:
+	set($position,16);
+	return;
+A5:
+	set($position,16);
+	//if($case1=8,"A1");
+	//if($case0=8,"A1");
+	return;
+Exit:
+	set($position,16);
+	return;

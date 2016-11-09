@@ -1,0 +1,24 @@
+	
+	SetPlayState(0);
+	LoadMap("maps\castle\layer01\kansa01.map");
+	SetPlayerPos(14, 33);
+	SetPlayerDir(0);
+	CenterPlayer();
+	
+	//(开门）
+	SetMapCell(1, 14, 31, 247, 4);
+	SetMapCell(1, 15, 31, 248, 4);
+	SetMapCell(1, 14, 32, 267, 4);
+	SetMapCell(1, 15, 32, 268, 4);
+	
+	FadeOut(2);
+
+	//关门
+	SetMapCell(1, 14, 31, 304, 4);
+	SetMapCell(1, 15, 31, 305, 4);
+	SetMapCell(1, 14, 32, 324, 4);
+	SetMapCell(1, 15, 32, 325, 4);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	Delay(200);
+	return;

@@ -1,0 +1,49 @@
+	if( $position=21,"A1");
+	if( $position=17,"A2");
+	if( $position=19,"A3");
+	if( $case0=18,"A4");
+	set($position,18);
+	return;
+A1:	
+	if($case0!18,"A5");
+	SetMapCell(1, 10, 7, 14, 4);
+	SetMapCell(1, 10, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,12);
+	set($position,18);
+	if($case1=8,"A6");
+	return;
+
+A2:	
+	if($case0!18,"A5");
+	SetMapCell(1, 11, 8, 14, 4);
+	SetMapCell(1, 10, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case0,19);
+	set($position,18);
+	return;
+
+A3:	
+	if($case0!18,"A5");
+	SetMapCell(1, 9, 8, 14, 4);
+	SetMapCell(1, 10, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($position,18);
+	set($case0,17);
+	return;
+A4:	
+	SetMapCell(1, 10, 9, 14, 4);
+	SetMapCell(1, 10, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($position,18);
+	set($case0,21);
+	return;
+A5:
+	set($position,18);
+ 	return;
+A6:
+	SetMapBlock(10, 7, 1);   //设置8处的阻挡
+	SetMapBlock(10, 6, 1);   //设置7处的阻挡
+	set($position,18);
+	set($case0,12);
+	return;

@@ -1,0 +1,63 @@
+	if($Process=0,"P00");
+	if($Process=1,"P01");
+	if($Process=2,"P02");
+	if($Process=3,"P03");
+	if($Process=4,"P04");
+	if($Process=5,"P05");
+	if($Process=6,"P06");
+	if($Process=7,"P07");
+P00:
+	say("哈非：城外不可能有恢复剂吧。","hf");
+	movedirectto(0,2);
+	return;
+P01:
+	say("哈非：现在应该把恢复剂交给兰特大人，而不是出城去玩。","hf");
+	movedirectto(0,2);
+	return;
+P02:
+	say("哈非：武器铺就在城里面。","hf");
+	movedirectto(0,2);
+	return;
+P03:
+
+	Say("兰特：城外应该没人会知道契约的事情……","lt");
+	Say("兰特：还是在城内调查吧。","lt");
+	movedirectto(0,2);
+	return;
+P04:
+	Say("哈非：我应该去通知月亮，而不是自己逃跑。","");
+	movedirectto(0,2);
+	return;
+P05:
+	Say("兰特：虽然我感觉城外有很大的魔气……","lt");
+	Say("兰特：但是我还是应该先回住处去看看。","lt");
+	movedirectto(0,2);
+	return;
+P06:
+	SetPlayState(0);
+	playmusic("music\BGM_wood.mid");
+	LoadMap("maps\yakaport\outside\outside0.map");
+	SetPlayerPos(11, 27);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	if($temp5=1,"P06talk01");
+	Say("兰特：那么，从现在开始可能会发生战斗了。","lt");
+	Say("如果遇到什么东西，就由我来对付。你躲在我的身后，不要出来。","lt");
+	Say("月亮：是……","moon");
+	Set($temp5,1);
+P06talk01:
+	return;
+P07:
+	SetPlayState(0);
+	playmusic("music\BGM_wood.mid");
+	LoadMap("maps\yakaport\outside\outside0.map");
+	SetPlayerPos(11, 27);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

@@ -1,0 +1,99 @@
+	if($process=1,"P01");
+	if($process=2,"P01");
+	if($process=3,"P03");
+	if($process=5,"P05");
+	if($process=6,"P06");
+	if($process=7,"P07");
+	SetPlayState(0);
+	stopmusic();
+	LoadMap("maps\yakaport\house02\h11.map");
+	call("maps\yakaport\house02\addnpc-h11.gps");		//添加NPC
+	if($Temp6!1,"next");
+	AddMapHook(8, 12, "back01.gps");
+	SetCPType(8,12,0);
+	AddMapHook(8, 13, "back02.gps");	
+	SetCPType(8,13,0);
+next:
+	SetPlayerPos(13, 15);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;
+P01:
+	Say("哈非：还是不要去打搅镇长先生的好。","hf");
+	MoveTo(32,33);
+	SetMapCell(1, 32, 30, 137, 3);
+	SetMapCell(1, 33, 30, 138, 3);
+	SetMapCell(1, 32, 31, 157, 3);
+	SetMapCell(1, 33, 31, 158, 3);
+	PlaySound("sound\opendoor.wav");
+	SetMapBlock(32, 31, 1);
+	AddMapHook( 32, 31, "h11-open.gps");
+	SetCPType(32,31,0);
+	Delay(200);
+	return;
+P03:
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house02\h11.map");
+	SetPlayerPos(13, 15);
+	SetPlayerDir(2);
+	call("script\a08.gps");		//触发镇长和哈非母亲关于月亮做祭品的谈话
+	return;
+	
+P05:
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house02\h11.map");
+	SetPlayerPos(13, 15);
+	SetPlayerDir(2);
+	
+	AddNpc("maps\yakaport\npc#(0).npc","040", 4,12);
+	setNpcDir("040",3);
+	AddNpc("Maps\yakaport\npc.npc","哈非母", 6, 14);
+	SetNpcDir("哈非母",0);
+	
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;
+P06:
+	SetPlayState(0);
+	stopmusic();
+	LoadMap("maps\yakaport\house02\h11.map");
+	SetPlayerPos(13, 15);
+	SetPlayerDir(2);
+	
+	AddNpc("maps\yakaport\npc#(0).npc","040", 4,12);
+	setNpcDir("040",3);
+	AddNpc("Maps\yakaport\npc.npc","哈非母", 6, 14);
+	SetNpcDir("哈非母",0);
+	
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+
+	if($temp4=1,"P06talk01");
+
+	
+	AddMapHook(7, 12, "a11_1.gps");
+	SetCPType(7,12,0);
+	AddMapHook(7, 13, "a11_2.gps");
+	SetCPType(7,13,0);
+P06talk01:
+	return;
+P07:
+	Say("先去找菲利斯要紧，不要再在城里面晃了！","lt");
+	MoveTo(32,33);
+	SetMapCell(1, 32, 30, 137, 3);
+	SetMapCell(1, 33, 30, 138, 3);
+	SetMapCell(1, 32, 31, 157, 3);
+	SetMapCell(1, 33, 31, 158, 3);
+	PlaySound("sound\opendoor.wav");
+	SetMapBlock(32, 31, 1);
+	AddMapHook( 32, 31, "h11-open.gps");
+	SetCPType(32,31,0);
+	Delay(200);
+	return;

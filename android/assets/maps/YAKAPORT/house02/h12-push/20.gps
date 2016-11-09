@@ -1,0 +1,12 @@
+	if( $case0!20,"Exit");
+	if( $position=21,"To13");
+To13:	
+	set($position,20);
+	set($case0,13);
+	SetMapCell(1, 12, 7, 14, 4);
+	SetMapCell(1, 12, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	return;
+Exit:
+	set($position,20);
+ 	return;

@@ -1,0 +1,12 @@
+	set($position,11);
+	if($case0=16,"Exit");
+	if($case1=6,"Exit0");
+	return;
+Exit:
+	Say("哈非：这儿可真难走。","hf");
+	SetMapBlock(8, 8, 1);
+	return;
+Exit0:
+	Say("哈非：太挤了……","hf");
+	SetMapBlock(8, 6, 1);
+	return;	

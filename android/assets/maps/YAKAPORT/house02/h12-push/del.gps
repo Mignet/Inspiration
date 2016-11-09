@@ -1,0 +1,35 @@
+	
+	SetMapHook(6,5,127);
+	SetMapHook(6,6,127);
+	SetMapHook(6,7,127);
+	SetMapHook(6,8,127);
+	SetMapHook(7,6,127);
+	SetMapHook(7,8,127);
+	SetMapHook(8,6,127);
+	SetMapHook(8,7,127);
+	SetMapHook(8,8,127);
+	SetMapHook(9,6,127);
+	SetMapHook(9,8,127);
+	SetMapHook(10,5,127);
+	SetMapHook(10,6,127);
+	SetMapHook(10,7,127);
+	SetMapHook(10,8,127);
+	SetMapHook(10,9,127);
+	SetMapHook(11,8,127);
+	SetMapHook(12,5,127);
+	SetMapHook(12,6,127);
+	SetMapHook(12,7,127);
+	SetMapHook(12,8,127);
+	SetMapHook(12,9,127);
+	
+	SetMapCell(1, 10, 8, 13, 4);
+	SetMapCell(1, 9, 6, 13, 4);
+	SetMapCell(1, 6, 7, 13, 4);	
+	SetMapCell(1, 6, 5, 14, 4);
+	SetMapCell(1, 10, 5, 14, 4);
+	SetMapCell(1, 12, 5, 14, 4);
+
+	SetMapBlock(6, 5, 1)
+	SetMapBlock(10, 5, 1)
+	SetMapBlock(12, 5, 1)
+	return;

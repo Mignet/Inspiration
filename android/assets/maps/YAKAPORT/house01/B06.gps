@@ -1,0 +1,10 @@
+	setNpcDir("哈非母",0);
+	say("哈非的母亲：记得早点回来！别在外面鬼混！","");
+	say("哈非：是是～","");
+	
+	SetMapHook(8, 35, 127);
+	SetMapHook(9, 35, 127);
+	SetMapHook(7,36,127);
+	SetMapHook(10,36,127);
+
+	return;

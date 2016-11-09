@@ -1,0 +1,3 @@
+	say("这里埋着bumpkin,墓碑上刻着……","");
+	GameMessage("生前喜欢摇滚，漫画，TV&PCgame");
+	return;

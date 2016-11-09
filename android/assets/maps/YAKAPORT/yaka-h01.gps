@@ -1,0 +1,10 @@
+
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h01.map");
+	SetPlayerPos(7, 16);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

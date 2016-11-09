@@ -1,0 +1,11 @@
+	SetPlayState(0);
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//Ìí¼ÓNPC
+
+	SetPlayerPos(23, 46);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

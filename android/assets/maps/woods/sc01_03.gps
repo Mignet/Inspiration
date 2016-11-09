@@ -1,0 +1,17 @@
+	SetPlayState(0);
+	
+	FadeIn(2,0,100);
+	LoadMap("maps\woods\recall.map");
+	AddNpc("maps\woods\npc.npc", "À×0", 11, 12);
+	AddNpc("maps\woods\npc.npc", "°ÂÈûÂÞ0", 11, 14);	
+	AddNpc("maps\woods\npc.npc", "À¼ÌØ0", 10, 15);
+	AddNpc("maps\woods\npc.npc", "ÆïÊ¿¼×0", 5, 16);
+	AddNpc("maps\woods\npc.npc", "ÆïÊ¿ÒÒ0", 17, 16);
+	SetPlayerPos(-1, 0);
+	SetPlayerDir(3);
+	CenterMap(11,19);
+	FadeOut(2);
+	MoveNpcTo("À×0",  5, 23);
+	//MoveNpcTo("ÆïÊ¿ÒÒ0", 17, 23);
+	SetPlayState(1);
+	return;

@@ -1,0 +1,8 @@
+	
+
+	SetPlayState(0);
+	say("现在这个季节最好，不冷不热。","");
+	setNpcDir("021",0);
+	SetPlayState(1);
+	Delay(200);
+	return;

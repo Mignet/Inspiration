@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("这几天的风浪大的不正常。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

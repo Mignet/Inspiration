@@ -1,0 +1,38 @@
+	SetPlayState(0);
+	LoadMap("maps\woods\woods10.map");
+	SetPlayerPos(19, 22);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+If($process=6,"P06");
+	
+	return;
+
+P06:
+	If($temp7>0,"P06talk01");
+	stopmusic();
+	MoveTo(19, 19);
+	AddNpc("maps\yakaport\npc.npc","月亮",19,19);
+	MoveNpcTo("月亮",18,19);
+	SetNpcDir("月亮",2);
+	Say("月亮：…………","moon");
+	Say("这里便是了。","moon");
+	Say("兰特：这里？","lt");
+
+ScrollMapTo(4,0,6);
+ScrollMapTo(4,9,6);
+
+//centerplayer();
+
+
+	Say("兰特：<c8>（安德利卡尔的确就在这附近……）</c>","lt");
+	Say("兰特：哈非一定就在这里某处的，仔细找找。","lt");
+	Say("月亮：是……","moon");
+
+	MoveNpcTo("月亮",19,19);
+	delNPc("月亮");
+
+	Set($temp7,1);
+P06talk01:
+	return;

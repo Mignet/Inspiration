@@ -1,0 +1,86 @@
+	if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process>5,"P06");
+	
+P00:
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h02(0).map");
+	call("maps\yakaport\house01\addnpc-h02.gps");		//添加NPC
+	SetPlayerPos(7, 25);
+	SetPlayerDir(3);
+	CenterPlayer();
+	return;
+P01:
+	if($Temp2=0,"P01NOTDONE")
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h02(0).map");
+	call("maps\yakaport\house01\addnpc-h02.gps");		//添加NPC
+	SetPlayerPos(7, 25);
+	SetPlayerDir(3);
+	CenterPlayer();
+
+	stopmusic();
+	AddNpc("maps\yakaport\npc.npc", "哈非母", 8, 33);  //加入NPC
+	SetNpcDir("哈非母",0);
+	FadeOut(2);
+	SetPlayState(1);
+	
+	AddMapHook(10, 30, "a04.gps");
+
+	AddMapHook(11, 30, "a04.gps");
+
+	AddMapHook(12, 30, "a04.gps");
+	return;
+P03:
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h02(0).map");
+	call("maps\yakaport\house01\addnpc-h02.gps");		//添加NPC
+	SetPlayerPos(7, 25);
+	SetPlayerDir(3);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+
+	if($temp1!0,"P03talk01");
+	if($temp3=1,"P03talk01");
+	AddMapHook(10, 30, "a07.gps");
+
+	AddMapHook(11, 30, "a07.gps");
+
+	AddMapHook(12, 30, "a07.gps");
+	return;
+P03talk01:
+	addNpc("maps\yakaport\npc.npc","哈非", 8, 33);
+	SetNpcDir("哈非", 0);
+	return;
+P05:
+	Say("进屋去看看。","lt");
+	return;
+P06:
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h02(0).map");
+	call("maps\yakaport\house01\addnpc-h02.gps");		//添加NPC
+	SetPlayerPos(7, 25);
+	SetPlayerDir(3);
+	CenterPlayer();	
+	SetPlayState(0);
+	LoadMap("maps\yakaport\house01\h02(0).map");
+	call("maps\yakaport\house01\addnpc-h02.gps");		//添加NPC
+	SetPlayerPos(7, 25);
+	SetPlayerDir(3);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	return;
+P01NOTDONE:
+	Say("哈非：我还是先把恢复剂给兰特大人吧。","");
+	return;
+P04:
+	Say("哈非：快去叫月亮逃跑呀！！","");
+	return;
+Exit:
+	return;

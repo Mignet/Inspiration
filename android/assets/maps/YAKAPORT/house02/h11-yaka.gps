@@ -1,0 +1,39 @@
+
+	SetPlayState(0);
+	PlayMusic("music\BGM_yaka.mid");
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//添加NPC
+
+	//(开门）产生门开着的效果
+	SetPlayState(0);
+	SetMapCell(1, 32, 30, 197, 3);
+	SetMapCell(1, 33, 30, 198, 3);
+	SetMapCell(1, 32, 31, 217, 3);
+	SetMapCell(1, 33, 31, 218, 3)
+	
+	Delay(100);
+	SetPlayerPos(32, 32);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	
+	//关门
+	SetMapCell(1, 32, 30, 137, 3);
+	SetMapCell(1, 33, 30, 138, 3);
+	SetMapCell(1, 32, 31, 157, 3);
+	SetMapCell(1, 33, 31, 158, 3);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	Delay(200);
+	if($process=5,"P05");
+	return;
+P05:
+	if($temp1=0,"talk00");
+	return;
+talk00:
+	say("兰特：我感觉到有人拿走了安德利卡尔……这应该不可能。","lt");
+	say("不管怎么样，都必须马上回房间去看看。","lt");
+	
+	Set($temp1=1);
+	return;
+	

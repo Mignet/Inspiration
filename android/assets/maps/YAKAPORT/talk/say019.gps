@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("你能追上我，说明你很厉害。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

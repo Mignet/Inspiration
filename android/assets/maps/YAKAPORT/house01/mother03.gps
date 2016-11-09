@@ -1,0 +1,52 @@
+	SetNpcDir("哈非母",3);
+	if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P03");
+	if( $process=5,"P03");
+	if( $process=6,"P03");
+	if( $process=7,"P07");
+	if( $process=8,"P08");
+	if( $process=9,"P09");
+	
+P00:
+	if($temp5=0,"P00talk00"); //如果还没有离开,跳转到pootalk01,如果已经离开过,那么就是下面的内容
+	if($temp5=1,"P00talk01");
+	if($temp5=2,"P00talk02");
+	if($temp5=3,"P00talk03");
+	if($temp5=4,"P00talk04");
+P00talk00:
+	say("哈非的母亲：你还在这里做什么，要找就快去找吧。","");
+	SetNpcDir("哈非母",0);
+	
+	return;
+
+P00talk01:
+	say("哈非的母亲：找到没有？","");
+	say("哈非：没有，我只是回来看看，还要继续去找。","hf");
+	say("哈非母：如果让我知道你在外面鬼混……","");
+	say("哈非：知道啦知道啦。","hf");
+	set($temp5,2);	
+	SetNpcDir("哈非母",0);
+	return;
+P00talk02:
+	say("哈非的母亲：对了，不管找到没有，晚上晚饭前一定要回来。","");
+	set($temp5,3);
+	SetNpcDir("哈非母",0);
+	return;
+P00talk03:
+	say("哈非的母亲：今天晚上请兰特大人吃什么呢？","");
+	set($temp5,4);
+	SetNpcDir("哈非母",0);
+	return;
+P00talk04:
+	say("哈非的母亲：不要在家里闲逛，要做什么就快去做吧！","");
+	SetNpcDir("哈非母",0);
+	return;
+P02:
+	say("哈非的母亲：你还不去？！","");
+	SetNpcDir("哈非母",0);
+	return;
+P03:
+	return;

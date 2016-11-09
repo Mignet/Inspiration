@@ -1,0 +1,22 @@
+	SetPlayState(0);
+	fadein(2,0,100);
+	LoadMap("MAPS\VILLAGE\village.map"); //载入地图
+	playmusic("music\BGM_vil.mid");
+
+	SetDisplayState(1);		//设置地图属性为黑暗
+	SetPlayerPos(27, 70);
+	SetPlayerDir(2);
+	Centerplayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	if($temp2=0,"talk01");
+	return;
+talk01:
+	delay(500);
+	Say("………………","lt"); 
+	say("兰特：这个……黑暗术吗？","lt");
+	Say("想用这种办法阻止别人靠近，看来菲利斯就在前方的山上。","lt");
+	Say("哼，这种东西能起作用吗？","lt");
+	set($temp2,1);
+	return;

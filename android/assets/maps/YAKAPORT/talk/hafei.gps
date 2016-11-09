@@ -1,0 +1,54 @@
+	if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process=6,"P06");
+	if( $process=7,"P07");
+	if( $process=8,"P08");
+	if( $process=9,"P09");
+	
+P03:
+	if($temp5>0,"P00talk04");
+	if($temp1=0,"P00talk00"); 
+	if($temp1=1,"P00talk01");
+	if($temp1=2,"P00talk02");
+	if($temp1=3,"P00talk03");
+	if($temp1=4,"P00talk04");
+P00talk00:
+	say("哈非：怎么？！你决定让我陪你了？","hf");
+	Say("兰特：……不，我还是自己去好了。","lt");
+	SetNpcDir("哈非",0);
+	Set($temp1,1);
+	
+	return;
+
+
+P00talk01:
+	say("哈非：真的不用陪你么？我担心你找不到那家点心铺啊。","hf");
+	say("兰特：不用了。","lt");
+	set($temp1,2);	
+	SetNpcDir("哈非",0);
+	return;
+P00talk02:
+	say("哈非：其实你是想我带你去的吧！！","hf");
+	Say("兰特：………………问你一件事情,这个港口年纪最大的人是谁?","lt");
+	Say("哈非：年纪最大啊？大概就是镇长先生了吧。","hf");
+	Say("兰特：那么这位镇长先生家在什么地方？","lt");
+	Say("哈非：就在城东北边！要不要我带你去？","hf");
+	Say("兰特：………………不用了，谢谢。","lt");
+	set($temp1,3);
+	SetNpcDir("哈非",0);
+	return;
+P00talk03:
+	say("哈非：兰特大人，今天晚上我妈要弄好吃的，请早点回来。","hf");
+	Say("兰特：好的。","lt");
+	set($temp1,4);
+	SetNpcDir("哈非",0);
+	return;
+P00talk04:
+	say("哈非：请早点回来。","hf");
+	Say("兰特：知道了。","lt");
+	SetNpcDir("哈非",0);
+	return;

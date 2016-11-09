@@ -1,0 +1,11 @@
+	
+	SetPlayState(0);
+	LoadMap("maps\castle\layer03\inwall.map");
+	SetPlayerPos(3,8);
+	Delay(300);
+	SetPlayerDir(3);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);
+	return;

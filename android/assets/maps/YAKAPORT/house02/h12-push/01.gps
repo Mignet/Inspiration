@@ -1,0 +1,8 @@
+	if($case2=1,"P00")	
+	SetPlayState(0);
+	set($position,1);
+	Say("哈非：要把箱子推到这儿，……不可能吧。","hf");
+	SetMapHook(6,5,127);
+	SetPlayState(1);
+P00:
+	return;

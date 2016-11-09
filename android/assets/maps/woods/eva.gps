@@ -1,0 +1,4 @@
+	say("这里埋着EVA,墓碑上刻着……","");
+	GameMessage("屠宰场真好~");	
+	
+	return;

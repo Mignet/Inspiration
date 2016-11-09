@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("我很想知道创造我们的人是什么样子的。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

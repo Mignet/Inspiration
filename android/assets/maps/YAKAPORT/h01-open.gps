@@ -1,0 +1,16 @@
+
+	//开门
+	SetPlayState(0);
+	SetMapCell(1, 7, 28, 197, 3);
+	SetMapCell(1, 8, 28, 198, 3);
+	SetMapCell(1, 7, 29, 217, 3);
+	SetMapCell(1, 8, 29, 218, 3);
+	
+	SetMapBlock(7, 29, 0);             //取消门口阻挡
+	SetMapHook(7, 29, 127);            //删除开门陷阱
+	AddMapHook(7, 29, "yaka-h01.gps"); //加入进门陷阱
+	SetCPType(7,29,1);
+	SetPlayState(1);
+	PlaySound("sound\opendoor.wav");
+	Delay(200);
+	return;

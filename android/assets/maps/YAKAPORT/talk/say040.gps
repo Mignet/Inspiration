@@ -1,0 +1,42 @@
+	if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process=6,"P06");
+	if( $process=7,"P07");
+	
+P00:
+	say("镇长：哎?是哈非啊，你有什么事吗？","");
+	say("哈非：啊，镇长先生，没什么事的，我这就走。",""hf);
+	MoveTo(6,15);
+	say("镇长：哎，等等，哈非。","");
+	SetPlayerDir(1);
+	say("哈非：镇长先生有什么事吗？","hf");
+	Say("镇长：那个……哈非，你的母亲现在什么地方？","");
+	Say("哈非：我妈啊？她一直都在旅馆里打理事物。","hf");
+	Say("镇长：这样啊，谢谢了。","");
+	Say("哈非：要是没什么事的话，我就先走了。","hf");
+	say("镇长：好的，再见。","");
+	MoveTo(10,13);
+	SetNpcDir("040",3);
+	say("哈非：真奇怪，镇长先生问我妈做什么啊……","hf");
+	delay(500);
+	Say("算了，以后还是不要来打搅镇长先生的好。","hf");
+
+	set($temp6,1);
+	AddMapHook(8, 12, "back01.gps");
+	SetCPType(8,12,0);
+	AddMapHook(8, 13, "back02.gps");	
+	SetCPType(8,13,0);
+	Delay(200);
+	return;
+P05:
+	Say("镇长：守护者大人……我们小镇就拜托你了……","");
+	SetNpcDir("040",3);
+	return;
+P06:
+	Say("镇长：月亮小姐请放心吧，我会照顾好你的母亲的……","");
+	SetNpcDir("040",3);
+	return;		

@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("据说这个城里锁上的的房间的其中一个，里面有什么好玩的东西。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

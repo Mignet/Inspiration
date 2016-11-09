@@ -1,0 +1,18 @@
+		if( $process=0,"P00");
+P00:
+	say("陌生人：该死的风浪，害我每天只能在这里喝酒。","");
+	SetNpcDir("028",1);
+	
+	return;
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process=6,"P06");
+	if( $process=7,"P07");
+	if( $process=8,"P08");
+	if( $process=9,"P09");
+	
+	Delay(200);
+	return;

@@ -1,0 +1,21 @@
+	
+	SetPlayState(0);
+	
+	AddNpc("maps\yakaport\npc#.npc", "001",  4,  5);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "002", 20,  5);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "003", 27, 11);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "004", 42, 13);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "005", 12, 21);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "006", 20, 25);  //加入NPC	
+	AddNpc("maps\yakaport\npc#.npc", "007", 35, 26);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "008",  4, 42);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "009", 16, 36);  //加入NPC
+	AddNpc("maps\yakaport\npc#.npc", "010", 46, 37);  //加入NPC
+	if($process>5,"P05");
+
+	AddNpc("maps\yakaport\npc#.npc", "月亮#", 28, 20);  //加入NPC
+	Return;
+
+P05:
+
+return;

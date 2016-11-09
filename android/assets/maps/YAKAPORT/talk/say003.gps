@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("亚卡已经有几百年没有见过这样的风浪了。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

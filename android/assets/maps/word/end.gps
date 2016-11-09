@@ -1,0 +1,15 @@
+	SetPlayState(0);
+	FadeIn(2, 0, 100);
+	set($process,0);
+	set($temp1,0);
+	set($temp2,0);
+	set($temp3,0);
+	set($temp4,0);
+	set($temp5,0);
+	set($temp6,0);
+	set($temp7,0);
+
+
+	BackToTitle();
+SetPlayState(1);
+return;

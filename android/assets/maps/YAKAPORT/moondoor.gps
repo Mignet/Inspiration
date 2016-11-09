@@ -1,0 +1,19 @@
+
+	if($kansa!2,"exit")
+	if($process=3,"go")
+	if($process=5,"go")
+	if($process=6,"go")
+	if($process=7,"go")
+exit:
+	return;
+go:
+	SetPlayState(0);
+	LoadMap("MAPS\CASTLE\kansaout.map");
+	SetPlayerPos(19, 24);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	
+	SetPlayState(1);
+	Delay(200);
+	return;

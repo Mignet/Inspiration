@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("你气色不太好，要不要帮你找医生？","");
+	SetPlayState(1);
+	Delay(200);
+	return;

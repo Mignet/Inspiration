@@ -1,0 +1,37 @@
+	if($position=6,"A1");  //人从6来 跳转（人从8来，继续）
+	if($case1=7,"A2");     //（人从8来）case1在7 跳转（不在，继续）
+	set($position,7);      //确定人的当前位置
+	if($case1=6,"A3");
+	return;
+A1:
+	if($case1=7,"A4");    //（人从6来）case1在7位 跳转
+	set($position,7);     //（case1不在7位）确定人的位置
+	return;
+A2:
+	SetMapCell(1, 8, 6, 14, 4);
+	SetMapCell(1, 9, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,6);        //确定case1的位置
+	set($position,7);  
+	return;
+A3:
+	SetMapBlock(8, 6, 0); //解除6位置的阻挡 
+	return;
+A4:
+	if($case0=8,"Exit")
+	SetMapCell(1, 10, 6, 14, 4);
+	SetMapCell(1, 9, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,8);
+	set($position,7);
+	SetMapBlock(10, 6, 1);     //设置8位置阻挡
+	if($case0=12,"Block");   
+	return;
+Block:
+	SetMapBlock(10, 7, 1);     //设置12位置阻挡
+	Say("哈非：……能行吗？","hf");
+	Say("管理员：……算了吧。","");
+	return;
+Exit:
+	Say("哈非：堵住了……","");
+	return;

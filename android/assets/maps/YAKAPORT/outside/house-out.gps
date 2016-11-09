@@ -1,0 +1,27 @@
+
+	SetPlayState(0);
+	LoadMap("maps\yakaport\outside\outside0.map");
+	
+	//(开门）产生门开着的效果
+	SetPlayState(0);
+	SetMapCell(1, 14, 5, 197, 3);
+	SetMapCell(1, 15, 5, 198, 3);
+	SetMapCell(1, 14, 6, 217, 3);
+	SetMapCell(1, 15, 6, 218, 3);
+	
+	Delay(100);
+	SetPlayerPos(14, 7);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	
+	//关门
+	SetMapCell(1, 14, 5, 137, 3);
+	SetMapCell(1, 15, 5, 138, 3);
+	SetMapCell(1, 14, 6, 157, 3);
+	SetMapCell(1, 15, 6, 158, 3);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	Delay(200);
+	return;
+	

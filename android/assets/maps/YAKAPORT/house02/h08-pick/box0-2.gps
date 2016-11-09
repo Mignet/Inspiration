@@ -1,0 +1,131 @@
+//进门后与宝箱的第三轮对话	
+
+	if( $pickup=0,"Say");
+	if( $question>2, "Exit");  
+	set( $question, 3);
+	set( $pickup,0);
+
+	//对话
+	GameMessage("宝箱：“那么又换我拿了哦。”");
+	SetPlayState(0);
+	Say("……","lt");
+
+	if( $remain=6, "Cha1");
+	if( $remain=5, "Cha2");
+	if( $remain=4, "Cha3");
+	if( $remain=3, "Cha4");
+	if( $remain=2, "Cha5");
+	if( $remain=1, "Cha6");
+
+Cha1:
+	//剩6个
+	Add( $remain,-2);  
+	Delay(300);
+	SetMapCell(1, 8, 7, 13, 4);
+	Delay(300);
+	SetMapCell(1, 10, 6, 13, 4);
+	Delay(300);
+	SetMapHook(8, 7, 127);
+	SetMapHook(10, 6, 127);
+	SetMapBlock(8, 7, 0);
+	SetMapBlock(10, 6, 0);
+	GameMessage("宝箱：“呵呵~~！”");
+	SetPlayState(1);
+	return;
+Cha2:
+	//剩5个
+	Add( $remain,-1); 
+	Delay(300);
+	SetMapCell(1, 10, 6, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(10, 6, 127);
+	SetMapBlock(10, 6, 0);
+	GameMessage("宝箱：“只拿一个！”");
+	SetPlayState(1);
+	return;
+Cha3:
+	//剩4个
+	Add( $remain,-1); 
+	Delay(300);
+	SetMapCell(1, 12, 7, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 7, 127);
+	SetMapBlock(12, 7, 0);
+	GameMessage("宝箱：“勉强了一点……这不就……”");
+	SetPlayState(1);
+	return;
+Cha4:
+	//剩3个
+	Add( $remain,-3);
+	Delay(300);  
+	SetMapCell(1, 12, 9, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 12, 11, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 12, 13, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 9, 127);
+	SetMapHook(12, 11, 127);
+	SetMapHook(12, 13, 127);
+	SetMapBlock(12, 9, 0);
+	SetMapBlock(12, 11, 0);
+	SetMapBlock(12, 13, 0);
+	PlaySound("sound\E-lost.wav");
+	GameMessage("宝箱：“通吃啦。咳~~无敌真寂寞……哈哈……”");
+	GameMessage("宝箱：“啊……对不起……”");
+	Say("兰特：……","lt");
+	set( $win,1);     
+	SetPlayState(1);
+	return;
+Cha5:
+	//剩2个
+	Add( $remain,-2); 
+	Delay(300);
+	SetMapCell(1, 12, 11, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapCell(1, 12, 13, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 11, 127);
+	SetMapHook(12, 13, 127);
+	SetMapBlock(12, 11, 0);
+	SetMapBlock(12, 13, 0);
+	PlaySound("sound\E-lost.wav");
+	GameMessage("宝箱：“两个还怕拿不了？咳~~无敌真寂寞……哈哈……”");
+	GameMessage("宝箱：“啊……对不起……”");
+	Say("兰特：……","lt");
+	set( $win,1);
+	SetPlayState(1);
+	return;
+Cha6:
+	//剩一个
+	Add( $remain,-1);
+	Delay(300);
+	SetMapCell(1, 12, 13, 13, 4);
+	PlaySound("sound\E-get.wav");
+	Delay(300);
+	SetMapHook(12, 13, 127);
+	SetMapBlock(12, 13, 0);
+	PlaySound("sound\E-lost.wav");
+	GameMessage("宝箱：“为什么要留一个给我呢？咳~~无敌真寂寞……哈哈……”");
+	GameMessage("宝箱：“啊……对不起……”");
+	Say("兰特：……","lt");
+	set( $win,1);
+	SetPlayState(1);
+	return;
+
+Exit:
+	call("maps\yakaport\house02\h08-pick\box0-3.gps")；  //转入第三轮
+	return;
+Say:
+	SetPlayState(0);
+	PlaySound("sound\E-cannot.wav");
+	GameMessage("宝箱：“你还没拿吧？不要骗我哦。”");
+	SetPlayState(1);
+	return;

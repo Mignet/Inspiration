@@ -1,0 +1,46 @@
+	if( $process=0,"P00");
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process=6,"P06");
+	if( $process=7,"P07");
+	if( $process=8,"P08");
+	if( $process=9,"P09");
+	
+P01:
+	if($temp1=0,"P00talk00"); 
+	if($temp1=1,"P00talk01");
+	if($temp1=2,"P00talk02");
+	if($temp1=3,"P00talk03");
+	if($temp1=4,"P00talk04");
+P00talk04:
+	say("兰特：你有什么事找我吗？","lt");
+	Say("哈非：没有，没有。对不起打搅你了。","hf");
+	SetNpcDir("兰特#",1);
+	return;
+
+P00talk01:
+	say("兰特：这里经常出现这么大的风浪么？","lt");
+	say("哈非：不，这也还是我第一次遇见。","hf");
+	set($temp1,2);	
+	SetNpcDir("兰特#",1);
+	return;
+P00talk02:
+	say("兰特：这附近是不是有什么遗迹一类的东西？","lt");
+	Say("哈非：遗迹啊？城外面不远的地方有个老墓地，不知道算不算遗迹。","hf");
+	set($temp1,3);
+	SetNpcDir("兰特#",1);
+	return;
+P00talk03:
+	say("兰特：楼下有客人么？","lt");
+	Say("哈非：是啊，镇长先生来了，和我妈神神秘秘不知道在说些什么。","hf");
+	set($temp1,4);
+	SetNpcDir("兰特#",1);
+	return;
+P00talk00:
+	say("兰特：这里的风浪让人感觉很不好……","lt");
+	Set($temp1,1);
+	SetNpcDir("兰特#",1);
+	return;

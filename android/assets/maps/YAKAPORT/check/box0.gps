@@ -1,0 +1,14 @@
+	
+//进门后与宝箱的第一轮对话
+
+	if( $process=1,"P01");
+	if( $process=2,"P02");
+	if( $process=3,"P03");
+	if( $process=4,"P04");
+	if( $process=5,"P05");
+	if( $process=6,"P06");
+	if( $process=7,"P07");
+	if( $process=8,"P08");
+	if( $process=9,"P09");
+	
+	return;

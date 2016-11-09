@@ -1,0 +1,5 @@
+	
+	SetPlayState(0);
+	
+	AddNpc("maps\yakaport\npc#(0).npc", "038",  13, 6);  //º”»ÎNPC
+	return;

@@ -1,0 +1,9 @@
+	SetPlayState(0);
+	LoadMap("maps\yakaport\outside\outside0.map");
+	SetPlayerPos(1,20);
+	SetPlayerDir(3);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	call("maps\yakaport\outside\bridge1.gps");
+	return;

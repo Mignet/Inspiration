@@ -1,0 +1,22 @@
+	if( $case0!19,"Exit");
+	if( $position=18,"To20");
+	if( $position=20,"To18");
+To20:	
+	set($position,19);
+	set($case0,20);
+	SetMapCell(1, 12, 8, 14, 4);
+	SetMapCell(1, 11, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	SetMapBlock(12, 8, 1);
+	return;
+To18:	
+	set($position,19);
+	set($case0,18);
+	SetMapCell(1, 10, 8, 14, 4);
+	SetMapCell(1, 11, 8, 13, 4);
+	PlaySound("sound\E-push.wav");
+	return;
+
+Exit:
+	set($position,19);
+	return;	

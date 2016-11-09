@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("我们的镇长是一个和蔼的老头儿。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

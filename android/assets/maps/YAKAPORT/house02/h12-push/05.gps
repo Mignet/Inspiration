@@ -1,0 +1,29 @@
+	SetMapBlock(8, 6, 0);     //无条件解除6位置阻挡
+	if($case2=4,"Block");
+	if($position=6,"A1");  //人从6来 跳转（人从4来，继续）
+	if($case1=5,"A2");     //（人从4来）case1在5跳转（不在继续）
+	set($position,5);      //确定人的当前位置
+	return;
+A1:
+	if($case1=5,"A3");    //（人从6来）case1在5位 跳转
+	set($position,5);     //（case1不在5位）确定人的位置
+	return;
+A2:
+	SetMapCell(1, 8, 6, 14, 4);
+	SetMapCell(1, 7, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,6);        //确定case1的位置
+	set($position,5);     
+	return;
+A3:
+	SetMapCell(1, 6, 6, 14, 4);
+	SetMapCell(1, 7, 6, 13, 4);
+	PlaySound("sound\E-push.wav");
+	set($case1,4);
+	set($position,5);
+	SetMapBlock(6, 6, 1);     //设置4位置阻挡
+	return;
+Block:
+	set($position,5);
+	SetMapBlock(6, 6, 1);     //设置4位置阻挡
+	return;

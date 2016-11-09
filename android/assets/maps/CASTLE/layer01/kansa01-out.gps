@@ -1,0 +1,11 @@
+
+	SetPlayState(0);
+	LoadMap("maps\castle\kansaout.map");
+	SetPlayerPos(19, 11);
+	SetPlayerDir(0);
+	CenterPlayer();
+	FadeOut(2);
+	Delay(200);
+	SetPlayState(1);
+	Delay(200);
+	return;

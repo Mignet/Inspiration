@@ -1,0 +1,13 @@
+	
+	SetPlayState(0);
+	
+	AddNpc("maps\yakaport\npc#(0).npc", "027",  4,  8);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "028",  5,  8);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "029",  7, 11);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "030",  7, 12);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "031", 16,  9);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "032", 17,  9);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "033", 11,  9);  //加入NPC
+	AddNpc("maps\yakaport\npc#(0).npc", "034", 12,  7);  //加入NPC
+	
+	return;

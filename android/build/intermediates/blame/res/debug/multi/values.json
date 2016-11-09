@@ -1,0 +1,92 @@
+[
+    {
+        "outputFile": "F:\\backend\\Inspiration\\android\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 48,
+                    "endOffset": 99
+                },
+                "from": {
+                    "file": "F:\\backend\\Inspiration\\android\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 48,
+                        "endOffset": 100
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 104,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 562
+                },
+                "from": {
+                    "file": "F:\\backend\\Inspiration\\android\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endLine": 9,
+                        "endColumn": 12,
+                        "endOffset": 475
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "E:\\backend\\Inspiration\\android\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 48,
+                    "endOffset": 99
+                },
+                "from": {
+                    "file": "E:\\backend\\Inspiration\\android\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 48,
+                        "endOffset": 100
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 104,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 562
+                },
+                "from": {
+                    "file": "E:\\backend\\Inspiration\\android\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endLine": 9,
+                        "endColumn": 12,
+                        "endOffset": 475
+                    }
+                }
+            }
+        ]
+    }
+]

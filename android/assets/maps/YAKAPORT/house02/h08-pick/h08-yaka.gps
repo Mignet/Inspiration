@@ -1,0 +1,30 @@
+	if($Temp6=1,"Next")
+	if($win!2,"Next");
+	Say("兰特：还是先和宝箱说一声再走吧。","lt");
+	MoveDirectTo(2,1);
+	return;
+Next:	
+	SetPlayState(0);
+	PlayMusic("music\BGM_yaka.mid");
+	LoadMap("maps\yakaport\yaka02.map");
+	call("maps\yakaport\addnpc-yaka02.gps");		//添加NPC
+	set( $pickup,0)
+	
+	//(开门）
+	SetMapCell(1, 9, 42, 197, 3);
+	SetMapCell(1, 10, 42, 198, 3);
+	SetMapCell(1, 9, 43, 217, 3);
+	SetMapCell(1, 10, 43, 218, 3);
+	SetPlayerPos(9, 44);
+	SetPlayerDir(0);
+	CenterPlayer()
+	FadeOut(2);
+	
+	//关门
+	SetMapCell(1, 9, 42, 137, 3);
+	SetMapCell(1, 10, 42, 138, 3);
+	SetMapCell(1, 9, 43, 157, 3);
+	SetMapCell(1, 10, 43, 158, 3);
+	PlaySound("sound\opendoor.wav");
+	SetPlayState(1);
+	return;

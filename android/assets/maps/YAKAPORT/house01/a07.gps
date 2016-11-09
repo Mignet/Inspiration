@@ -1,0 +1,37 @@
+	PlaySound("sound\opendoor.wav");
+	addNpc("maps\yakaport\npc.npc","哈非",9,35);
+	SetNpcDir("哈非",2);
+	Delay(200);
+	
+	Say("哈非：真不知道老妈在想什么……","");
+	Say("哈非：哎？兰特大人。","hf");
+	MoveNpc("哈非",8, 33);
+	SetMapHook(10, 30, 127);
+	SetMapHook(11, 30, 127);
+	SetMapHook(12, 30, 127);
+	MoveTo(10,33);
+	SetplayerDir(1);
+	SetNpcDir("哈非",3);
+	Say("哈非：兰特大人您要出门啊。","hf");
+	Say("兰特：是的，我出去转转，待会就回来。","lt");
+	Say("哈非：你一个人转啊？这样，我陪你去吧！亚卡虽然不是很大，但是转起来没有向导还是不行哦！","hf");
+	Say("兰特：我自己随便转转，就不用麻烦你了，你去忙你自己的事吧。","lt");
+	Say("哈非：哦，这样啊，真遗憾。那你一定要记得去城门那边的薄饼店哦，那里的薄饼整个大陆都有名呢！还有哈里大叔的时装店，里面的衣服都好时髦！还有……","hf");
+	Say("兰特：好的好的，我一定会去的。再见。","lt");
+	MoveTo(8,34);
+	Setplayerdir(0);
+
+	SetNpcdir("哈非",0);
+
+	Say("哈非：再见！","hf");
+
+	Set($Temp3,1);
+	return;
+
+
+	
+	
+	
+	
+	
+

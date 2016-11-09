@@ -1,0 +1,13 @@
+
+	SetPlayState(0);
+	playmusic("music\BGM_yh05.mid");
+	LoadMap("maps\yakaport\house01\h05.map");
+	call("maps\yakaport\house01\addnpc-h05.gps");  //Ìí¼ÓNPC
+	SetPlayerPos(13,15);
+	SetPlayerDir(2);
+	CenterPlayer();
+	FadeOut(2);
+	SetPlayState(1);
+	Delay(200);	
+	return;
+	

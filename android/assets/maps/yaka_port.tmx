@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="96" tilewidth="32" tileheight="32" nextobjectid="6">
+ <tileset firstgid="1" name="tile01" tilewidth="32" tileheight="32" tilecount="600" columns="20">
+  <image source="../images/tiles/tile01.png" width="640" height="960"/>
+ </tileset>
+ <tileset firstgid="601" name="tile02" tilewidth="32" tileheight="32" tilecount="400" columns="20">
+  <image source="../images/tiles/tile02.png" width="640" height="640"/>
+ </tileset>
+ <tileset firstgid="1001" name="tile03" tilewidth="32" tileheight="32" tilecount="300" columns="20">
+  <image source="../images/tiles/tile03.png" width="640" height="480"/>
+ </tileset>
+ <tileset firstgid="1301" name="tile04" tilewidth="32" tileheight="32" tilecount="400" columns="20">
+  <image source="../images/tiles/tile04.png" width="640" height="640"/>
+ </tileset>
+ <tileset firstgid="1701" name="tile05" tilewidth="32" tileheight="32" tilecount="500" columns="20">
+  <image source="../images/tiles/tile05.png" width="640" height="800"/>
+ </tileset>
+ <tileset firstgid="2201" name="tile06" tilewidth="32" tileheight="32" tilecount="400" columns="20">
+  <image source="../images/tiles/tile06.png" width="640" height="640"/>
+ </tileset>
+ <tileset firstgid="2601" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
+  <image source="../images/TOOLS.png" width="288" height="32"/>
+ </tileset>
+ <layer name="groud" width="48" height="96">
+  <data encoding="base64" compression="zlib">
+   eJzt1TlOw0AYhmE3UU4AR2DLDdgCFUsBCNKFRQIEJesN2I8AFJwAKLggn6VBMtbEjJ389iC9xaPx7m8W/dNtJUkXAAAAAAAAAAAAAAAAAAAAAAAAQK0mZDLAVARZfWZlLsB8BFl9NmQzwFYEWX0OAxzJcQRZfc7lQi7lSq7luZ0kL/Lq2vT8rd18Vp9buZN7eZBHeVfWD/l0bXr+FWH+G3ly8vd812LTl13Zk/0I8pR15uag6vsdp+l+4Pd8WGi6b//BjqE68i/JspFhs/UDnunJmIy7dsEdlzHonWHzp7V2RVZlreWvu/n8f2WdDryWGkUNyO51B7IemL/KPAzKXzTGnUxbpa71Ko55iGxGq/o6Yyjk/8PuJYuGinKUnYNB/do2ZFn3f5wYKtrPRrUvWuY/zcnOe/5eGXWtn6L1NKrvWI5/0XqK4TtNya4ly/XyDVwv360=
+  </data>
+ </layer>
+ <layer name="floor" width="48" height="96">
+  <data encoding="base64" compression="zlib">
+   eJztnElPE2EYgOcyJSD8AgGXPwCo8AcEUdAzLrjdSlhE0YseNMq5HOAX1GjAlRNEWxWUUwm7LFeRxYWrbIr4zIEwJNAmbeT9vsn7JE/SvG2ap0kzk7yTmbDrODG0lXBA+sM+n4Qc52lo+zNdvH6Gz/EFvsRX+Bq7Q3t/936w1R/x+YamtxjDOL7D9/gB+7AfP+InHDCkP+pziKZhHMFRHMNxnMDPOIlTOI0zhvT3+PxC0yx+xTmcxwVcxG/4HX/gT1wypD/h8xdNy7iCq7iG6/gb/+AG/sVNrz3LjH4/2TTl4AHMxTzhxmQE5fhpK9ovSxD6PTst/Q1b/XGL+73/zz3L+9ss739seX+v5f2DlvfbivbLEoT+sPaLof2yaL8sQTh+ar8c2i+L9sui/bLo/k0W3b/Jovs3WXT/Jov2y6L9smi/LNovi/bLov2yaL8s2i+L9sui/bJovyy6f5ZF98+yZLp/LshynEI8hIfxCB7dx/s1Mt0/l9B6DI/jCSzFMoH+dPfPFbSewko8jWewSqA/XS7QehEvYS1exisW9TfS2oQ3sBlv4i2L+j0e0vsIWwXus7L53OVx1+Jzl0fEkHNX3S4NB5nluzvf9888ogZfOy2iq9hNPusx+NrpSbrK3eSzhMHXTmvoOu+mnplKPZ0NbuqZqdyn84GbemYq7XR2uKlniqIofqpDjnMWzwk/HyJdrtJ9Da9b2t9C922885/7/wFNdsKN
+  </data>
+ </layer>
+ <layer name="block" width="48" height="96">
+  <data encoding="base64" compression="zlib">
+   eJzt0zEKACAIQNHmjtL9D9geES6Fxnvg4PYHbQ0AAAAAAAAAAAAAAAB4bfT4ZBTt0n/HD/2RO8/ev+6V/nfXlrWX2twVAADA2QSxVgdR
+  </data>
+ </layer>
+ <layer name="ceiling" width="48" height="96" opacity="0.8">
+  <data encoding="base64" compression="zlib">
+   eJztzrkNwkAARcHNXAVnB1zuABvogLMDrv4TfgnOzEoz0stfKQAAAAAAAAAAAAAAAADwfyZNKdM0S/O0SMtm7KvhVnldp03apl1qK/rf57VLfTqkYzpV9H/O6yVd0y3d06Oi/2deX+mdPulb0TsAAADD/QBviQi7
+  </data>
+ </layer>
+</map>

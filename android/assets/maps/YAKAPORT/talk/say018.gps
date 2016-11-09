@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("大家都很忙，并不是很愿意停下来和你说话。","");
+	SetPlayState(1);
+	Delay(200);
+	return;

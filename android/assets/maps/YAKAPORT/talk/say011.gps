@@ -1,0 +1,7 @@
+	
+
+	SetPlayState(0);
+	say("亚卡的布局很简单，但是却很合理。","");
+	SetPlayState(1);
+	Delay(200);
+	return;
