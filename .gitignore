@@ -1,3 +1,7 @@
+.idea/
+.gradle/*
+.gradle/
+.settings/
 *.class
 
 # Mobile Tools for Java (J2ME)
