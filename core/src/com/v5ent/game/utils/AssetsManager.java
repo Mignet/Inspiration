@@ -8,23 +8,20 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.v5ent.game.utils.Constants;
 
-public class Assets implements Disposable, AssetErrorListener {
+public class AssetsManager implements Disposable, AssetErrorListener {
 
-	public static final String TAG = Assets.class.getName();
+	public static final String TAG = AssetsManager.class.getName();
 
-	public static final Assets instance = new Assets();
+	public static final AssetsManager instance = new AssetsManager();
 
 	private AssetManager assetManager;
 	/** load all characters */
@@ -32,7 +29,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	/** load all tiled map */
 	public Map<String,AssetTiledMap> assetTiledMaps = new HashMap<String, AssetTiledMap>();
 	// singleton: prevent instantiation from other classes
-	private Assets () {
+	private AssetsManager() {
 	}
 
 	public class AssetHero {

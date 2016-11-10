@@ -4,10 +4,11 @@ import com.badlogic.gdx.Game;
 import com.v5ent.game.screens.MainGameScreen;
 
 public class Inspiration extends Game {
-	public static final MainGameScreen mainGameScreen = new MainGameScreen();
+	public  MainGameScreen mainGameScreen = null;
 
 	@Override
 	public void create() {
+		mainGameScreen = new MainGameScreen(this);
 		setScreen(mainGameScreen);
 	}
 

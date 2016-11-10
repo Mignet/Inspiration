@@ -14,7 +14,7 @@ public class WorldController extends InputAdapter {
 
 	public OrthographicCamera camera;
 
-	private Player player;
+	public Player player;
 
 	public WorldController () {
 		init();

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.v5ent.game.core.MapsManager;
 
 /***
  * Player contains:Character and NPC
@@ -57,7 +58,7 @@ public class Player extends Sprite{
 		this.entityId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
 		this.nextPosition = new Vector2();
 		this.currentPosInMap = new Vector2();
-		this.velocity = new Vector2(4*Map.CELL_UNIT,4*Map.CELL_UNIT);
+		this.velocity = new Vector2(4* MapsManager.CELL_UNIT,4* MapsManager.CELL_UNIT);
 
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
@@ -72,7 +73,7 @@ public class Player extends Sprite{
 
 	public void setPosInMap(Vector2 point){
 		this.currentPosInMap = point.cpy();
-		this.nextPosition = point.cpy().scl(Map.CELL_UNIT);
+		this.nextPosition = point.cpy().scl(MapsManager.CELL_UNIT);
 	}
 
 	public void setState(State state){
