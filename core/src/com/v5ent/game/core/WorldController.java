@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.v5ent.game.entities.Player;
 import com.v5ent.game.utils.Constants;
 
@@ -12,9 +13,11 @@ public class WorldController extends InputAdapter {
 
 	private static final String TAG = WorldController.class.getName();
 
-	public OrthographicCamera camera;
-
 	public Player player;
+
+	public OrthogonalTiledMapRenderer _mapRenderer = null;
+	public OrthographicCamera camera = null;
+	public MapsManager mapMgr;
 
 	public WorldController () {
 		init();
@@ -25,6 +28,16 @@ public class WorldController extends InputAdapter {
 		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0, 0, 0);
 		camera.update();
+		_mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap());
+		_mapRenderer.setView(camera);
+
+		Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
+
+		player = new Player();
+		player.setPosInMap(mapMgr.StartPoint);
+
+		Gdx.input.setInputProcessor(this);
+		mapMgr = new MapsManager();
 		initTestObjects();
 	}
 
@@ -33,6 +46,7 @@ public class WorldController extends InputAdapter {
 	}
 
 	public void update (float deltaTime) {
+		player.update(deltaTime);
 		handleDebugInput(deltaTime);
 		updateTestObjects(deltaTime);
 	}
