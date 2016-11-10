@@ -1,4 +1,4 @@
-package com.v5ent.game.utils;
+package com.v5ent.game.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -25,28 +25,53 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 
 	private AssetManager assetManager;
 	/** load all characters */
-	public Map<String,AssetHero> assetHeros = new HashMap<String, AssetHero>();
+	public Map<String,AssetRole> assetRoles = new HashMap<String, AssetRole>();
 	/** load all tiled map */
 	public Map<String,AssetTiledMap> assetTiledMaps = new HashMap<String, AssetTiledMap>();
 	// singleton: prevent instantiation from other classes
 	private AssetsManager() {
 	}
 
-	public class AssetHero {
-		public final Animation idleRightAnimation;
+	public class AssetRole {
+		public final Animation walkDownAnimation;
+		public final Animation walkLeftAnimation;
 		public final Animation walkRightAnimation;
+		public final Animation walkUpAnimation;
 
-		public AssetHero (TextureAtlas atlas) {
-			Array<TextureRegion> idleRightFrames = new Array<TextureRegion>(4);
-			for (int i = 0; i < 3; i++) {
-				idleRightFrames.insert(i, atlas.findRegion("idleRight"+i));
+		public AssetRole(Texture atlas) {
+			TextureRegion[][] textureFrames = TextureRegion.split(atlas, 32, 48);
+			Array<TextureRegion> walkDownFrames = new Array<TextureRegion>(3);
+			Array<TextureRegion> walkLeftFrames = new Array<TextureRegion>(3);
+			Array<TextureRegion> walkRightFrames = new Array<TextureRegion>(3);
+			Array<TextureRegion> walkUpFrames = new Array<TextureRegion>(3);
+
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 3; j++) {
+					TextureRegion region = textureFrames[i][j];
+					if( region == null ){
+						Gdx.app.debug(TAG, "Got null animation frame " + i + "," + j);
+					}
+					switch(i)
+					{
+						case 0:
+							walkDownFrames.insert(j, region);
+							break;
+						case 1:
+							walkLeftFrames.insert(j, region);
+							break;
+						case 2:
+							walkUpFrames.insert(j, region);
+							break;
+						case 3:
+							walkRightFrames.insert(j, region);
+							break;
+					}
+				}
 			}
-			idleRightAnimation = new Animation(0.25f, idleRightFrames, Animation.PlayMode.LOOP);
-			Array<TextureRegion> walkRightFrames = new Array<TextureRegion>(4);
-			for (int i = 0; i < 3; i++) {
-				walkRightFrames.insert(i, atlas.findRegion("walkRight"+i));
-			}
+			walkDownAnimation = new Animation(0.25f, walkDownFrames, Animation.PlayMode.LOOP);
+			walkLeftAnimation = new Animation(0.25f, walkLeftFrames, Animation.PlayMode.LOOP);
 			walkRightAnimation = new Animation(0.25f, walkRightFrames, Animation.PlayMode.LOOP);
+			walkUpAnimation = new Animation(0.25f, walkUpFrames, Animation.PlayMode.LOOP);
 		}
 	}
 
@@ -80,14 +105,15 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		// load texture atlas
 		//TODO:当前提供的所有角色
 		int heroCnt = 2;
+
 		//look all hero's pack
 		for(int i=1;i<=heroCnt ;i++){
-			assetManager.load("heros/00"+i+".pack", TextureAtlas.class);
+			assetManager.load("heros/00"+i+".png", Texture.class);
 		}
-		int mapCnt = 2;
+		int mapCnt = 1;
 		//look all map's file
 		for(int i=1;i<=mapCnt ;i++){
-			assetManager.load("map/00"+i+".pack", TiledMap.class);
+			assetManager.load("maps/00"+i+".tmx", TiledMap.class);
 		}
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
@@ -98,12 +124,12 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		}
 		//store into map
 		for(int i=1;i<=heroCnt ;i++){
-			TextureAtlas atlas = assetManager.get("heros/00"+i+".pack");
+			Texture atlas = assetManager.get("heros/00"+i+".png");
 			// create game resource objects
-			assetHeros.put("00"+i,new AssetHero(atlas));
+			assetRoles.put("00"+i,new AssetRole(atlas));
 		}
 		for(int i=1;i<=mapCnt ;i++){
-			TiledMap map = assetManager.get("maps/00"+i+".pack");
+			TiledMap map = assetManager.get("maps/00"+i+".tmx");
 			// create game resource objects
 			assetTiledMaps.put("00"+i,new AssetTiledMap(map));
 		}

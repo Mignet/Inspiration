@@ -1,0 +1,88 @@
+002.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+002-walk-3
+  rotate: false
+  xy: 2, 242
+  size: 22, 46
+  orig: 32, 48
+  offset: 4, 1
+  index: -1
+002-walk-5
+  rotate: false
+  xy: 2, 194
+  size: 22, 46
+  orig: 32, 48
+  offset: 4, 1
+  index: -1
+002-walk-6
+  rotate: false
+  xy: 2, 146
+  size: 22, 46
+  orig: 32, 48
+  offset: 5, 1
+  index: -1
+002-walk-8
+  rotate: false
+  xy: 2, 386
+  size: 20, 46
+  orig: 32, 48
+  offset: 6, 0
+  index: -1
+002-walk-7
+  rotate: false
+  xy: 2, 434
+  size: 20, 46
+  orig: 32, 48
+  offset: 6, 0
+  index: -1
+002-walk-9
+  rotate: false
+  xy: 2, 98
+  size: 22, 46
+  orig: 32, 48
+  offset: 6, 1
+  index: -1
+002-walk-0
+  rotate: false
+  xy: 2, 338
+  size: 22, 46
+  orig: 32, 48
+  offset: 5, 1
+  index: -1
+002-walk-10
+  rotate: false
+  xy: 2, 290
+  size: 22, 46
+  orig: 32, 48
+  offset: 6, 1
+  index: -1
+002-walk-2
+  rotate: false
+  xy: 2, 482
+  size: 20, 46
+  orig: 32, 48
+  offset: 6, 0
+  index: -1
+002-walk-1
+  rotate: false
+  xy: 2, 530
+  size: 20, 46
+  orig: 32, 48
+  offset: 6, 0
+  index: -1
+002-walk-11
+  rotate: false
+  xy: 2, 50
+  size: 24, 46
+  orig: 32, 48
+  offset: 4, 1
+  index: -1
+002-walk-4
+  rotate: false
+  xy: 2, 2
+  size: 24, 46
+  orig: 32, 48
+  offset: 3, 1
+  index: -1

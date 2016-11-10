@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.v5ent.game.Inspiration;
 import com.v5ent.game.core.WorldController;
 import com.v5ent.game.core.WorldRenderer;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.core.AssetsManager;
 
 public class MainGameScreen implements Screen{
 

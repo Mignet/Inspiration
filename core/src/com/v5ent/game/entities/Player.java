@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.v5ent.game.core.AssetsManager;
 import com.v5ent.game.core.MapsManager;
+
+import static com.v5ent.game.entities.Player.State.WALKING;
 
 /***
  * Player contains:Character and NPC
@@ -17,11 +20,11 @@ import com.v5ent.game.core.MapsManager;
 public class Player extends Sprite{
 	private static final String TAG = Player.class.getSimpleName();
 	
-	private Vector2 velocity;
+//	private Vector2 velocity;
+	private float speed = 0f;
 	private String entityId;
 
 	private Animation walkLeftAnimation;
-
 	private Animation walkRightAnimation;
 	private Animation walkUpAnimation;
 	private Animation walkDownAnimation;
@@ -45,30 +48,103 @@ public class Player extends Sprite{
 		UP,RIGHT,DOWN,LEFT;
 	}
 	
-	public Player(){
-		init();
+	public Player(String entityId){
+		init(entityId);
 	}
 
-	@Override
-	public void draw(Batch batch) {
-		super.draw(batch);
-	}
-
-	public void init(){
-		this.entityId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+	public void init(String entityId){
+		this.entityId = entityId;
 		this.nextPosition = new Vector2();
 		this.currentPosInMap = new Vector2();
-		this.velocity = new Vector2(4* MapsManager.CELL_UNIT,4* MapsManager.CELL_UNIT);
-
+		AssetsManager.AssetRole assetRole = AssetsManager.instance.assetRoles.get(entityId);
+		this.walkLeftAnimation = assetRole.walkLeftAnimation;
+		this.walkRightAnimation = assetRole.walkRightAnimation;
+		this.walkUpAnimation = assetRole.walkUpAnimation;
+		this.walkDownAnimation = assetRole.walkDownAnimation;
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
-	public void update(float delta){
-		frameTime = (frameTime + delta)%5; //Want to avoid overflow
+	public void update(float delta) {
+		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
+		/*if(this.currentState==State.WALKING){
+			calculateNextPosition(delta);
+			setNextPositionToCurrent();
+			if(Math.abs(this.nextPosition.x-this.targetX)<speed*delta && Math.abs(this.nextPosition.y-this.targetY)<speed*delta){
+				this.currentState= State.IDLE;
+				this.setMapPosition(targetMapX,targetMapY);
+			}
+		}*/
+	}
+	@Override
+	public void draw(Batch batch) {
+		//		super.draw(batch);
 
-		//Gdx.app.debug(TAG, "frametime: " + frameTime );
+		// Draw Particles
+		//		dustParticles.draw(batch);
 
-		//We want the hitbox to be at the feet for a better feel
+		// Set special color when game object has a feather power-up
+		/*if (selected) {
+			batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+		}*/
+
+		// Draw image
+		updateCurrentFrame();
+		//		batch.draw(currentFrame.getTexture(),getX(), getY(),getWidth(),getHeight());
+		batch.draw(currentFrame.getTexture(),getX(),getY(),32,48);
+//			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
+		// Reset color to white
+		batch.setColor(1, 1, 1, 1);
+	}
+
+	public void updateCurrentFrame() {
+		// Look into the appropriate variable when changing position
+		switch (currentDir) {
+			case UP:
+				currentFrame = walkUpAnimation.getKeyFrame(frameTime);
+				break;
+			case RIGHT:
+				currentFrame = walkRightAnimation.getKeyFrame(frameTime);
+				break;
+			case DOWN:
+				currentFrame = walkDownAnimation.getKeyFrame(frameTime);
+				break;
+			case LEFT:
+				currentFrame = walkLeftAnimation.getKeyFrame(frameTime);
+				break;
+			default:
+				break;
+		}
+	}
+	//当没有障碍物时使用
+	public void setNextPositionToCurrent() {
+		setPosition(nextPosition.x, nextPosition.y);
+	}
+
+	public void calculateNextPosition(float deltaTime) {
+		float testX = this.getX();
+		float testY = this.getY();
+		speed *=(deltaTime);
+		switch (currentDir) {
+			case LEFT:
+				testX -= speed;
+				break;
+			case RIGHT:
+				testX += speed;
+				break;
+			case UP:
+				testY += speed;
+				break;
+			case DOWN:
+				testY -= speed;
+				break;
+			default:
+				break;
+		}
+		nextPosition.x = testX;
+		nextPosition.y = testY;
+//		Gdx.app.debug(TAG, "nextPosition:"+nextPosition);
+		// velocity
+		speed *=(1 / deltaTime);
 	}
 
 	public void setPosInMap(Vector2 point){
@@ -107,48 +183,5 @@ public class Player extends Sprite{
 			break;
 		}
 	}
-	
-
-	public void calculateNextPosition(Direction currentDirection, float deltaTime){
-		float testX = getX();
-		float testY = getY();
-
-		//Gdx.app.debug(TAG, "calculateNextPosition:: Current Position: (" + currentPos.x + "," + currentPos.y + ")"  );
-		//Gdx.app.debug(TAG, "calculateNextPosition:: Current Direction: " + currentDir  );
-		
-		velocity.scl(deltaTime);
-		
-		switch (currentDirection) {
-		case LEFT : 
-		testX -=  velocity.x;
-		break;
-		case RIGHT :
-		testX += velocity.x;
-		break;
-		case UP : 
-		testY += velocity.y;
-		break;
-		case DOWN : 
-		testY -= velocity.y;
-		break;
-		default:
-			break;
-		}
-		
-		nextPosition.x = testX;
-		nextPosition.y = testY;
-		
-		//velocity
-		velocity.scl(1 / deltaTime);
-	}
-
-	public Vector2 getNextPosition() {
-		return nextPosition;
-	}
-
-	public void setNextPosition(Vector2 nextPosition) {
-		this.nextPosition = nextPosition;
-	}
-
 
 }

@@ -18,7 +18,7 @@ public class WorldRenderer implements Disposable {
 
 	private static final String TAG = WorldRenderer.class.getName();
 
-	private OrthographicCamera camera;
+//	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private WorldController worldController;
 
@@ -29,18 +29,15 @@ public class WorldRenderer implements Disposable {
 
 	private void init () {
 		batch = new SpriteBatch();
-		camera = worldController.camera;
+		batch.setProjectionMatrix(worldController.camera.combined);
+		batch.begin();
 	}
 
 	public void render () {
 		renderMap();
-		renderTestObjects();
 	}
 
 	private void renderMap(){
-		//Preferable to lock and center the camera to the player's position
-		camera.position.set(worldController.player.getX(), worldController.player.getY(), 0f);
-		camera.update();
 
 		//updatePortalLayerActivation(player.boundingBox);
 		//Collision Test
@@ -48,52 +45,46 @@ public class WorldRenderer implements Disposable {
 			player.setNextPositionToCurrent();
 		}*/
 
-		//_mapRenderer.getBatch().enableBlending();
-		//_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		//mapRenderer.getBatch().enableBlending();
+		//mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		worldController._mapRenderer.setView(camera);
-//		_mapRenderer.render();
-		worldController._mapRenderer.getBatch().begin();
+		worldController.mapRenderer.setView(worldController.camera);
+//		mapRenderer.render();
+		worldController.mapRenderer.getBatch().begin();
 		//地面
-		TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.GROUD_LAYER);
+		TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.GROUND_LAYER);
 		if( groundMapLayer != null){
-			worldController._mapRenderer.renderTileLayer(groundMapLayer);
+			worldController.mapRenderer.renderTileLayer(groundMapLayer);
 		}
 		TiledMapTileLayer floorMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.FLOOR_LAYER);
 		if( floorMapLayer != null){
-			worldController._mapRenderer.renderTileLayer(floorMapLayer);
+			worldController.mapRenderer.renderTileLayer(floorMapLayer);
 		}
 		//障碍物
 		TiledMapTileLayer blockMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.BLOCK_LAYER);
 		if( blockMapLayer != null ){
-			worldController._mapRenderer.renderTileLayer(blockMapLayer);
+			worldController.mapRenderer.renderTileLayer(blockMapLayer);
 		}
 
-		worldController._mapRenderer.getBatch().end();
+		worldController.mapRenderer.getBatch().end();
 
-		worldController._mapRenderer.getBatch().begin();
+		worldController.mapRenderer.getBatch().begin();
 
-//		worldController._mapRenderer.getBatch().draw(currentPlayerFrame, _currentPlayerSprite.getX()-currentPlayerFrame.getRegionWidth()/2, _currentPlayerSprite.getY(), currentPlayerFrame.getRegionWidth(),currentPlayerFrame.getRegionHeight());
-		worldController.player.draw(worldController._mapRenderer.getBatch());
+//		worldController.mapRenderer.getBatch().draw(currentPlayerFrame, _currentPlayerSprite.getX()-currentPlayerFrame.getRegionWidth()/2, _currentPlayerSprite.getY(), currentPlayerFrame.getRegionWidth(),currentPlayerFrame.getRegionHeight());
+		worldController.player.draw(worldController.mapRenderer.getBatch());
 
 		TiledMapTileLayer ceilMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.CEILING_LAYER);
 		if( ceilMapLayer != null){
-			worldController._mapRenderer.renderTileLayer(ceilMapLayer);
+			worldController.mapRenderer.renderTileLayer(ceilMapLayer);
 		}
 
-		worldController._mapRenderer.getBatch().end();
+		worldController.mapRenderer.getBatch().end();
 	}
 
-	private void renderTestObjects () {
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		worldController.player.draw(batch);
-		batch.end();
-	}
 
 	public void resize (int width, int height) {
-		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
-		camera.update();
+		worldController.camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
+		worldController.camera.update();
 	}
 
 	@Override
@@ -102,7 +93,7 @@ public class WorldRenderer implements Disposable {
 	}
 
 	private boolean isCollisionWithMapLayer(Vector2 playerNextPos){
-		TiledMapTileLayer mapCollisionLayer =  (TiledMapTileLayer)worldController.mapMgr.getPortalLayer();
+		TiledMapTileLayer mapCollisionLayer =  (TiledMapTileLayer)worldController.mapMgr.getBlockLayer();
 
 		if( mapCollisionLayer == null ){
 			return false;
@@ -124,7 +115,7 @@ public class WorldRenderer implements Disposable {
 	 * @param boundingBox
 	 * @return
      */
-	private boolean updatePortalLayerActivation(Rectangle boundingBox){
+	/*private boolean updatePortalLayerActivation(Rectangle boundingBox){
 		MapLayer mapPortalLayer =  worldController.mapMgr.getPortalLayer();
 
 		if( mapPortalLayer == null ){
@@ -148,7 +139,7 @@ public class WorldRenderer implements Disposable {
 					worldController.mapMgr.loadMap(mapName);
 					//地图传送点
 //					player.init(mapMgr.getPlayerStartUnitScaled().x, mapMgr.getPlayerStartUnitScaled().y);
-					worldController._mapRenderer.setMap(worldController.mapMgr.getCurrentMap());
+					worldController.mapRenderer.setMap(worldController.mapMgr.getCurrentMap());
 					Gdx.app.debug(TAG, "Portal Activated");
 					return true;
 				}
@@ -156,5 +147,5 @@ public class WorldRenderer implements Disposable {
 		}
 
 		return false;
-	}
+	}*/
 }

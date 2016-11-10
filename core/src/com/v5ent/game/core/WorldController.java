@@ -15,7 +15,7 @@ public class WorldController extends InputAdapter {
 
 	public Player player;
 
-	public OrthogonalTiledMapRenderer _mapRenderer = null;
+	public OrthogonalTiledMapRenderer mapRenderer = null;
 	public OrthographicCamera camera = null;
 	public MapsManager mapMgr;
 
@@ -28,16 +28,16 @@ public class WorldController extends InputAdapter {
 		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0, 0, 0);
 		camera.update();
-		_mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap());
-		_mapRenderer.setView(camera);
 
-		Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
-
-		player = new Player();
-		player.setPosInMap(mapMgr.StartPoint);
-
-		Gdx.input.setInputProcessor(this);
 		mapMgr = new MapsManager();
+		mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap());
+		mapRenderer.setView(camera);
+
+		Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
+
+		player = new Player("001");
+		player.setPosInMap(mapMgr.START_POINT);
+
 		initTestObjects();
 	}
 
@@ -48,11 +48,11 @@ public class WorldController extends InputAdapter {
 	public void update (float deltaTime) {
 		player.update(deltaTime);
 		handleDebugInput(deltaTime);
-		updateTestObjects(deltaTime);
+		//Preferable to lock and center the camera to the player's position
+		camera.position.set(player.getX(), player.getY(), 0f);
+		camera.update();
 	}
 
-	private void updateTestObjects (float deltaTime) {
-	}
 
 	private void handleDebugInput (float delta) {
 		if (Gdx.app.getType() != ApplicationType.Desktop) return;
@@ -61,22 +61,18 @@ public class WorldController extends InputAdapter {
 		//Keyboard input
 		if( Gdx.input.isKeyPressed(Keys.A)){
 			//Gdx.app.debug(TAG, "LEFT key");
-			player.calculateNextPosition(Player.Direction.LEFT, delta);
 			player.setState(Player.State.WALKING);
 			player.setDirection(Player.Direction.LEFT, delta);
 		}else if( Gdx.input.isKeyPressed(Keys.D)){
 			//Gdx.app.debug(TAG, "RIGHT key");
-			player.calculateNextPosition(Player.Direction.RIGHT, delta);
 			player.setState(Player.State.WALKING);
 			player.setDirection(Player.Direction.RIGHT, delta);
 		}else if( Gdx.input.isKeyPressed(Keys.W)){
 			//Gdx.app.debug(TAG, "UP key");
-			player.calculateNextPosition(Player.Direction.UP, delta);
 			player.setState(Player.State.WALKING);
 			player.setDirection(Player.Direction.UP, delta);
 		}else if(Gdx.input.isKeyPressed(Keys.S)){
 			//Gdx.app.debug(TAG, "DOWN key");
-			player.calculateNextPosition(Player.Direction.DOWN, delta);
 			player.setState(Player.State.WALKING);
 			player.setDirection(Player.Direction.DOWN, delta);
 		}else if(Gdx.input.isKeyPressed(Keys.Q)){
@@ -84,10 +80,6 @@ public class WorldController extends InputAdapter {
 		}else{
 			player.setState(Player.State.IDLE);
 		}
-	}
-
-	private void moveSelectedSprite (float x, float y) {
-		//;
 	}
 
 	@Override
