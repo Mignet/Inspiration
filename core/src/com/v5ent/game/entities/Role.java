@@ -93,8 +93,7 @@ public class Role extends Sprite{
 		//		batch.draw(currentFrame.getTexture(),getX(), getY(),getWidth(),getHeight());
 		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
 				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
-//		batch.draw(currentFrame.getTexture(),getX(),getY(),FRAME_WIDTH,FRAME_HEIGHT);
-//			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
+			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);
 	}

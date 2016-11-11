@@ -24,12 +24,15 @@ public class WorldController extends InputAdapter {
 	}
 
 	private void init () {
-		Gdx.input.setInputProcessor(this);
 		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0, 0, 0);
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+//		camera.setToOrtho(false,w,h);
+		camera.update();
 
 		mapMgr = new MapsManager();
-		mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap(),1/32f);
+		mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap(),1/16f);
 		mapRenderer.setView(camera);
 		camera.update();
 
@@ -38,7 +41,9 @@ public class WorldController extends InputAdapter {
 		player = new Role("001");
 		player.setPosInMap(mapMgr.START_POINT);
 		player.setSize(1,1);
+
 		initTestObjects();
+		Gdx.input.setInputProcessor(this);
 	}
 
 	private void initTestObjects () {
@@ -50,7 +55,7 @@ public class WorldController extends InputAdapter {
 		handleDebugInput(deltaTime);
 		//Preferable to lock and center the camera to the player's position
 //		camera.position.set(player.getX(), player.getY(), 0f);
-//		camera.update();
+		camera.update();
 	}
 
 
