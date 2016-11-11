@@ -101,7 +101,7 @@ public class WorldRenderer implements Disposable {
 
 		int x = MathUtils.floor(playerNextPos.x / MapsManager.CELL_UNIT);
 		int y = MathUtils.floor(playerNextPos.y / MapsManager.CELL_UNIT);
-//		Gdx.app.debug(TAG, "Player Next (" + x + "," + y + ")");
+//		Gdx.app.debug(TAG, "Role Next (" + x + "," + y + ")");
 		if (mapCollisionLayer.getCell(x, y) != null) {
 			Gdx.app.debug(TAG, "CMap Collision!");
 			return true;
@@ -128,7 +128,7 @@ public class WorldRenderer implements Disposable {
 			if(object instanceof RectangleMapObject) {
 				rectangle = ((RectangleMapObject)object).getRectangle();
 				//Gdx.app.debug(TAG, "Collision Rect (" + rectangle.x + "," + rectangle.y + ")");
-				//Gdx.app.debug(TAG, "Player Rect (" + boundingBox.x + "," + boundingBox.y + ")");
+				//Gdx.app.debug(TAG, "Role Rect (" + boundingBox.x + "," + boundingBox.y + ")");
 				if( boundingBox.overlaps(rectangle) ){
 					String mapName = object.getName();
 					if( mapName == null ) {

@@ -16,13 +16,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.v5ent.game.entities.Role;
 
 public class AssetsManager implements Disposable, AssetErrorListener {
 
 	public static final String TAG = AssetsManager.class.getName();
 
 	public static final AssetsManager instance = new AssetsManager();
-
+	/** libGDX 's asset manager*/
 	private AssetManager assetManager;
 	/** load all characters */
 	public Map<String,AssetRole> assetRoles = new HashMap<String, AssetRole>();
@@ -39,7 +40,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		public final Animation walkUpAnimation;
 
 		public AssetRole(Texture atlas) {
-			TextureRegion[][] textureFrames = TextureRegion.split(atlas, 32, 48);
+			TextureRegion[][] textureFrames = TextureRegion.split(atlas, Role.FRAME_WIDTH, Role.FRAME_HEIGHT);
 			Array<TextureRegion> walkDownFrames = new Array<TextureRegion>(3);
 			Array<TextureRegion> walkLeftFrames = new Array<TextureRegion>(3);
 			Array<TextureRegion> walkRightFrames = new Array<TextureRegion>(3);

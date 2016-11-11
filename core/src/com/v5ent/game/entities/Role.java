@@ -1,7 +1,5 @@
 package com.v5ent.game.entities;
 
-import java.util.UUID;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,14 +9,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.v5ent.game.core.AssetsManager;
 import com.v5ent.game.core.MapsManager;
 
-import static com.v5ent.game.entities.Player.State.WALKING;
-
 /***
- * Player contains:Character and NPC
+ * Role contains:Character and NPC
  * It extends from Sprite,thus,owns transformation and draw
  */
-public class Player extends Sprite{
-	private static final String TAG = Player.class.getSimpleName();
+public class Role extends Sprite{
+	private static final String TAG = Role.class.getSimpleName();
 	
 //	private Vector2 velocity;
 	private float speed = 0f;
@@ -37,8 +33,8 @@ public class Player extends Sprite{
 	/**for draw */
 	protected TextureRegion currentFrame = null;
 
-	public final int FRAME_WIDTH = 32;
-	public final int FRAME_HEIGHT = 48;
+	public final static int FRAME_WIDTH = 32;
+	public final static int FRAME_HEIGHT = 48;
 
 	public enum State {
 		IDLE, WALKING
@@ -48,7 +44,7 @@ public class Player extends Sprite{
 		UP,RIGHT,DOWN,LEFT;
 	}
 	
-	public Player(String entityId){
+	public Role(String entityId){
 		init(entityId);
 	}
 
@@ -61,6 +57,11 @@ public class Player extends Sprite{
 		this.walkRightAnimation = assetRole.walkRightAnimation;
 		this.walkUpAnimation = assetRole.walkUpAnimation;
 		this.walkDownAnimation = assetRole.walkDownAnimation;
+		currentFrame =walkRightAnimation.getKeyFrame(0);
+		// Define sprite size to be 1m x 1m in game world
+		this.setSize(currentFrame.getRegionWidth()/32f, currentFrame.getRegionHeight()/32);
+		// Set origin to sprite's center
+		this.setOrigin(this.getWidth() / 2.0f, 0);
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
@@ -90,7 +91,9 @@ public class Player extends Sprite{
 		// Draw image
 		updateCurrentFrame();
 		//		batch.draw(currentFrame.getTexture(),getX(), getY(),getWidth(),getHeight());
-		batch.draw(currentFrame.getTexture(),getX(),getY(),FRAME_WIDTH,FRAME_HEIGHT);
+		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
+				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+//		batch.draw(currentFrame.getTexture(),getX(),getY(),FRAME_WIDTH,FRAME_HEIGHT);
 //			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);
