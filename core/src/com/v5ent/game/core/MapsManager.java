@@ -37,8 +37,8 @@ public class MapsManager {
         loadMap("001");
     }
 
-    public void loadMap(String mapName) {
-        AssetsManager.AssetTiledMap assetTiledMap = AssetsManager.instance.assetTiledMaps.get(mapName);
+    public void loadMap(String mapId) {
+        AssetsManager.AssetTiledMap assetTiledMap = AssetsManager.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
     }

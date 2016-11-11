@@ -90,7 +90,7 @@ public class Player extends Sprite{
 		// Draw image
 		updateCurrentFrame();
 		//		batch.draw(currentFrame.getTexture(),getX(), getY(),getWidth(),getHeight());
-		batch.draw(currentFrame.getTexture(),getX(),getY(),32,48);
+		batch.draw(currentFrame.getTexture(),getX(),getY(),FRAME_WIDTH,FRAME_HEIGHT);
 //			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);

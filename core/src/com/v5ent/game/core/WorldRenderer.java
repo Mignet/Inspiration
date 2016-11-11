@@ -19,7 +19,7 @@ public class WorldRenderer implements Disposable {
 	private static final String TAG = WorldRenderer.class.getName();
 
 //	private OrthographicCamera camera;
-	private SpriteBatch batch;
+//	private SpriteBatch batch;
 	private WorldController worldController;
 
 	public WorldRenderer (WorldController worldController) {
@@ -28,9 +28,9 @@ public class WorldRenderer implements Disposable {
 	}
 
 	private void init () {
-		batch = new SpriteBatch();
-		batch.setProjectionMatrix(worldController.camera.combined);
-		batch.begin();
+//		batch = new SpriteBatch();
+//		batch.setProjectionMatrix(worldController.camera.combined);
+//		batch.begin();
 	}
 
 	public void render () {
@@ -48,7 +48,7 @@ public class WorldRenderer implements Disposable {
 		//mapRenderer.getBatch().enableBlending();
 		//mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		worldController.mapRenderer.setView(worldController.camera);
+//		worldController.mapRenderer.setView(worldController.camera);
 //		mapRenderer.render();
 		worldController.mapRenderer.getBatch().begin();
 		//地面
@@ -89,7 +89,7 @@ public class WorldRenderer implements Disposable {
 
 	@Override
 	public void dispose () {
-		batch.dispose();
+//		batch.dispose();
 	}
 
 	private boolean isCollisionWithMapLayer(Vector2 playerNextPos){

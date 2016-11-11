@@ -27,17 +27,17 @@ public class WorldController extends InputAdapter {
 		Gdx.input.setInputProcessor(this);
 		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0, 0, 0);
-		camera.update();
 
 		mapMgr = new MapsManager();
-		mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap());
+		mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap(),1/32f);
 		mapRenderer.setView(camera);
+		camera.update();
 
 		Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
 
 		player = new Player("001");
 		player.setPosInMap(mapMgr.START_POINT);
-
+		player.setSize(player.FRAME_WIDTH/32f,player.FRAME_HEIGHT/32f);
 		initTestObjects();
 	}
 
@@ -49,8 +49,8 @@ public class WorldController extends InputAdapter {
 		player.update(deltaTime);
 		handleDebugInput(deltaTime);
 		//Preferable to lock and center the camera to the player's position
-		camera.position.set(player.getX(), player.getY(), 0f);
-		camera.update();
+//		camera.position.set(player.getX(), player.getY(), 0f);
+//		camera.update();
 	}
 
 
