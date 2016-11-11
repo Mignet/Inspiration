@@ -2,6 +2,7 @@ package com.v5ent.game.core;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.v5ent.game.utils.Constants;
 
@@ -29,8 +30,8 @@ public class MapsManager {
    /* public MapLayer getPortalLayer(){
         return this.map.getLayers().get(BLOCK_LAYER);
     }*/
-    public MapLayer getBlockLayer(){
-        return this.map.getLayers().get(BLOCK_LAYER);
+    public TiledMapTileLayer getBlockLayer(){
+        return (TiledMapTileLayer)this.map.getLayers().get(BLOCK_LAYER);
     }
 
     public MapsManager() {

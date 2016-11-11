@@ -1,6 +1,7 @@
 .idea/
 .gradle/*
 .gradle/
+build/
 .settings/
 *.class
 

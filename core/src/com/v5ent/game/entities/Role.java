@@ -17,7 +17,7 @@ public class Role extends Sprite{
 	private static final String TAG = Role.class.getSimpleName();
 	
 //	private Vector2 velocity;
-	private float speed = 0f;
+	private float speed = 4*32f;
 	private String entityId;
 
 	private Animation walkLeftAnimation;
@@ -25,8 +25,6 @@ public class Role extends Sprite{
 	private Animation walkUpAnimation;
 	private Animation walkDownAnimation;
 	protected Vector2 nextPosition;
-
-	protected Vector2 currentPosInMap;
 	private State currentState = State.IDLE;
 	private Direction currentDir = Direction.LEFT;
 	protected float frameTime = 0f;
@@ -35,6 +33,8 @@ public class Role extends Sprite{
 
 	public final static int FRAME_WIDTH = 32;
 	public final static int FRAME_HEIGHT = 48;
+	// what role want to move
+	private Vector2 targetPosition;
 
 	public enum State {
 		IDLE, WALKING
@@ -51,7 +51,7 @@ public class Role extends Sprite{
 	public void init(String entityId){
 		this.entityId = entityId;
 		this.nextPosition = new Vector2();
-		this.currentPosInMap = new Vector2();
+		this.targetPosition = new Vector2();
 		AssetsManager.AssetRole assetRole = AssetsManager.instance.assetRoles.get(entityId);
 		this.walkLeftAnimation = assetRole.walkLeftAnimation;
 		this.walkRightAnimation = assetRole.walkRightAnimation;
@@ -59,23 +59,23 @@ public class Role extends Sprite{
 		this.walkDownAnimation = assetRole.walkDownAnimation;
 		currentFrame =walkRightAnimation.getKeyFrame(0);
 		// Define sprite size to be 1m x 1m in game world
-		this.setSize(currentFrame.getRegionWidth()/32f, currentFrame.getRegionHeight()/32);
+		this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
 		// Set origin to sprite's center
 		this.setOrigin(this.getWidth() / 2.0f, 0);
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
 	public void update(float delta) {
-		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
-		/*if(this.currentState==State.WALKING){
+		frameTime = (frameTime + delta) % 3; // Want to avoid overflow
+		if(this.currentState==State.WALKING){
 			calculateNextPosition(delta);
-			setNextPositionToCurrent();
-			if(Math.abs(this.nextPosition.x-this.targetX)<speed*delta && Math.abs(this.nextPosition.y-this.targetY)<speed*delta){
+			if(Math.abs(this.nextPosition.x-this.targetPosition.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.targetPosition.y*32f)<speed*delta){
 				this.currentState= State.IDLE;
-				this.setMapPosition(targetMapX,targetMapY);
+				this.setPosInMap(targetPosition);
 			}
-		}*/
+		}
 	}
+
 	@Override
 	public void draw(Batch batch) {
 		//		super.draw(batch);
@@ -93,39 +93,55 @@ public class Role extends Sprite{
 		//		batch.draw(currentFrame.getTexture(),getX(), getY(),getWidth(),getHeight());
 		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
 				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
-			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
+//			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);
 	}
 
 	public void updateCurrentFrame() {
 		// Look into the appropriate variable when changing position
-		switch (currentDir) {
-			case UP:
-				currentFrame = walkUpAnimation.getKeyFrame(frameTime);
-				break;
-			case RIGHT:
-				currentFrame = walkRightAnimation.getKeyFrame(frameTime);
-				break;
-			case DOWN:
-				currentFrame = walkDownAnimation.getKeyFrame(frameTime);
-				break;
-			case LEFT:
-				currentFrame = walkLeftAnimation.getKeyFrame(frameTime);
-				break;
-			default:
-				break;
+		if(currentState==State.IDLE){
+			switch (currentDir) {
+				case UP:
+					currentFrame = walkUpAnimation.getKeyFrame(0);
+					break;
+				case RIGHT:
+					currentFrame = walkRightAnimation.getKeyFrame(0);
+					break;
+				case DOWN:
+					currentFrame = walkDownAnimation.getKeyFrame(0);
+					break;
+				case LEFT:
+					currentFrame = walkLeftAnimation.getKeyFrame(0);
+					break;
+				default:
+					break;
+			}
 		}
-	}
-	//当没有障碍物时使用
-	public void setNextPositionToCurrent() {
-		setPosition(nextPosition.x, nextPosition.y);
+		if(currentState==State.WALKING){
+			switch (currentDir) {
+				case UP:
+					currentFrame = walkUpAnimation.getKeyFrame(frameTime);
+					break;
+				case RIGHT:
+					currentFrame = walkRightAnimation.getKeyFrame(frameTime);
+					break;
+				case DOWN:
+					currentFrame = walkDownAnimation.getKeyFrame(frameTime);
+					break;
+				case LEFT:
+					currentFrame = walkLeftAnimation.getKeyFrame(frameTime);
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	public void calculateNextPosition(float deltaTime) {
 		float testX = this.getX();
 		float testY = this.getY();
-		speed *=(deltaTime);
+		speed *= (deltaTime);
 		switch (currentDir) {
 			case LEFT:
 				testX -= speed;
@@ -147,43 +163,55 @@ public class Role extends Sprite{
 //		Gdx.app.debug(TAG, "nextPosition:"+nextPosition);
 		// velocity
 		speed *=(1 / deltaTime);
+		setPosition(nextPosition.x, nextPosition.y);
 	}
 
 	public void setPosInMap(Vector2 point){
-		this.currentPosInMap = point.cpy();
-		this.nextPosition = point.cpy().scl(MapsManager.CELL_UNIT);
+		this.setPosition(point.x*32f,point.y*32f);
+		targetPosition = point.cpy();
 	}
-
-	public void setState(State state){
-		this.currentState = state;
-	}
-	
 
 	public Vector2 getCurrentPosInMap(){
-		return currentPosInMap;
+		return new Vector2(getX(),getY());
 	}
 	
-	public void setDirection(Direction direction,  float deltaTime){
+	public void moveOneStep(Direction direction){
 		this.currentDir = direction;
-		
+		this.currentState = State.WALKING;
 		//Look into the appropriate variable when changing position
 
 		switch (currentDir) {
 		case DOWN :
-			currentFrame = walkDownAnimation.getKeyFrame(frameTime);
+			targetPosition.y--;
 			break;
 		case LEFT :
-			currentFrame = walkLeftAnimation.getKeyFrame(frameTime);
+			targetPosition.x--;
 			break;
 		case UP :
-			currentFrame = walkUpAnimation.getKeyFrame(frameTime);
+			targetPosition.y++;
 			break;
 		case RIGHT :
-			currentFrame = walkRightAnimation.getKeyFrame(frameTime);
+			targetPosition.x++;
 			break;
 		default:
 			break;
 		}
+		Gdx.app.debug(TAG,"From["+getX()+","+getY()+"] to "+targetPosition.cpy().scl(32));
 	}
 
+	public State getState() {
+		return currentState;
+	}
+
+	public void setState(State currentState) {
+		this.currentState = currentState;
+	}
+
+	public Direction getCurrentDir() {
+		return currentDir;
+	}
+
+	public void setCurrentDir(Direction currentDir) {
+		this.currentDir = currentDir;
+	}
 }

@@ -39,12 +39,6 @@ public class WorldRenderer implements Disposable {
 
 	private void renderMap(){
 
-		//updatePortalLayerActivation(player.boundingBox);
-		//Collision Test
-		/*if( !isCollisionWithMapLayer(player.getNextPosition()) ){
-			player.setNextPositionToCurrent();
-		}*/
-
 		//mapRenderer.getBatch().enableBlending();
 		//mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
