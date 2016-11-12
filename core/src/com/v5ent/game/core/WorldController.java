@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.sun.javafx.scene.CameraHelper;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.utils.Constants;
 
@@ -36,8 +37,6 @@ public class WorldController extends InputAdapter {
         mapMgr = new MapsManager();
         mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap());
         mapRenderer.setView(camera);
-        camera.update();
-
         Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
 
         player = new Role("001");
@@ -47,15 +46,16 @@ public class WorldController extends InputAdapter {
     }
 
     public void update(float deltaTime) {
-        //updatePortalLayerActivation(player.boundingBox);
-
         player.update(deltaTime);
         handleDebugInput(deltaTime);
-        //Preferable to lock and center the camera to the player's position
-        camera.position.set(player.getX(), player.getY(), 0f);
+        //camera follow the Player
+        float x = player.getX();
+        float y = player.getY();
+        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH/2, mapMgr.cols*32f - Constants.VIEWPORT_WIDTH/2);
+        y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT/2, mapMgr.rows*32f - Constants.VIEWPORT_HEIGHT/2);
+        camera.position.set(x, y, 0f);
         camera.update();
     }
-
 
     private void handleDebugInput(float delta) {
         if (Gdx.app.getType() != ApplicationType.Desktop) return;
@@ -120,7 +120,11 @@ public class WorldController extends InputAdapter {
         }
 
         if (mapCollisionLayer.getCell(x, y) != null) {
-            Gdx.app.debug(TAG, "Map Collision at = "+x+","+y);
+//            Gdx.app.debug(TAG, "Map Collision at = " + x + "," + y);
+            return true;
+        }
+
+        if (x < 0 || y < 0 || x >= mapMgr.cols || y >= mapMgr.rows) {
             return true;
         }
 

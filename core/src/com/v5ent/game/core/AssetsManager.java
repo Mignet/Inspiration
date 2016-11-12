@@ -40,6 +40,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		public final Animation walkUpAnimation;
 
 		public AssetRole(Texture atlas) {
+			//role's animation png is 0-idle,1-walk,2-walk
 			TextureRegion[][] textureFrames = TextureRegion.split(atlas, Role.FRAME_WIDTH, Role.FRAME_HEIGHT);
 			Array<TextureRegion> walkDownFrames = new Array<TextureRegion>(3);
 			Array<TextureRegion> walkLeftFrames = new Array<TextureRegion>(3);

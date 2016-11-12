@@ -1,10 +1,9 @@
 package com.v5ent.game.core;
 
-import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.v5ent.game.utils.Constants;
 
 /**
  * Created by Mignet on 2016/11/10.
@@ -17,6 +16,8 @@ public class MapsManager {
     public static final String FLOOR_LAYER = "floor";
     public static final String CEILING_LAYER = "ceiling";
     public static final float CELL_UNIT = 32.0f;
+    public static int rows;
+    public static int cols;
 
     private String mapName;
     private TiledMap map;
@@ -42,5 +43,9 @@ public class MapsManager {
         AssetsManager.AssetTiledMap assetTiledMap = AssetsManager.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
+        this.cols = assetTiledMap.mapTileWidth;
+        this.rows = assetTiledMap.mapTileHeight;
+        Gdx.app.debug(TAG,"load map:"+mapName);
+
     }
 }

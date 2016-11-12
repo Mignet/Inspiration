@@ -1,5 +1,6 @@
 package com.v5ent.game.core;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -54,9 +55,9 @@ public class WorldRenderer implements Disposable {
 		if( floorMapLayer != null){
 			worldController.mapRenderer.renderTileLayer(floorMapLayer);
 		}
-		//障碍物
+		//blocks
 		TiledMapTileLayer blockMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.BLOCK_LAYER);
-		if( blockMapLayer != null ){
+		if( blockMapLayer != null && Gdx.app.getLogLevel()== Application.LOG_DEBUG){
 			worldController.mapRenderer.renderTileLayer(blockMapLayer);
 		}
 
@@ -64,7 +65,6 @@ public class WorldRenderer implements Disposable {
 
 		worldController.mapRenderer.getBatch().begin();
 
-//		worldController.mapRenderer.getBatch().draw(currentPlayerFrame, _currentPlayerSprite.getX()-currentPlayerFrame.getRegionWidth()/2, _currentPlayerSprite.getY(), currentPlayerFrame.getRegionWidth(),currentPlayerFrame.getRegionHeight());
 		worldController.player.draw(worldController.mapRenderer.getBatch());
 
 		TiledMapTileLayer ceilMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.CEILING_LAYER);
@@ -86,60 +86,4 @@ public class WorldRenderer implements Disposable {
 //		batch.dispose();
 	}
 
-	private boolean isCollisionWithMapLayer(Vector2 playerNextPos){
-		TiledMapTileLayer mapCollisionLayer =  (TiledMapTileLayer)worldController.mapMgr.getBlockLayer();
-
-		if( mapCollisionLayer == null ){
-			return false;
-		}
-
-		int x = MathUtils.floor(playerNextPos.x / MapsManager.CELL_UNIT);
-		int y = MathUtils.floor(playerNextPos.y / MapsManager.CELL_UNIT);
-//		Gdx.app.debug(TAG, "Role Next (" + x + "," + y + ")");
-		if (mapCollisionLayer.getCell(x, y) != null) {
-			Gdx.app.debug(TAG, "CMap Collision!");
-			return true;
-		}
-
-		return false;
-	}
-
-	/***
-	 *
-	 * @param boundingBox
-	 * @return
-     */
-	/*private boolean updatePortalLayerActivation(Rectangle boundingBox){
-		MapLayer mapPortalLayer =  worldController.mapMgr.getPortalLayer();
-
-		if( mapPortalLayer == null ){
-			return false;
-		}
-
-		Rectangle rectangle = null;
-
-		for( MapObject object: mapPortalLayer.getObjects()){
-			if(object instanceof RectangleMapObject) {
-				rectangle = ((RectangleMapObject)object).getRectangle();
-				//Gdx.app.debug(TAG, "Collision Rect (" + rectangle.x + "," + rectangle.y + ")");
-				//Gdx.app.debug(TAG, "Role Rect (" + boundingBox.x + "," + boundingBox.y + ")");
-				if( boundingBox.overlaps(rectangle) ){
-					String mapName = object.getName();
-					if( mapName == null ) {
-						return false;
-					}
-
-//					mapMgr.setClosestStartPositionFromScaledUnits(player.getCurrentPosition());
-					worldController.mapMgr.loadMap(mapName);
-					//地图传送点
-//					player.init(mapMgr.getPlayerStartUnitScaled().x, mapMgr.getPlayerStartUnitScaled().y);
-					worldController.mapRenderer.setMap(worldController.mapMgr.getCurrentMap());
-					Gdx.app.debug(TAG, "Portal Activated");
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}*/
 }

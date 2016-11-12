@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.v5ent.game.core.AssetsManager;
-import com.v5ent.game.core.MapsManager;
 
 /***
  * Role contains:Character and NPC
@@ -68,34 +67,13 @@ public class Role extends Sprite{
 	public void update(float delta) {
 		frameTime = (frameTime + delta) % 3; // Want to avoid overflow
 		if(this.currentState==State.WALKING){
-			calculateNextPosition(delta);
+			calcNextPosition(delta);
 			if(Math.abs(this.nextPosition.x-this.targetPosition.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.targetPosition.y*32f)<speed*delta){
 				this.currentState= State.IDLE;
 				this.setPosInMap(targetPosition);
 			}
 		}
-	}
-
-	@Override
-	public void draw(Batch batch) {
-		//		super.draw(batch);
-
-		// Draw Particles
-		//		dustParticles.draw(batch);
-
-		// Set special color when game object has a feather power-up
-		/*if (selected) {
-			batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
-		}*/
-
-		// Draw image
 		updateCurrentFrame();
-		//		batch.draw(currentFrame.getTexture(),getX(), getY(),getWidth(),getHeight());
-		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
-				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
-//			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
-		// Reset color to white
-		batch.setColor(1, 1, 1, 1);
 	}
 
 	public void updateCurrentFrame() {
@@ -138,7 +116,17 @@ public class Role extends Sprite{
 		}
 	}
 
-	public void calculateNextPosition(float deltaTime) {
+	@Override
+	public void draw(Batch batch) {
+		// Draw image
+		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
+				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+//			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
+		// Reset color to white
+		batch.setColor(1, 1, 1, 1);
+	}
+
+	public void calcNextPosition(float deltaTime) {
 		float testX = this.getX();
 		float testY = this.getY();
 		speed *= (deltaTime);
@@ -172,7 +160,7 @@ public class Role extends Sprite{
 	}
 
 	public Vector2 getCurrentPosInMap(){
-		return new Vector2(getX(),getY());
+		return new Vector2(getX()/32f,getY()/32f);
 	}
 	
 	public void moveOneStep(Direction direction){
@@ -196,7 +184,7 @@ public class Role extends Sprite{
 		default:
 			break;
 		}
-		Gdx.app.debug(TAG,"From["+getX()+","+getY()+"] to "+targetPosition.cpy().scl(32));
+		Gdx.app.debug(TAG,"From["+getX()/32+","+getY()/32+"] to "+targetPosition.cpy());
 	}
 
 	public State getState() {
