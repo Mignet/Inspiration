@@ -39,7 +39,7 @@ public class WorldController extends InputAdapter {
         mapRenderer.setView(camera);
         Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
 
-        player = new Role("001");
+        player = new Role("lante");
         player.setPosInMap(mapMgr.START_POINT);
 
         Gdx.input.setInputProcessor(this);

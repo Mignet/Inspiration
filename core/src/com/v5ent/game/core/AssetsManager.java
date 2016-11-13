@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.v5ent.game.entities.Role;
+import com.v5ent.game.utils.Resource;
 
 public class AssetsManager implements Disposable, AssetErrorListener {
 
@@ -105,17 +106,18 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		this.assetManager.setErrorListener(this);
 		this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		// load texture atlas
-		//TODO:当前提供的所有角色
-		int heroCnt = 2;
-
-		//look all hero's pack
-		for(int i=1;i<=heroCnt ;i++){
-			assetManager.load("heros/00"+i+".png", Texture.class);
+		//TODO:load all hero's pack
+		for (Map.Entry<String, String> entry : Resource.instance.players.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue().toString();
+			assetManager.load(value, Texture.class);
 		}
 		int mapCnt = 1;
-		//look all map's file
-		for(int i=1;i<=mapCnt ;i++){
-			assetManager.load("maps/00"+i+".tmx", TiledMap.class);
+		//TODO:load all map's file
+		for (Map.Entry<String, String> entry : Resource.instance.maps.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue().toString();
+			assetManager.load(value, TiledMap.class);
 		}
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
@@ -125,15 +127,19 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 			Gdx.app.debug(TAG, "asset: " + a);
 		}
 		//store into map
-		for(int i=1;i<=heroCnt ;i++){
-			Texture atlas = assetManager.get("heros/00"+i+".png");
+		for (Map.Entry<String, String> entry : Resource.instance.players.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue().toString();
+			Texture atlas = assetManager.get(value);
 			// create game resource objects
-			assetRoles.put("00"+i,new AssetRole(atlas));
+			assetRoles.put(key,new AssetRole(atlas));
 		}
-		for(int i=1;i<=mapCnt ;i++){
-			TiledMap map = assetManager.get("maps/00"+i+".tmx");
+		for (Map.Entry<String, String> entry : Resource.instance.maps.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue().toString();
+			TiledMap map = assetManager.get(value);
 			// create game resource objects
-			assetTiledMaps.put("00"+i,new AssetTiledMap(map));
+			assetTiledMaps.put(key,new AssetTiledMap(map));
 		}
 	}
 

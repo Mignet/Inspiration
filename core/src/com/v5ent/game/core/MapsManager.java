@@ -36,7 +36,7 @@ public class MapsManager {
     }
 
     public MapsManager() {
-        loadMap("001");
+        loadMap("yaka_port");
     }
 
     public void loadMap(String mapId) {
