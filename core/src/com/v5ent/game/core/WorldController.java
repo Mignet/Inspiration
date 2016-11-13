@@ -123,18 +123,25 @@ public class WorldController extends InputAdapter {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 input = new Vector3(screenX, screenY, 0);
         camera.unproject(input);
-        Gdx.app.debug(TAG, "clicked # (x:" + MathUtils.floor(input.x/32) +",y:"+ MathUtils.floor(input.y/32) + " )");
-        checkTouchNpc(MathUtils.floor(input.x/32),MathUtils.floor(input.y/32));
-        //TODO:canClick
-        if(target==null){
-            target = new Target(MathUtils.floor(input.x/32),MathUtils.floor(input.y/32));
+        int x = MathUtils.floor(input.x/32);
+        int y = MathUtils.floor(input.y/32);
+        Gdx.app.debug(TAG, "clicked # (x:" + x +",y:"+ y + " )");
+        //we click npc,not target
+        if(!isCollisionWithNpc(x,y)&&!isCollisionWithMapLayer(x,y)) {
+
+            //TODO:canClick
+            if (target == null) {
+                target = new Target(x, y);
+            } else {
+                target.setPosition(x * 32, y * 32);
+            }
         }else{
-            target.setPosition(MathUtils.floor(input.x/32)*32,MathUtils.floor(input.y/32)*32);
+            target = null;
         }
         return true;
     }
 
-    private void checkTouchNpc(int x,int y){
+    private boolean isCollisionWithNpc(int x,int y){
         for(Npc npc:this.mapMgr.npcs){
             if(MathUtils.floor(npc.getX()/32)==x && MathUtils.floor(npc.getY()/32)==y){
                 int x0 = MathUtils.floor(player.getX()/32);
@@ -142,9 +149,12 @@ public class WorldController extends InputAdapter {
                 float distance = (x-x0)*(x-x0) + (y-y0)*(y-y0);
                 if(distance<9f){
                     Gdx.app.debug(TAG,"distance:"+distance+" you clicked "+npc.getEntityId());
+                    //TODO:talk with npc
                 }
+                return true;
             }
         }
+        return false;
     }
 
     private boolean isCollisionWithMapLayer(int x, int y) {
