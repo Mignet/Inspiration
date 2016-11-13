@@ -2,7 +2,7 @@ package com.v5ent.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.v5ent.game.core.AssetsManager;
+import com.v5ent.game.utils.AssetsManager;
 import com.v5ent.game.screens.MainGameScreen;
 
 public class Inspiration extends Game {

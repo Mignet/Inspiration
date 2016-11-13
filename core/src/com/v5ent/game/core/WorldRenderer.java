@@ -3,16 +3,24 @@ package com.v5ent.game.core;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.v5ent.game.entities.Npc;
 import com.v5ent.game.utils.Constants;
 import com.badlogic.gdx.math.Rectangle;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class WorldRenderer implements Disposable {
@@ -22,6 +30,7 @@ public class WorldRenderer implements Disposable {
 //	private OrthographicCamera camera;
 //	private SpriteBatch batch;
 	private WorldController worldController;
+	public OrthogonalTiledMapRenderer mapRenderer = null;
 
 	public WorldRenderer (WorldController worldController) {
 		this.worldController = worldController;
@@ -29,9 +38,9 @@ public class WorldRenderer implements Disposable {
 	}
 
 	private void init () {
-//		batch = new SpriteBatch();
-//		batch.setProjectionMatrix(worldController.camera.combined);
-//		batch.begin();
+		mapRenderer = new OrthogonalTiledMapRenderer(worldController.mapMgr.getCurrentMap());
+		mapRenderer.setView(worldController.camera);
+		Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
 	}
 
 	public void render () {
@@ -43,36 +52,52 @@ public class WorldRenderer implements Disposable {
 		//mapRenderer.getBatch().enableBlending();
 		//mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		worldController.mapRenderer.setView(worldController.camera);
-		worldController.mapRenderer.render();
-		worldController.mapRenderer.getBatch().begin();
+		mapRenderer.setView(worldController.camera);
+		mapRenderer.render();
+		mapRenderer.getBatch().begin();
 		//地面
 		TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.GROUND_LAYER);
 		if( groundMapLayer != null){
-			worldController.mapRenderer.renderTileLayer(groundMapLayer);
+			mapRenderer.renderTileLayer(groundMapLayer);
 		}
 		TiledMapTileLayer floorMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.FLOOR_LAYER);
 		if( floorMapLayer != null){
-			worldController.mapRenderer.renderTileLayer(floorMapLayer);
+			mapRenderer.renderTileLayer(floorMapLayer);
 		}
 		//blocks
 		TiledMapTileLayer blockMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.BLOCK_LAYER);
 		if( blockMapLayer != null && Gdx.app.getLogLevel()== Application.LOG_DEBUG){
-			worldController.mapRenderer.renderTileLayer(blockMapLayer);
+			mapRenderer.renderTileLayer(blockMapLayer);
 		}
 
-		worldController.mapRenderer.getBatch().end();
+		mapRenderer.getBatch().end();
 
-		worldController.mapRenderer.getBatch().begin();
-
-		worldController.player.draw(worldController.mapRenderer.getBatch());
+		mapRenderer.getBatch().begin();
+		//show roles order by Y
+		List<Sprite> temp =new ArrayList<Sprite>();
+		temp.add(worldController.player);
+		temp.addAll(worldController.mapMgr.npcs);
+		Collections.sort(temp, new Comparator<Sprite>() {
+			@Override
+			public int compare(Sprite lhs, Sprite rhs) {
+				// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+				return lhs.getY() > rhs.getY() ? -1 : (lhs.getY() < rhs.getY() ) ? 1 : 0;
+			}
+		});
+		for (Sprite sprite : temp) {
+			sprite.draw(mapRenderer.getBatch());
+		}
+		/*worldController.player.draw(mapRenderer.getBatch());
+		for(Npc npc:worldController.mapMgr.npcs){
+			npc.draw(mapRenderer.getBatch());
+		}*/
 
 		TiledMapTileLayer ceilMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.CEILING_LAYER);
 		if( ceilMapLayer != null){
-			worldController.mapRenderer.renderTileLayer(ceilMapLayer);
+			mapRenderer.renderTileLayer(ceilMapLayer);
 		}
 
-		worldController.mapRenderer.getBatch().end();
+		mapRenderer.getBatch().end();
 	}
 
 

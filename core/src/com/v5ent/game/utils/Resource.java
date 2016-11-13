@@ -1,7 +1,5 @@
 package com.v5ent.game.utils;
 
-import com.v5ent.game.core.AssetsManager;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +16,7 @@ public class Resource {
         players.put("lante","heros/lante.png");
         players.put("hafei","heros/hafei.png");
         npcs.put("knight","heros/knight.png");
+        npcs.put("NPC-01","heros/NPC-01.png");
         maps.put("yaka_port","maps/yaka_port.tmx");
     }
 }

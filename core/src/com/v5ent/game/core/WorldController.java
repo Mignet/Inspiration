@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.sun.javafx.scene.CameraHelper;
+import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.utils.Constants;
 
@@ -19,11 +20,10 @@ public class WorldController extends InputAdapter {
 
     private static final String TAG = WorldController.class.getName();
 
-    public Role player;
-
-    public OrthogonalTiledMapRenderer mapRenderer = null;
     public OrthographicCamera camera = null;
+
     public MapsManager mapMgr;
+    public Role player;
 
     public WorldController() {
         init();
@@ -35,9 +35,6 @@ public class WorldController extends InputAdapter {
         camera.update();
 
         mapMgr = new MapsManager();
-        mapRenderer = new OrthogonalTiledMapRenderer(mapMgr.getCurrentMap());
-        mapRenderer.setView(camera);
-        Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
 
         player = new Role("lante");
         player.setPosInMap(mapMgr.START_POINT);
@@ -47,6 +44,9 @@ public class WorldController extends InputAdapter {
 
     public void update(float deltaTime) {
         player.update(deltaTime);
+        for(Npc npc:mapMgr.npcs){
+            npc.update(deltaTime);
+        }
         handleDebugInput(deltaTime);
         //camera follow the Player
         float x = player.getX();
@@ -122,6 +122,12 @@ public class WorldController extends InputAdapter {
         if (mapCollisionLayer.getCell(x, y) != null) {
 //            Gdx.app.debug(TAG, "Map Collision at = " + x + "," + y);
             return true;
+        }
+        //Npc's block
+        for(Npc npc:mapMgr.npcs){
+            if(MathUtils.floor(npc.getX()/32)==x && MathUtils.floor(npc.getY()/32)==y){
+                return true;
+            }
         }
 
         if (x < 0 || y < 0 || x >= mapMgr.cols || y >= mapMgr.rows) {

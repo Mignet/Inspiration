@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.v5ent.game.core.AssetsManager;
+import com.v5ent.game.utils.AssetsManager;
 
 /***
  * Role contains:Character and NPC
@@ -184,7 +184,7 @@ public class Role extends Sprite{
 		default:
 			break;
 		}
-		Gdx.app.debug(TAG,"From["+getX()/32+","+getY()/32+"] to "+targetPosition.cpy());
+//		Gdx.app.debug(TAG,"From["+getX()/32+","+getY()/32+"] to "+targetPosition.cpy());
 	}
 
 	public State getState() {

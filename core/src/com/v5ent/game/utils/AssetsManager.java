@@ -1,4 +1,4 @@
-package com.v5ent.game.core;
+package com.v5ent.game.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.v5ent.game.entities.Role;
-import com.v5ent.game.utils.Resource;
 
 public class AssetsManager implements Disposable, AssetErrorListener {
 
@@ -112,7 +111,11 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 			String value = entry.getValue().toString();
 			assetManager.load(value, Texture.class);
 		}
-		int mapCnt = 1;
+		for (Map.Entry<String, String> entry : Resource.instance.npcs.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue().toString();
+			assetManager.load(value, Texture.class);
+		}
 		//TODO:load all map's file
 		for (Map.Entry<String, String> entry : Resource.instance.maps.entrySet()) {
 			String key = entry.getKey();
@@ -128,6 +131,13 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		}
 		//store into map
 		for (Map.Entry<String, String> entry : Resource.instance.players.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue().toString();
+			Texture atlas = assetManager.get(value);
+			// create game resource objects
+			assetRoles.put(key,new AssetRole(atlas));
+		}
+		for (Map.Entry<String, String> entry : Resource.instance.npcs.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue().toString();
 			Texture atlas = assetManager.get(value);
