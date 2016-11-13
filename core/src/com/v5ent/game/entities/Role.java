@@ -76,6 +76,9 @@ public class Role extends Sprite{
 		updateCurrentFrame();
 	}
 
+	/**
+	 * get correct frame from state and direction
+	 */
 	public void updateCurrentFrame() {
 		// Look into the appropriate variable when changing position
 		if(currentState==State.IDLE){
