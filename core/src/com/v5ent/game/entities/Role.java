@@ -5,8 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.v5ent.game.pfa.MyNode;
 import com.v5ent.game.utils.AssetsManager;
+
+import static com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpawnShape.point;
+import static sun.audio.AudioPlayer.player;
 
 /***
  * Role contains:Character and NPC
@@ -27,8 +33,9 @@ public class Role extends Sprite{
 	private State currentState = State.IDLE;
 	private Direction currentDir = Direction.LEFT;
 	protected float frameTime = 0f;
-	/**for draw */
+	/**just for draw */
 	protected TextureRegion currentFrame = null;
+	private Array<MyNode> path = null;
 
 	public final static int FRAME_WIDTH = 32;
 	public final static int FRAME_HEIGHT = 48;
@@ -69,8 +76,14 @@ public class Role extends Sprite{
 		if(this.currentState==State.WALKING){
 			calcNextPosition(delta);
 			if(Math.abs(this.nextPosition.x-this.targetPosition.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.targetPosition.y*32f)<speed*delta){
-				this.currentState= State.IDLE;
 				this.setPosInMap(targetPosition);
+				if(path!=null&&path.size>0){
+					MyNode p = path.pop();
+					moveTo(p.getX(),p.getY());
+				}else{
+					this.currentState= State.IDLE;
+				}
+
 			}
 		}
 		updateCurrentFrame();
@@ -164,29 +177,29 @@ public class Role extends Sprite{
 	public String getEntityId() {
 		return entityId;
 	}
-	
-	public void moveOneStep(Direction direction){
-		this.currentDir = direction;
-		this.currentState = State.WALKING;
-		//Look into the appropriate variable when changing position
 
-		switch (currentDir) {
-		case DOWN :
-			targetPosition.y--;
-			break;
-		case LEFT :
-			targetPosition.x--;
-			break;
-		case UP :
-			targetPosition.y++;
-			break;
-		case RIGHT :
-			targetPosition.x++;
-			break;
-		default:
-			break;
+	public void moveTo(int x,int y){
+		if(x< MathUtils.floor(getX()/32)){
+			this.currentDir = Direction.LEFT;
 		}
-//		Gdx.app.debug(TAG,"From["+getX()/32+","+getY()/32+"] to "+targetPosition.cpy());
+		if(x> MathUtils.floor(getX()/32)){
+			this.currentDir = Direction.RIGHT;
+		}
+		if(y< MathUtils.floor(getY()/32)){
+			this.currentDir = Direction.DOWN;
+		}
+		if(y> MathUtils.floor(getY()/32)){
+			this.currentDir = Direction.UP;
+		}
+		this.currentState = State.WALKING;
+		targetPosition = new Vector2(x,y);
+	}
+	public void followPath(Array<MyNode> path){
+		//remove current point
+		path.pop();
+		this.path = path;
+		MyNode point = this.path.pop();
+		moveTo(point.getX(),point.getY());
 	}
 
 	public State getState() {

@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.entities.Npc;
 
+import java.util.List;
+
 public class GraphGenerator {
 
 	private static String TAG = GraphGenerator.class.getSimpleName();
@@ -80,7 +82,7 @@ public class GraphGenerator {
 		return new MyGraph(indexedNodes);
 	}
 	
-	public static MyGraph generateGraph(TiledMapTileLayer mapCollisionLayer, Array<Npc> entities, int numCols, int numRows, int tileW, int tileH, Vector2 startPoint) {
+	public static MyGraph generateGraph(TiledMapTileLayer mapCollisionLayer, List<Npc> entities, int numCols, int numRows, int tileW, int tileH, Vector2 startPoint) {
 		final MyNode[][] nodes = new MyNode[numCols][numRows];
 		final Array<MyNode> indexedNodes = new Array<MyNode>(numCols * numRows);
 		//init maps
@@ -93,7 +95,7 @@ public class GraphGenerator {
 				}
 			}
 		}
-		if (entities != null) {
+		if (entities != null && !entities.isEmpty()) {
 			for (Npc e : entities) {
 				int x = MathUtils.floor(e.getX()/32);
 				int y = MathUtils.floor(e.getY()/32);

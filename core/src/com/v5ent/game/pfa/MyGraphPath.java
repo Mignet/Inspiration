@@ -16,8 +16,8 @@
 
 package com.v5ent.game.pfa;
 
-/** A {@code GraphPath} represents a path in a {@link Graph}. Note that a path can be defined in terms of nodes or
- * {@link Connection connections} so that multiple edges between the same pair of nodes can be discriminated.
+/** A {@code GraphPath} represents a path in a {Graph}. Note that a path can be defined in terms of nodes or
+ * {Connection connections} so that multiple edges between the same pair of nodes can be discriminated.
  * 
  * @param <N> Type of node
  * 

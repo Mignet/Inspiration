@@ -24,8 +24,8 @@ public class MapsManager {
     public static final String FLOOR_LAYER = "floor";
     public static final String CEILING_LAYER = "ceiling";
     public static final float CELL_UNIT = 32.0f;
-    public static int rows;
-    public static int cols;
+    public int rows;
+    public int cols;
 
     private String mapName;
     private TiledMap map;
