@@ -29,6 +29,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	public Map<String,AssetRole> assetRoles = new HashMap<String, AssetRole>();
 	/** load all tiled map */
 	public Map<String,AssetTiledMap> assetTiledMaps = new HashMap<String, AssetTiledMap>();
+	public AssetTouch touch;
 	// singleton: prevent instantiation from other classes
 	private AssetsManager() {
 	}
@@ -99,6 +100,18 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		}
 	}
 
+	public class AssetTouch{
+		public final Animation touchPointAnimation;
+		public AssetTouch(Texture atlas){
+			TextureRegion[][] textureFrames = TextureRegion.split(atlas, 32, 32);
+			Array<TextureRegion> touchPointFrames = new Array<TextureRegion>(3);
+			for( int i=0;i<2;i++){
+				touchPointFrames.insert(i,textureFrames[0][i]);
+			}
+			touchPointAnimation = new Animation(0.25f, touchPointFrames, Animation.PlayMode.LOOP);
+		}
+	}
+
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
 		// set asset manager error handler
@@ -122,6 +135,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 			String value = entry.getValue().toString();
 			assetManager.load(value, TiledMap.class);
 		}
+		assetManager.load(Resource.TOUCH_ATLAS,Texture.class);
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
 
@@ -151,6 +165,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 			// create game resource objects
 			assetTiledMaps.put(key,new AssetTiledMap(map));
 		}
+		touch = new AssetTouch(assetManager.get(Resource.TOUCH_ATLAS,Texture.class));
 	}
 
 	@Override

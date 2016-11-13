@@ -69,10 +69,13 @@ public class WorldRenderer implements Disposable {
 		if( blockMapLayer != null && Gdx.app.getLogLevel()== Application.LOG_DEBUG){
 			mapRenderer.renderTileLayer(blockMapLayer);
 		}
-
 		mapRenderer.getBatch().end();
 
 		mapRenderer.getBatch().begin();
+		//target
+		if(worldController.target!=null){
+			worldController.target.draw(mapRenderer.getBatch());
+		}
 		//show roles order by Y
 		List<Sprite> temp =new ArrayList<Sprite>();
 		temp.add(worldController.player);

@@ -11,9 +11,12 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.sun.javafx.scene.CameraHelper;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
+import com.v5ent.game.entities.Target;
 import com.v5ent.game.utils.Constants;
 
 public class WorldController extends InputAdapter {
@@ -24,6 +27,7 @@ public class WorldController extends InputAdapter {
 
     public MapsManager mapMgr;
     public Role player;
+    public Target target;
 
     public WorldController() {
         init();
@@ -37,12 +41,15 @@ public class WorldController extends InputAdapter {
         mapMgr = new MapsManager();
 
         player = new Role("lante");
-        player.setPosInMap(mapMgr.START_POINT);
+        player.setPosInMap(MapsManager.START_POINT);
 
         Gdx.input.setInputProcessor(this);
     }
 
     public void update(float deltaTime) {
+        if(target!=null){
+            target.update(deltaTime);
+        }
         player.update(deltaTime);
         for(Npc npc:mapMgr.npcs){
             npc.update(deltaTime);
@@ -110,6 +117,34 @@ public class WorldController extends InputAdapter {
             Gdx.app.debug(TAG, "Game world resetted");
         }
         return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector3 input = new Vector3(screenX, screenY, 0);
+        camera.unproject(input);
+        Gdx.app.debug(TAG, "clicked # (x:" + MathUtils.floor(input.x/32) +",y:"+ MathUtils.floor(input.y/32) + " )");
+        checkTouchNpc(MathUtils.floor(input.x/32),MathUtils.floor(input.y/32));
+        //TODO:canClick
+        if(target==null){
+            target = new Target(MathUtils.floor(input.x/32),MathUtils.floor(input.y/32));
+        }else{
+            target.setPosition(MathUtils.floor(input.x/32)*32,MathUtils.floor(input.y/32)*32);
+        }
+        return true;
+    }
+
+    private void checkTouchNpc(int x,int y){
+        for(Npc npc:this.mapMgr.npcs){
+            if(MathUtils.floor(npc.getX()/32)==x && MathUtils.floor(npc.getY()/32)==y){
+                int x0 = MathUtils.floor(player.getX()/32);
+                int y0 = MathUtils.floor(player.getY()/32);
+                float distance = (x-x0)*(x-x0) + (y-y0)*(y-y0);
+                if(distance<9f){
+                    Gdx.app.debug(TAG,"distance:"+distance+" you clicked "+npc.getEntityId());
+                }
+            }
+        }
     }
 
     private boolean isCollisionWithMapLayer(int x, int y) {

@@ -8,6 +8,7 @@ import java.util.Map;
  */
 
 public class Resource {
+    public static final String TOUCH_ATLAS = "input/touch.png";
     public Map<String,String> players = new HashMap<String,String>();
     public Map<String,String> npcs = new HashMap<String,String>();
     public Map<String,String> maps = new HashMap<String,String>();

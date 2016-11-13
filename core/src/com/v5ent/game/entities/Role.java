@@ -124,7 +124,6 @@ public class Role extends Sprite{
 		// Draw image
 		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
 				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
-//			Gdx.app.debug(TAG, "hero's coor:"+getX()+","+getY());
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);
 	}
@@ -162,8 +161,8 @@ public class Role extends Sprite{
 		targetPosition = point.cpy();
 	}
 
-	public Vector2 getCurrentPosInMap(){
-		return new Vector2(getX()/32f,getY()/32f);
+	public String getEntityId() {
+		return entityId;
 	}
 	
 	public void moveOneStep(Direction direction){
