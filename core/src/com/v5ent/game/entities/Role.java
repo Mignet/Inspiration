@@ -65,7 +65,7 @@ public class Role extends Sprite{
 	}
 
 	public void update(float delta) {
-		frameTime = (frameTime + delta) % 3; // Want to avoid overflow
+		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
 		if(this.currentState==State.WALKING){
 			calcNextPosition(delta);
 			if(Math.abs(this.nextPosition.x-this.targetPosition.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.targetPosition.y*32f)<speed*delta){
@@ -81,16 +81,16 @@ public class Role extends Sprite{
 		if(currentState==State.IDLE){
 			switch (currentDir) {
 				case UP:
-					currentFrame = walkUpAnimation.getKeyFrame(0);
+					currentFrame = walkUpAnimation.getKeyFrame(1);
 					break;
 				case RIGHT:
-					currentFrame = walkRightAnimation.getKeyFrame(0);
+					currentFrame = walkRightAnimation.getKeyFrame(1);
 					break;
 				case DOWN:
-					currentFrame = walkDownAnimation.getKeyFrame(0);
+					currentFrame = walkDownAnimation.getKeyFrame(1);
 					break;
 				case LEFT:
-					currentFrame = walkLeftAnimation.getKeyFrame(0);
+					currentFrame = walkLeftAnimation.getKeyFrame(1);
 					break;
 				default:
 					break;
