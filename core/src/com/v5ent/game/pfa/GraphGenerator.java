@@ -107,8 +107,8 @@ public class GraphGenerator {
 		if (startPoint != null && startPoint.x<numCols && startPoint.y<numRows) {
 			tiles[(int) startPoint.x][(int) startPoint.y] = ".";
 		}
-		//测试打印
-		if(Gdx.app.getLogLevel()==Application.LOG_DEBUG){
+		//print graph
+		/*if(Gdx.app.getLogLevel()==Application.LOG_DEBUG){
 			Gdx.app.debug(TAG,"----------------------------------");
 			StringBuilder temp = new StringBuilder("\n");
 			for (int y = 0; y < numRows; y++) {
@@ -119,7 +119,7 @@ public class GraphGenerator {
 			}
 			Gdx.app.debug(TAG,temp.toString());
 			Gdx.app.debug(TAG,"----------------------------------");
-		}
+		}*/
 		int index = 0;
 		for (int y = 0; y < numRows; y++) {
 			for (int x = 0; x < numCols; x++, index++) {
