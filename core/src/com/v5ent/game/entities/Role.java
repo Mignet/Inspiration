@@ -143,27 +143,15 @@ public class Role extends Sprite{
 		batch.setColor(1, 1, 1, 1);
 	}
 
+	/**
+	 * move every delta time on speed
+	 * @param deltaTime
+     */
 	public void calcNextPosition(float deltaTime) {
 		float testX = this.getX();
 		float testY = this.getY();
 		speed *= (deltaTime);
 		Vector2 v = new Vector2(targetPosition.x*32f-testX,targetPosition.y*32f-testY).nor();
-		/*switch (currentDir) {
-			case LEFT:
-				testX -= speed;
-				break;
-			case RIGHT:
-				testX += speed;
-				break;
-			case UP:
-				testY += speed;
-				break;
-			case DOWN:
-				testY -= speed;
-				break;
-			default:
-				break;
-		}*/
 		nextPosition.x = testX + v.x*speed;
 		nextPosition.y = testY + v.y*speed;
 //		Gdx.app.debug(TAG, "nextPosition:"+nextPosition);
