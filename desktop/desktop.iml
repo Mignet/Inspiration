@@ -32,7 +32,6 @@
     <orderEntry type="library" exported="" name="gdx-platform-1.9.4-natives-desktop" level="project" />
     <orderEntry type="library" exported="" name="gdx-tools-1.9.4" level="project" />
     <orderEntry type="library" exported="" name="gdx-1.9.4" level="project" />
-    <orderEntry type="library" exported="" name="gdx-ai-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="lwjgl-2.9.2" level="project" />
     <orderEntry type="library" exported="" name="lwjgl_util-2.9.2" level="project" />
     <orderEntry type="library" exported="" name="jlayer-1.0.1-gdx" level="project" />
