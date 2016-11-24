@@ -21,6 +21,7 @@ public class Role extends Sprite{
 //	private Vector2 velocity;
 	private float speed = 4*32f;
 	private String entityId;
+	/** path is arrived **/
 	private boolean isArrived = false;
 
 	private Animation walkLeftAnimation;

@@ -12,7 +12,9 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Inspiration";
 		cfg.useGL30 = false;
-		cfg.width = 640;
+//		cfg.width = 640;
+//		cfg.height = 480;
+		cfg.width = 800;
 		cfg.height = 480;
 		cfg.addIcon("icon.png", Files.FileType.Internal);
 		Gdx.app  = new LwjglApplication(new Inspiration(), cfg);

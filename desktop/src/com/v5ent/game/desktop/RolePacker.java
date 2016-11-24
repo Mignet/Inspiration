@@ -1,7 +1,7 @@
 package com.v5ent.game.desktop;
 
 /**
- * Created by Administrator on 2016/11/10.
+ * Created by Mignet on 2016/11/10.
  */
 
 import java.awt.Graphics2D;
@@ -21,7 +21,7 @@ public class RolePacker {
 
     private static void splitImage(String src,int rows,int cols) throws IOException {
 
-        String originalImg = src+"\\lanted.png";
+        String originalImg = src+"\\ASL.png";
 
         // 读入大图
         File file = new File(originalImg);
@@ -57,7 +57,7 @@ public class RolePacker {
 
         // 输出小图
         for (int i = 0; i < imgs.length; i++) {
-            ImageIO.write(imgs[i], "png", new File(src+"\\001\\001-walk-" + i + ".png"));
+            ImageIO.write(imgs[i], "png", new File(src+"\\001\\" + i + ".png"));
         }
 
         System.out.println("完成分割！");
@@ -73,10 +73,6 @@ public class RolePacker {
         int type;
 
         //读入小图
-	    /* File[] imgFiles = new File[chunks];
-	  	for (int i = 0; i < chunks; i++) {
-	        imgFiles[i] = new File(dir+"\\img" + i + ".jpg");
-	    }  */
         File[] imgFiles = new File(dir).listFiles();
         //创建BufferedImage
         BufferedImage[] buffImages = new BufferedImage[chunks];
