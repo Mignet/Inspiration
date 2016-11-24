@@ -36,8 +36,6 @@ public class Role extends Sprite{
 	protected TextureRegion currentFrame = null;
 	public Array<MyNode> path = new Array<MyNode>(true,10);
 
-	public final static int FRAME_WIDTH = 32;
-	public final static int FRAME_HEIGHT = 48;
 	// what role want to move
 	private Vector2 targetPosition;
 
@@ -158,7 +156,6 @@ public class Role extends Sprite{
 //		Gdx.app.debug(TAG, "nextPosition:"+nextPosition);
 		// velocity
 		speed *=(1 / deltaTime);
-//		translate(nextPosition.x, nextPosition.y);
 		setPosition(nextPosition.x, nextPosition.y);
 	}
 
@@ -177,6 +174,12 @@ public class Role extends Sprite{
 	public void setArrived(boolean arrived) {
 		isArrived = arrived;
 	}
+
+	/**
+	* move Role to x,y
+	* @param x
+	* @param y
+	*/
 	public void moveTo(int x,int y){
 		int gapX = x - MathUtils.floor(getX()/32);
 		int gapY = y - MathUtils.floor(getY()/32);
@@ -193,18 +196,6 @@ public class Role extends Sprite{
 				this.currentDir = Direction.RIGHT;
 			}
 		}
-		/*if(x< MathUtils.floor(getX()/32)){
-			this.currentDir = Direction.LEFT;
-		}
-		if(x> MathUtils.floor(getX()/32)){
-			this.currentDir = Direction.RIGHT;
-		}
-		if(y< MathUtils.floor(getY()/32)){
-			this.currentDir = Direction.DOWN;
-		}
-		if(y> MathUtils.floor(getY()/32)){
-			this.currentDir = Direction.UP;
-		}*/
 		this.currentState = State.WALKING;
 		targetPosition = new Vector2(x,y);
 		isArrived = false;

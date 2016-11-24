@@ -190,7 +190,26 @@ public class WorldController extends InputAdapter {
                     Gdx.app.debug(TAG, "distance:" + distance + " you clicked " + npc.getEntityId());
                     //TODO:talk with npc
                     //1.face to face
-                    if (x0 < npcX) {
+                    int gapX  = x0 - npcX;
+                    int gapY  = y0 - npcY;
+                    if(Math.abs(gapX)<Math.abs(gapY)){
+                        if(gapY < 0){
+                            player.setCurrentDir(Role.Direction.UP);
+                            npc.setCurrentDir(Role.Direction.DOWN);
+                        }else{
+                            player.setCurrentDir(Role.Direction.DOWN);
+                            npc.setCurrentDir(Role.Direction.UP);
+                        }
+                    }else{
+                        if(gapX < 0){
+                            player.setCurrentDir(Role.Direction.RIGHT);
+                            npc.setCurrentDir(Role.Direction.LEFT);
+                        }else{
+                            player.setCurrentDir(Role.Direction.LEFT);
+                            npc.setCurrentDir(Role.Direction.RIGHT);
+                        }
+                    }
+                    /*if (x0 < npcX) {
                         player.setCurrentDir(Role.Direction.RIGHT);
                         npc.setCurrentDir(Role.Direction.LEFT);
                     }
@@ -205,7 +224,7 @@ public class WorldController extends InputAdapter {
                     if (y0 > npcY) {
                         player.setCurrentDir(Role.Direction.DOWN);
                         npc.setCurrentDir(Role.Direction.UP);
-                    }
+                    }*/
                 }
                 return true;
             }
