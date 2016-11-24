@@ -11,9 +11,6 @@ import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.pfa.MyNode;
 import com.v5ent.game.utils.AssetsManager;
 
-import static com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpawnShape.point;
-import static sun.audio.AudioPlayer.player;
-
 /***
  * Role contains:Character and NPC
  * It extends from Sprite,thus,owns transformation and draw
@@ -24,6 +21,7 @@ public class Role extends Sprite{
 //	private Vector2 velocity;
 	private float speed = 4*32f;
 	private String entityId;
+	private boolean isArrived = false;
 
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
@@ -35,7 +33,7 @@ public class Role extends Sprite{
 	protected float frameTime = 0f;
 	/**just for draw */
 	protected TextureRegion currentFrame = null;
-	private Array<MyNode> path = null;
+	public Array<MyNode> path = new Array<MyNode>(true,10);
 
 	public final static int FRAME_WIDTH = 32;
 	public final static int FRAME_HEIGHT = 48;
@@ -71,6 +69,10 @@ public class Role extends Sprite{
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
+	/**
+	 * if walking,just move to center
+	 * @param delta
+     */
 	public void update(float delta) {
 		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
 		if(this.currentState==State.WALKING){
@@ -78,12 +80,12 @@ public class Role extends Sprite{
 			if(Math.abs(this.nextPosition.x-this.targetPosition.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.targetPosition.y*32f)<speed*delta){
 				this.setPosInMap(targetPosition);
 				if(path!=null&&path.size>0){
-					MyNode p = path.pop();
-					moveTo(p.getX(),p.getY());
+					MyNode nextPoint = path.pop();
+					moveTo(nextPoint.getX(),nextPoint.getY());
 				}else{
+					isArrived = true;
 					this.currentState= State.IDLE;
 				}
-
 			}
 		}
 		updateCurrentFrame();
@@ -145,7 +147,8 @@ public class Role extends Sprite{
 		float testX = this.getX();
 		float testY = this.getY();
 		speed *= (deltaTime);
-		switch (currentDir) {
+		Vector2 v = new Vector2(targetPosition.x*32f-testX,targetPosition.y*32f-testY).nor();
+		/*switch (currentDir) {
 			case LEFT:
 				testX -= speed;
 				break;
@@ -160,12 +163,13 @@ public class Role extends Sprite{
 				break;
 			default:
 				break;
-		}
-		nextPosition.x = testX;
-		nextPosition.y = testY;
+		}*/
+		nextPosition.x = testX + v.x*speed;
+		nextPosition.y = testY + v.y*speed;
 //		Gdx.app.debug(TAG, "nextPosition:"+nextPosition);
 		// velocity
 		speed *=(1 / deltaTime);
+//		translate(nextPosition.x, nextPosition.y);
 		setPosition(nextPosition.x, nextPosition.y);
 	}
 
@@ -177,9 +181,30 @@ public class Role extends Sprite{
 	public String getEntityId() {
 		return entityId;
 	}
+	public boolean isArrived() {
+		return isArrived;
+	}
 
+	public void setArrived(boolean arrived) {
+		isArrived = arrived;
+	}
 	public void moveTo(int x,int y){
-		if(x< MathUtils.floor(getX()/32)){
+		int gapX = x - MathUtils.floor(getX()/32);
+		int gapY = y - MathUtils.floor(getY()/32);
+		if(Math.abs(gapX)<Math.abs(gapY)){
+			if(gapY<0){
+				this.currentDir = Direction.DOWN;
+			}else{
+				this.currentDir = Direction.UP;
+			}
+		}else{
+			if(gapX<0){
+				this.currentDir = Direction.LEFT;
+			}else{
+				this.currentDir = Direction.RIGHT;
+			}
+		}
+		/*if(x< MathUtils.floor(getX()/32)){
 			this.currentDir = Direction.LEFT;
 		}
 		if(x> MathUtils.floor(getX()/32)){
@@ -190,16 +215,24 @@ public class Role extends Sprite{
 		}
 		if(y> MathUtils.floor(getY()/32)){
 			this.currentDir = Direction.UP;
-		}
+		}*/
 		this.currentState = State.WALKING;
 		targetPosition = new Vector2(x,y);
+		isArrived = false;
 	}
-	public void followPath(Array<MyNode> path){
-		//remove current point
-		path.pop();
-		this.path = path;
-		MyNode point = this.path.pop();
-		moveTo(point.getX(),point.getY());
+	public void followPath(Array<MyNode> newPath){
+		if(this.path.size<=0){
+			//remove current point
+			newPath.pop();
+		}
+		this.path.clear();
+		for(MyNode node:newPath){
+			this.path.add(node);
+		}
+		if(this.path.size>0) {
+			MyNode nextPoint = this.path.pop();
+			moveTo(nextPoint.getX(), nextPoint.getY());
+		}
 	}
 
 	public State getState() {
