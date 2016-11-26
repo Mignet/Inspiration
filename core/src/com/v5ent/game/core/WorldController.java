@@ -142,7 +142,6 @@ public class WorldController extends InputAdapter {
             path.clear();
             Vector2 start = new Vector2(MathUtils.round(player.getX() / 32), MathUtils.round(player.getY() / 32));
             //we need set exactly start position
-//            player.setPosInMap(start);
             Vector2 end = new Vector2(x, y);
             int numCols = mapMgr.cols;
             int numRows = mapMgr.rows;
@@ -163,7 +162,7 @@ public class WorldController extends InputAdapter {
             Gdx.app.debug(TAG, "path:" + sb.toString());
             if (searchResult) {
                 player.followPath(path);
-                Gdx.app.debug(TAG, "======================Follow Path==================");
+//                Gdx.app.debug(TAG, "======================Follow Path==================");
                 target = new Target(x, y);
             }
         } else {
