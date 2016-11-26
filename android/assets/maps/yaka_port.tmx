@@ -4,13 +4,13 @@
   <property name="mapName" value="Yaka Port"/>
  </properties>
  <tileset firstgid="1" name="tile04" tilewidth="32" tileheight="32" tilecount="400" columns="20">
-  <image source="../images/tiles/tile04.png" width="640" height="640"/>
+  <image source="tiles/tile04.png" width="640" height="640"/>
  </tileset>
  <tileset firstgid="401" name="tile05" tilewidth="32" tileheight="32" tilecount="500" columns="20">
-  <image source="../images/tiles/tile05.png" width="640" height="800"/>
+  <image source="tiles/tile05.png" width="640" height="800"/>
  </tileset>
  <tileset firstgid="901" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
-  <image source="../images/TOOLS.png" width="288" height="32"/>
+  <image source="TOOLS.png" width="288" height="32"/>
  </tileset>
  <layer name="ground" width="48" height="96">
   <data encoding="base64" compression="zlib">

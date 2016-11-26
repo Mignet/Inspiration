@@ -76,7 +76,7 @@ public class WorldRenderer implements Disposable {
 		if(worldController.target!=null){
 			worldController.target.draw(mapRenderer.getBatch());
 		}
-		//show roles order by Y
+		//show roles order by Y-axis
 		List<Sprite> temp =new ArrayList<Sprite>();
 		temp.add(worldController.player);
 		temp.addAll(worldController.mapMgr.npcs);
@@ -90,10 +90,6 @@ public class WorldRenderer implements Disposable {
 		for (Sprite sprite : temp) {
 			sprite.draw(mapRenderer.getBatch());
 		}
-		/*worldController.player.draw(mapRenderer.getBatch());
-		for(Npc npc:worldController.mapMgr.npcs){
-			npc.draw(mapRenderer.getBatch());
-		}*/
 
 		TiledMapTileLayer ceilMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.CEILING_LAYER);
 		if( ceilMapLayer != null){
