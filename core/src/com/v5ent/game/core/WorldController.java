@@ -32,9 +32,8 @@ public class WorldController extends InputAdapter {
 
     public MapsManager mapMgr;
     public Role player;
-    //行走路径
+    //A path
     private Array<MyNode> path = new Array<MyNode>(true, 10);
-    private MyGraph graph;
     public Target target;
 
     public WorldController() {
