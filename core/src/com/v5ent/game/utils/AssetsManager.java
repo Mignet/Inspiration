@@ -11,10 +11,12 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.v5ent.game.entities.Role;
@@ -33,11 +35,19 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	public AssetTouch touch;
 	public Texture shadow;
 	public Texture selected;
+	private final static String STATUSUI_TEXTURE_ATLAS_PATH = "skins/statusui.pack";
+	private final static String STATUSUI_SKIN_PATH = "skins/statusui.json";
+
+	public static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH));
 	// singleton: prevent instantiation from other classes
 	private AssetsManager() {
 	}
 
 	public class AssetRole {
+		public final Animation idleDownAnimation;
+		public final Animation idleLeftAnimation;
+		public final Animation idleRightAnimation;
+		public final Animation idleUpAnimation;
 		public final Animation walkDownAnimation;
 		public final Animation walkLeftAnimation;
 		public final Animation walkRightAnimation;
@@ -46,34 +56,59 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		public AssetRole(Texture atlas) {
 			//role's animation png is 0-idle,1-walk,2-walk
 			TextureRegion[][] textureFrames = TextureRegion.split(atlas, 32, 48);
-			Array<TextureRegion> walkDownFrames = new Array<TextureRegion>(3);
-			Array<TextureRegion> walkLeftFrames = new Array<TextureRegion>(3);
-			Array<TextureRegion> walkRightFrames = new Array<TextureRegion>(3);
-			Array<TextureRegion> walkUpFrames = new Array<TextureRegion>(3);
-
+			Array<TextureRegion> idleDownFrames = new Array<TextureRegion>(1);
+			Array<TextureRegion> idleLeftFrames = new Array<TextureRegion>(1);
+			Array<TextureRegion> idleRightFrames = new Array<TextureRegion>(1);
+			Array<TextureRegion> idleUpFrames = new Array<TextureRegion>(1);
+			Array<TextureRegion> walkDownFrames = new Array<TextureRegion>(2);
+			Array<TextureRegion> walkLeftFrames = new Array<TextureRegion>(2);
+			Array<TextureRegion> walkRightFrames = new Array<TextureRegion>(2);
+			Array<TextureRegion> walkUpFrames = new Array<TextureRegion>(2);
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 3; j++) {
 					TextureRegion region = textureFrames[i][j];
 					if( region == null ){
 						Gdx.app.debug(TAG, "Got null animation frame " + i + "," + j);
 					}
-					switch(i)
-					{
-						case 0:
-							walkDownFrames.insert(j, region);
-							break;
-						case 1:
-							walkLeftFrames.insert(j, region);
-							break;
-						case 2:
-							walkUpFrames.insert(j, region);
-							break;
-						case 3:
-							walkRightFrames.insert(j, region);
-							break;
+					if(j==0){
+						switch(i)
+						{
+							case 0:
+								idleDownFrames.insert(0, region);
+								break;
+							case 1:
+								idleLeftFrames.insert(0, region);
+								break;
+							case 2:
+								idleUpFrames.insert(0, region);
+								break;
+							case 3:
+								idleRightFrames.insert(0, region);
+								break;
+						}
+					}else{
+						switch(i)
+						{
+							case 0:
+								walkDownFrames.insert(j-1, region);
+								break;
+							case 1:
+								walkLeftFrames.insert(j-1, region);
+								break;
+							case 2:
+								walkUpFrames.insert(j-1, region);
+								break;
+							case 3:
+								walkRightFrames.insert(j-1, region);
+								break;
+						}
 					}
 				}
 			}
+			idleDownAnimation = new Animation(0.25f, idleDownFrames, Animation.PlayMode.LOOP);
+			idleLeftAnimation = new Animation(0.25f, idleLeftFrames, Animation.PlayMode.LOOP);
+			idleRightAnimation = new Animation(0.25f, idleRightFrames, Animation.PlayMode.LOOP);
+			idleUpAnimation = new Animation(0.25f, idleUpFrames, Animation.PlayMode.LOOP);
 			walkDownAnimation = new Animation(0.25f, walkDownFrames, Animation.PlayMode.LOOP);
 			walkLeftAnimation = new Animation(0.25f, walkLeftFrames, Animation.PlayMode.LOOP);
 			walkRightAnimation = new Animation(0.25f, walkRightFrames, Animation.PlayMode.LOOP);

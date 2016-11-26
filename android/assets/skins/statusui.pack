@@ -1,0 +1,60 @@
+statusui.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+status
+  rotate: false
+  xy: 2, 2
+  size: 170, 120
+  orig: 170, 120
+  offset: 0, 0
+  index: -1
+bar
+  rotate: true
+  xy: 232, 2
+  size: 100, 20
+  orig: 100, 20
+  offset: 0, 0
+  index: -1
+inventory_button_closed
+  rotate: false
+  xy: 2, 138
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+quest_book_on
+  rotate: false
+  xy: 174, 60
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+inventory_button_open
+  rotate: false
+  xy: 208, 104
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+cell
+  rotate: false
+  xy: 2, 172
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+dialog
+  rotate: false
+  xy: 174, 2
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: -1
+quest_book_off
+  rotate: false
+  xy: 174, 94
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.entities.Target;
+import com.v5ent.game.hud.PlayerHUD;
 import com.v5ent.game.pfa.GraphGenerator;
 import com.v5ent.game.pfa.ManhattanDistance;
 import com.v5ent.game.pfa.MyGraph;
@@ -27,8 +29,12 @@ import com.v5ent.game.utils.Constants;
 public class WorldController extends InputAdapter {
 
     private static final String TAG = WorldController.class.getName();
-
+    /** main camera **/
     public OrthographicCamera camera = null;
+
+    private OrthographicCamera _hudCamera = null;
+    private InputMultiplexer _multiplexer;
+    private static PlayerHUD _playerHUD;
 
     public MapsManager mapMgr;
     public Role player;
@@ -46,11 +52,18 @@ public class WorldController extends InputAdapter {
         camera.update();
 
         mapMgr = new MapsManager();
-
         player = new Role("lante");
         player.setPosInMap(MapsManager.START_POINT);
 
-        Gdx.input.setInputProcessor(this);
+        _hudCamera = new OrthographicCamera();
+        _hudCamera.setToOrtho(
+                false,Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
+        _playerHUD = new PlayerHUD(_hudCamera, player);
+        _multiplexer = new InputMultiplexer();
+        _multiplexer.addProcessor(_playerHUD.getStage());
+        _multiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(_multiplexer);
+//        Gdx.input.setInputProcessor(this);
     }
 
     public void update(float deltaTime) {

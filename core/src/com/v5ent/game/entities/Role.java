@@ -25,10 +25,15 @@ public class Role extends Sprite{
 	private boolean isArrived = false;
 	private boolean isSelected = false;
 
+	private Animation idleLeftAnimation;
+	private Animation idleRightAnimation;
+	private Animation idleUpAnimation;
+	private Animation idleDownAnimation;
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
 	private Animation walkUpAnimation;
 	private Animation walkDownAnimation;
+	/**temp position**/
 	protected Vector2 nextPosition;
 	private State currentState = State.IDLE;
 	private Direction currentDir = Direction.LEFT;
@@ -39,6 +44,38 @@ public class Role extends Sprite{
 
 	// what role want to move
 	private Vector2 targetPosition;
+
+	public Animation getAnimation(State animationType) {
+		if(currentState==State.IDLE || currentState==State.FIXED){
+			switch (currentDir) {
+				case UP:
+					return walkUpAnimation;
+				case RIGHT:
+					return walkRightAnimation;
+				case DOWN:
+					return walkDownAnimation;
+				case LEFT:
+					return walkLeftAnimation;
+				default:
+					break;
+			}
+		}
+		if(currentState==State.WALKING){
+			switch (currentDir) {
+				case UP:
+					return walkUpAnimation;
+				case RIGHT:
+					return walkRightAnimation;
+				case DOWN:
+					return walkDownAnimation;
+				case LEFT:
+					return walkLeftAnimation;
+				default:
+					break;
+			}
+		}
+		return null;
+	}
 
 	public enum State {
 		FIXED,IDLE, WALKING
@@ -57,6 +94,10 @@ public class Role extends Sprite{
 		this.nextPosition = new Vector2();
 		this.targetPosition = new Vector2();
 		AssetsManager.AssetRole assetRole = AssetsManager.instance.assetRoles.get(entityId);
+		this.idleLeftAnimation = assetRole.idleLeftAnimation;
+		this.idleRightAnimation = assetRole.idleRightAnimation;
+		this.idleUpAnimation = assetRole.idleUpAnimation;
+		this.idleDownAnimation = assetRole.idleDownAnimation;
 		this.walkLeftAnimation = assetRole.walkLeftAnimation;
 		this.walkRightAnimation = assetRole.walkRightAnimation;
 		this.walkUpAnimation = assetRole.walkUpAnimation;
@@ -99,16 +140,16 @@ public class Role extends Sprite{
 		if(currentState==State.IDLE || currentState==State.FIXED){
 			switch (currentDir) {
 				case UP:
-					currentFrame = walkUpAnimation.getKeyFrame(1);
+					currentFrame = idleUpAnimation.getKeyFrame(0);
 					break;
 				case RIGHT:
-					currentFrame = walkRightAnimation.getKeyFrame(1);
+					currentFrame = idleRightAnimation.getKeyFrame(0);
 					break;
 				case DOWN:
-					currentFrame = walkDownAnimation.getKeyFrame(1);
+					currentFrame = idleDownAnimation.getKeyFrame(0);
 					break;
 				case LEFT:
-					currentFrame = walkLeftAnimation.getKeyFrame(1);
+					currentFrame = idleLeftAnimation.getKeyFrame(0);
 					break;
 				default:
 					break;
