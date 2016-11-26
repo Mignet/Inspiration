@@ -31,11 +31,13 @@
   <object id="6" name="knight" x="704" y="224" width="32" height="32">
    <properties>
     <property name="Dir" value="DOWN"/>
+    <property name="State" value="FIXED"/>
    </properties>
   </object>
   <object id="7" name="knight" x="864" y="224" width="32" height="32">
    <properties>
     <property name="Dir" value="DOWN"/>
+    <property name="State" value="FIXED"/>
    </properties>
   </object>
   <object id="8" name="NPC-01" x="352" y="2496" width="32" height="32">

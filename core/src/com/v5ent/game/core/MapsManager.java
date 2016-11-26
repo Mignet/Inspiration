@@ -58,7 +58,7 @@ public class MapsManager {
                     RectangleMapObject r = (RectangleMapObject)o;
                     Npc n = new Npc(r.getName());
                     if (n != null) {
-                        Gdx.app.debug(TAG,"NPC:"+r.getRectangle().x/32+","+r.getRectangle().y/32+"|"+r.getRectangle());
+                        Gdx.app.debug(TAG,"NPC:"+r.getRectangle().x/32+","+r.getRectangle().y/32+"|"+r.getRectangle()+"|"+r.getProperties().get("Dir")+"|"+r.getProperties().get("State"));
                         n.setPosInMap(new Vector2(r.getRectangle().x/32,r.getRectangle().y/32));
                         if("DOWN".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.DOWN);
@@ -71,6 +71,9 @@ public class MapsManager {
                         }
                         if("RIGHT".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.RIGHT);
+                        }
+                        if("FIXED".equals(r.getProperties().get("State"))){
+                            n.setState(Role.State.FIXED);
                         }
                         this.npcs.add(n);
                     }

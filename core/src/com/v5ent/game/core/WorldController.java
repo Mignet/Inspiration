@@ -63,14 +63,14 @@ public class WorldController extends InputAdapter {
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
             npc.update(deltaTime);
-//          npc.randomMove(this);
+//            npc.randomMove(this);
         }
         handleDebugInput(deltaTime);
         //camera follow the Player
         float x = player.getX();
         float y = player.getY();
         //make sure camera in map
-        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.cols * 32f -  Constants.VIEWPORT_WIDTH / 2);
+        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.cols * 32f - Constants.VIEWPORT_WIDTH / 2);
         y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.rows * 32f - Constants.VIEWPORT_HEIGHT / 2);
         camera.position.set(x, y, 0f);
         camera.update();
@@ -162,13 +162,8 @@ public class WorldController extends InputAdapter {
             }
             Gdx.app.debug(TAG, "path:" + sb.toString());
             if (searchResult) {
-//                    if(player.getState()== Role.State.IDLE) {
                 player.followPath(path);
                 Gdx.app.debug(TAG, "======================Follow Path==================");
-//                    }else if(player.getState()== Role.State.WALKING) {
-//                        player.appendPath(path);
-//                        Gdx.app.debug(TAG,"======================Append Path==================");
-//                    }
                 target = new Target(x, y);
             }
         } else {
@@ -181,6 +176,9 @@ public class WorldController extends InputAdapter {
         for (Npc npc : this.mapMgr.npcs) {
             int npcX = MathUtils.floor(npc.getX() / 32);
             int npcY = MathUtils.floor(npc.getY() / 32);
+            if(npc.isSelected()){
+                npc.setSelected(false);
+            }
             if (npcX == x && npcY == y) {
                 int x0 = MathUtils.floor(player.getX() / 32);
                 int y0 = MathUtils.floor(player.getY() / 32);
@@ -188,22 +186,23 @@ public class WorldController extends InputAdapter {
                 if (distance < 10f) {
                     Gdx.app.debug(TAG, "distance:" + distance + " you clicked " + npc.getEntityId());
                     //TODO:talk with npc
+                    npc.setSelected(true);
                     //1.face to face
-                    int gapX  = x0 - npcX;
-                    int gapY  = y0 - npcY;
-                    if(Math.abs(gapX)<Math.abs(gapY)){
-                        if(gapY < 0){
+                    int gapX = x0 - npcX;
+                    int gapY = y0 - npcY;
+                    if (Math.abs(gapX) < Math.abs(gapY)) {
+                        if (gapY < 0) {
                             player.setCurrentDir(Role.Direction.UP);
                             npc.setCurrentDir(Role.Direction.DOWN);
-                        }else{
+                        } else {
                             player.setCurrentDir(Role.Direction.DOWN);
                             npc.setCurrentDir(Role.Direction.UP);
                         }
-                    }else{
-                        if(gapX < 0){
+                    } else {
+                        if (gapX < 0) {
                             player.setCurrentDir(Role.Direction.RIGHT);
                             npc.setCurrentDir(Role.Direction.LEFT);
-                        }else{
+                        } else {
                             player.setCurrentDir(Role.Direction.LEFT);
                             npc.setCurrentDir(Role.Direction.RIGHT);
                         }

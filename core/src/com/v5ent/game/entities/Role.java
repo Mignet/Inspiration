@@ -23,6 +23,7 @@ public class Role extends Sprite{
 	private String entityId;
 	/** path is arrived **/
 	private boolean isArrived = false;
+	private boolean isSelected = false;
 
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
@@ -40,7 +41,7 @@ public class Role extends Sprite{
 	private Vector2 targetPosition;
 
 	public enum State {
-		IDLE, WALKING
+		FIXED,IDLE, WALKING
 	}
 	
 	public enum Direction {
@@ -95,7 +96,7 @@ public class Role extends Sprite{
 	 */
 	public void updateCurrentFrame() {
 		// Look into the appropriate variable when changing position
-		if(currentState==State.IDLE){
+		if(currentState==State.IDLE || currentState==State.FIXED){
 			switch (currentDir) {
 				case UP:
 					currentFrame = walkUpAnimation.getKeyFrame(1);
@@ -135,6 +136,12 @@ public class Role extends Sprite{
 
 	@Override
 	public void draw(Batch batch) {
+		if(isSelected){
+			//Draw selected
+			batch.draw(AssetsManager.instance.selected,getX(),getY()-2);
+		}else{
+			batch.draw(AssetsManager.instance.shadow,getX(),getY()-2);
+		}
 		// Draw image
 		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
 				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
@@ -175,6 +182,13 @@ public class Role extends Sprite{
 		isArrived = arrived;
 	}
 
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean selected) {
+		isSelected = selected;
+	}
 	/**
 	* move Role to x,y
 	* @param x

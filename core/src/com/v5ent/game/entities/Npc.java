@@ -12,8 +12,8 @@ import java.util.Random;
 
 public class Npc extends Role {
     private static final String TAG = Npc.class.getSimpleName();
-
-    Random r = new Random(10);
+    private boolean selected;
+    Random r = new Random(100);
 
     public Npc(String entityId) {
         super(entityId);
@@ -22,6 +22,7 @@ public class Npc extends Role {
     }
 
     public void randomMove(WorldController worldController){
+        if(this.getState()==State.FIXED)return;
         int x = MathUtils.floor(getX()/32);
         int y = MathUtils.floor(getY()/32);
         if(this.getState()==State.IDLE){
@@ -29,19 +30,15 @@ public class Npc extends Role {
             if(randInt<4){
                 switch (randInt){
                     case 0:
-                        setCurrentDir(Direction.RIGHT);
                         moveTo(x+randInt, y);
                         break;
                     case 1:
-                        setCurrentDir(Direction.LEFT);
                         moveTo(x-randInt, y);
                         break;
                     case 2:
-                        setCurrentDir(Direction.UP);
                         moveTo(x, y+randInt);
                         break;
                     case 3:
-                        setCurrentDir(Direction.DOWN);
                         moveTo(x, y-randInt);
                         break;
                 }
@@ -55,8 +52,6 @@ public class Npc extends Role {
                     ||(getCurrentDir()==Direction.UP && (worldController.isCollisionWithBlock(x,y+1)||worldController.isCollisionWithPlayer(x,y+1)))
                     ||(getCurrentDir()==Direction.DOWN && (worldController.isCollisionWithBlock(x,y-1)||worldController.isCollisionWithPlayer(x,y-1)))
                     ){
-//                setPosInMap(new Vector2(x,y));
-
                 setState(State.IDLE);
             }
         }

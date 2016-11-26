@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,6 +31,8 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	/** load all tiled map */
 	public Map<String,AssetTiledMap> assetTiledMaps = new HashMap<String, AssetTiledMap>();
 	public AssetTouch touch;
+	public Texture shadow;
+	public Texture selected;
 	// singleton: prevent instantiation from other classes
 	private AssetsManager() {
 	}
@@ -135,7 +138,9 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 			String value = entry.getValue().toString();
 			assetManager.load(value, TiledMap.class);
 		}
-		assetManager.load(Resource.TOUCH_ATLAS,Texture.class);
+		assetManager.load(Resource.TOUCH,Texture.class);
+		assetManager.load(Resource.SHADOW,Texture.class);
+		assetManager.load(Resource.SELECTED,Texture.class);
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
 
@@ -165,7 +170,9 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 			// create game resource objects
 			assetTiledMaps.put(key,new AssetTiledMap(map));
 		}
-		touch = new AssetTouch(assetManager.get(Resource.TOUCH_ATLAS,Texture.class));
+		touch = new AssetTouch(assetManager.get(Resource.TOUCH,Texture.class));
+		shadow = assetManager.get(Resource.SHADOW,Texture.class);
+		selected = assetManager.get(Resource.SELECTED,Texture.class);
 	}
 
 	@Override
@@ -176,6 +183,21 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	@Override
 	public void error(AssetDescriptor assetDesc, Throwable throwable) {
 		Gdx.app.error(TAG, "Couldn't load asset '" + assetDesc.fileName + "'", throwable);
+	}
+
+	private Pixmap createProceduralPixmap(int width, int height) {
+		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+		// Fill square with red color at 50% opacity
+		pixmap.setColor(1, 0, 0, 0.5f);
+		pixmap.fill();
+		// Draw a yellow-colored X shape on square
+		pixmap.setColor(1, 1, 0, 1);
+		pixmap.drawLine(0, 0, width, height);
+		pixmap.drawLine(width, 0, 0, height);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(0, 1, 1, 1);
+		pixmap.fillRectangle(0, 0, width, height);
+		return pixmap;
 	}
 
 }

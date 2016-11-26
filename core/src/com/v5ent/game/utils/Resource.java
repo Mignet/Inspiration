@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Resources file-path map
  * Created by Mignet on 2016/11/13.
  */
 
 public class Resource {
-    public static final String TOUCH_ATLAS = "input/touch.png";
+    public static final String TOUCH = "input/touch.png";
+    public static final String SHADOW = "heros/shadow.png";
+    public static final String SELECTED = "heros/selected.png";
     public Map<String,String> players = new HashMap<String,String>();
     public Map<String,String> npcs = new HashMap<String,String>();
     public Map<String,String> maps = new HashMap<String,String>();
