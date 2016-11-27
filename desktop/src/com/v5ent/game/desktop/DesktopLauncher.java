@@ -14,6 +14,10 @@ public class DesktopLauncher {
 		cfg.useGL30 = false;
 		cfg.width = 640;
 		cfg.height = 480;
+		// fullscreen
+// 		cfg.fullscreen = true;
+		// vSync
+// 		cfg.vSyncEnabled = true;
 		cfg.addIcon("icon.png", Files.FileType.Internal);
 		Gdx.app  = new LwjglApplication(new Inspiration(), cfg);
 		//Gdx.app.setLogLevel(Application.LOG_INFO);

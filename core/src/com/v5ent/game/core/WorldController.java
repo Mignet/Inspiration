@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.entities.Target;
-import com.v5ent.game.hud.PlayerHUD;
+import com.v5ent.game.screens.HUDScreen;
 import com.v5ent.game.pfa.GraphGenerator;
 import com.v5ent.game.pfa.ManhattanDistance;
 import com.v5ent.game.pfa.MyGraph;
@@ -32,9 +32,10 @@ public class WorldController extends InputAdapter {
     /** main camera **/
     public OrthographicCamera camera = null;
 
-    private OrthographicCamera _hudCamera = null;
-    private InputMultiplexer _multiplexer;
-    private static PlayerHUD _playerHUD;
+    public OrthographicCamera hudCamera = null;
+    private InputMultiplexer multiplexer;
+    /**head-up-display */
+    public HUDScreen hudScreen;
 
     public MapsManager mapMgr;
     public Role player;
@@ -55,14 +56,15 @@ public class WorldController extends InputAdapter {
         player = new Role("lante");
         player.setPosInMap(MapsManager.START_POINT);
 
-        _hudCamera = new OrthographicCamera();
-        _hudCamera.setToOrtho(
+        hudCamera = new OrthographicCamera();
+        hudCamera.setToOrtho(
                 false,Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
-        _playerHUD = new PlayerHUD(_hudCamera, player);
-        _multiplexer = new InputMultiplexer();
-        _multiplexer.addProcessor(_playerHUD.getStage());
-        _multiplexer.addProcessor(this);
-        Gdx.input.setInputProcessor(_multiplexer);
+        
+        hudScreen = new HUDScreen(hudCamera, player);
+        multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(hudScreen.getStage());
+        multiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(multiplexer);
 //        Gdx.input.setInputProcessor(this);
     }
 
@@ -87,6 +89,8 @@ public class WorldController extends InputAdapter {
         y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.rows * 32f - Constants.VIEWPORT_HEIGHT / 2);
         camera.position.set(x, y, 0f);
         camera.update();
+//        hudCamera.position.set(x, y, 0f);
+//        hudCamera.update();
     }
 
     private void handleDebugInput(float delta) {
@@ -190,6 +194,8 @@ public class WorldController extends InputAdapter {
             int npcY = MathUtils.floor(npc.getY() / 32);
             if(npc.isSelected()){
                 npc.setSelected(false);
+                npc.setCurrentDir(Role.Direction.DOWN);
+                hudScreen.hideSpeech();
             }
             if (npcX == x && npcY == y) {
                 int x0 = MathUtils.floor(player.getX() / 32);
@@ -199,6 +205,7 @@ public class WorldController extends InputAdapter {
                     Gdx.app.debug(TAG, "distance:" + distance + " you clicked " + npc.getEntityId());
                     //TODO:talk with npc
                     npc.setSelected(true);
+                    hudScreen.loadSpeech(npc);
                     //1.face to face
                     int gapX = x0 - npcX;
                     int gapY = y0 - npcY;

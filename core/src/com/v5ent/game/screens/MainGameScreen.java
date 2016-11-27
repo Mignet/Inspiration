@@ -44,6 +44,8 @@ public class MainGameScreen implements Screen{
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			// Render game world to screen
 			worldRenderer.render();
+			//HUD
+			worldController.hudScreen.render(delta);
 		}
 
 		@Override

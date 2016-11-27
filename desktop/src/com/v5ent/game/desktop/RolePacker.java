@@ -14,8 +14,6 @@ import javax.imageio.ImageIO;
 
 public class RolePacker {
     public static void main(String[] args) throws IOException {
-//		mergeImage("D:/快盘/libgdx-1.2.0/test/core/assets/gjl/move", 8,8);
-//		mergeImage("D:/快盘/libgdx-1.2.0/test/core/assets/gjl/stand", 8,16);
         splitImage("F:\\backend\\Inspiration\\android\\assets\\heros",4,3);
     }
 
@@ -23,17 +21,14 @@ public class RolePacker {
 
         String originalImg = src+"\\ASL.png";
 
-        // 读入大图
         File file = new File(originalImg);
         FileInputStream fis = new FileInputStream(file);
         BufferedImage image = ImageIO.read(fis);
 
-        // 分割成4*4(16)个小图
 //	    int rows = 4;
 //	    int cols = 4;
         int chunks = rows * cols;
 
-        // 计算每个小图的宽度和高度
         int chunkWidth = image.getWidth() / cols;
         int chunkHeight = image.getHeight() / rows;
 
@@ -41,10 +36,8 @@ public class RolePacker {
         BufferedImage imgs[] = new BufferedImage[chunks];
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < cols; y++) {
-                //设置小图的大小和类型
                 imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
 
-                //写入图像内容
                 Graphics2D gr = imgs[count++].createGraphics();
                 gr.drawImage(image, 0, 0,
                         chunkWidth, chunkHeight,
@@ -55,12 +48,11 @@ public class RolePacker {
             }
         }
 
-        // 输出小图
         for (int i = 0; i < imgs.length; i++) {
             ImageIO.write(imgs[i], "png", new File(src+"\\001\\" + i + ".png"));
         }
 
-        System.out.println("完成分割！");
+        System.out.println("Completed!");
     }
 
     private static void mergeImage(String dir,int rows,int cols) throws IOException {
@@ -98,6 +90,6 @@ public class RolePacker {
         //输出拼接后的图像
         ImageIO.write(finalImg, "png", new File(dir+"\\gjl-move-"+chunkWidth+"-"+chunkHeight+".png"));
 
-        System.out.println("完成拼接！");
+        System.out.println("Merged!");
     }
 }

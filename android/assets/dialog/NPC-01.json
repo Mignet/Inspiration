@@ -1,0 +1,107 @@
+{
+conversations: {
+        1: {
+                id: 1
+                dialog: 我是这里的名人. 大家都叫我米兰达. 我有一个礼物.
+        }
+        2: {
+                id: 2
+                dialog: 让我试试。你最喜欢的方向是什么? 
+        }
+        3: {
+                id: 3
+                dialog: 这条路-由火一般的战斗铸造而成.
+        }
+        4: {
+                id: 4
+                dialog: 这条路-欺骗和狡诈将是你拯救世界的阻碍.
+        }
+        5: {
+                id: 5
+                dialog: 这条路-意志力和强大的内心将帮助你度过挑战.
+        }
+        6: {
+                id: 6
+                dialog: 这条路-充满了背叛和欺骗。是一场疲惫的旅行.
+        }
+}
+associatedChoices: {
+        1: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 1
+                        destinationId: 2
+                        choicePhrase: 继续
+						conversationCommandEvent: NONE
+                }
+        ]
+        2: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 3
+                        choicePhrase: 北
+						conversationCommandEvent: NONE
+                }
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 4
+                        choicePhrase: 东
+						conversationCommandEvent: NONE
+                }
+				{
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 5
+                        choicePhrase: 西
+						conversationCommandEvent: NONE
+                }
+				{
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 6
+                        choicePhrase: 南
+						conversationCommandEvent: NONE
+                }
+        ]
+        3: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 3
+                        destinationId: 1
+                        choicePhrase: 回到开始!
+						conversationCommandEvent: NONE
+                }
+        ]
+		4: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 4
+                        destinationId: 1
+                        choicePhrase: 回到开始!
+						conversationCommandEvent: NONE
+                }
+        ]
+		5: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 5
+                        destinationId: 1
+                        choicePhrase: 回到开始!
+						conversationCommandEvent: NONE
+                }
+        ]
+		6: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 6
+                        destinationId: 1
+                        choicePhrase: 回到开始!
+						conversationCommandEvent: NONE
+                }
+        ]
+		
+}
+currentConversationID: 1
+}

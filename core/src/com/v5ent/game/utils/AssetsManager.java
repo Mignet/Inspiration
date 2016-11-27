@@ -38,7 +38,8 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	private final static String STATUSUI_TEXTURE_ATLAS_PATH = "skins/statusui.pack";
 	private final static String STATUSUI_SKIN_PATH = "skins/statusui.json";
 
-	public static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH));
+	public static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
+	public static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
 	// singleton: prevent instantiation from other classes
 	private AssetsManager() {
 	}
@@ -175,6 +176,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		}
 		assetManager.load(Resource.TOUCH,Texture.class);
 		assetManager.load(Resource.SHADOW,Texture.class);
+		assetManager.load(Resource.SELECTED,Texture.class);
 		assetManager.load(Resource.SELECTED,Texture.class);
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
