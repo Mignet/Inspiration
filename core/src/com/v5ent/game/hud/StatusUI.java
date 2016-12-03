@@ -20,7 +20,6 @@ public class StatusUI extends Window {
 
     private ImageButton _inventoryButton;
     private ImageButton _questButton;
-//    private Array<StatusObserver> _observers;
 
     private Array<LevelTable> _levelTables;
     private static final String LEVEL_TABLE_CONFIG = "data/level_tables.json";

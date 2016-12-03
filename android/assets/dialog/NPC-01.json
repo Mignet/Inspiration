@@ -10,19 +10,19 @@ conversations: {
         }
         3: {
                 id: 3
-                dialog: 这条路-由火一般的战斗铸造而成.
+                dialog: 北方这条路-由火一般的战斗铸造而成.
         }
         4: {
                 id: 4
-                dialog: 这条路-欺骗和狡诈将是你拯救世界的阻碍.
+                dialog: 东方这条路-欺骗和狡诈将是你拯救世界的阻碍.
         }
         5: {
                 id: 5
-                dialog: 这条路-意志力和强大的内心将帮助你度过挑战.
+                dialog: 西方这条路-意志力和强大的内心将帮助你度过挑战.
         }
         6: {
                 id: 6
-                dialog: 这条路-充满了背叛和欺骗。是一场疲惫的旅行.
+                dialog: 南方这条路-充满了背叛和欺骗。是一场疲惫的旅行.
         }
 }
 associatedChoices: {
@@ -40,28 +40,28 @@ associatedChoices: {
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 2
                         destinationId: 3
-                        choicePhrase: 北
+                        choicePhrase: 我最喜欢的方向是-北方
 						conversationCommandEvent: NONE
                 }
                 {
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 2
                         destinationId: 4
-                        choicePhrase: 东
+                        choicePhrase: 我最喜欢的方向是-东方
 						conversationCommandEvent: NONE
                 }
 				{
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 2
                         destinationId: 5
-                        choicePhrase: 西
+                        choicePhrase: 我最喜欢的方向是-西方
 						conversationCommandEvent: NONE
                 }
 				{
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 2
                         destinationId: 6
-                        choicePhrase: 南
+                        choicePhrase: 我最喜欢的方向是-南方
 						conversationCommandEvent: NONE
                 }
         ]

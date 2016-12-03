@@ -18,8 +18,8 @@ import com.v5ent.game.dialog.ConversationGraph;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.utils.AssetsManager;
 
-public class ConversationUI extends Window {
-    private static final String TAG = ConversationUI.class.getSimpleName();
+public class DialogUI extends Window {
+    private static final String TAG = DialogUI.class.getSimpleName();
 
     private Label _dialogText;
     private List _listItems;
@@ -29,7 +29,7 @@ public class ConversationUI extends Window {
 
     private Json _json;
 
-    public ConversationUI() {
+    public DialogUI() {
         super("对话", AssetsManager.instance.STATUSUI_SKIN, "solidbackground");
 
         _json = new Json();
@@ -82,7 +82,7 @@ public class ConversationUI extends Window {
     }
 
     public void loadConversation(Role role){
-        String fullFilenamePath = "dialog\\"+role.getEntityId()+".json";
+        String fullFilenamePath = "dialog/"+role.getEntityId()+".json";
         this.setName("");
 
         clearDialog();
@@ -115,7 +115,11 @@ public class ConversationUI extends Window {
         _graph.setCurrentConversation(conversationID);
         _dialogText.setText(conversation.getDialog());
         ArrayList<ConversationChoice> choices =  _graph.getCurrentChoices();
-        if( choices == null ) return;
+        if( choices == null ) {
+            this.setHeight(160);
+            return;
+        }
+        this.setHeight(160 + choices.size()*30);
         _listItems.setItems(choices.toArray());
         _listItems.setSelectedIndex(-1);
     }

@@ -8,9 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
-import com.v5ent.game.hud.ConversationUI;
+import com.v5ent.game.hud.DialogUI;
 import com.v5ent.game.hud.StatusUI;
 
 /**
@@ -18,8 +17,8 @@ import com.v5ent.game.hud.StatusUI;
  */
 public class HUDScreen implements Screen {
     private Stage stage;
-    private ConversationUI conversationUI;
-    private StatusUI _statusUI;
+    private DialogUI conversationUI;
+    private StatusUI statusUI;
 
     public Stage getStage() {
         return stage;
@@ -29,28 +28,29 @@ public class HUDScreen implements Screen {
     public HUDScreen(Camera camera, Role player) {
         viewport = new ScreenViewport(camera);
         stage = new Stage(viewport);
-        _statusUI = new StatusUI();
-        _statusUI.setVisible(true);
-        _statusUI.setPosition(0, 0);
-        _statusUI.setKeepWithinStage(false);
-        _statusUI.setMovable(false);
+        statusUI = new StatusUI();
+        statusUI.setVisible(true);
+        statusUI.setPosition(0, 0);
+        statusUI.setKeepWithinStage(false);
+        statusUI.setMovable(false);
 //        _inventoryUI = new InventoryUI();
-        conversationUI = new ConversationUI();
-        conversationUI.setMovable(true);
+        conversationUI = new DialogUI();
+//        conversationUI.setMovable(true);
+        conversationUI.setModal(true);
         conversationUI.setVisible(false);
-        conversationUI.setPosition(stage.getWidth() / 2, 0);
-        conversationUI.setWidth(stage.getWidth() / 2);
-        conversationUI.setHeight(stage.getHeight() / 2);
+        conversationUI.setPosition(20, 10);
+        conversationUI.setWidth(stage.getWidth()-40);
+        conversationUI.setHeight(160);
 
-        stage.addActor(_statusUI);
+//        stage.addActor(statusUI);
 //        _stage.addActor(_inventoryUI);
         stage.addActor(conversationUI);
 
-        _statusUI.validate();
+        statusUI.validate();
         conversationUI.validate();
 
         //Listeners
-        ImageButton inventoryButton = _statusUI.getInventoryButton();
+        ImageButton inventoryButton = statusUI.getInventoryButton();
         inventoryButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                /* _inventoryUI.setVisible(_inventoryUI.isVisible() ? false : true);
@@ -68,7 +68,7 @@ public class HUDScreen implements Screen {
             }
         });
 
-        ImageButton questButton = _statusUI.getQuestButton();
+        ImageButton questButton = statusUI.getQuestButton();
         questButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                /* _questUI.setVisible(_questUI.isVisible() ? false : true);
