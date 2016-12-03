@@ -6,11 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.hud.DialogUI;
 import com.v5ent.game.hud.StatusUI;
+import com.v5ent.game.utils.Constants;
 
 /**
  * Created by Mignet on 2016/11/26.
@@ -24,9 +27,9 @@ public class HUDScreen implements Screen {
         return stage;
     }
 
-    private Viewport viewport;
+    private ExtendViewport viewport;
     public HUDScreen(Camera camera, Role player) {
-        viewport = new ScreenViewport(camera);
+        viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,camera);
         stage = new Stage(viewport);
         statusUI = new StatusUI();
         statusUI.setVisible(true);
@@ -42,7 +45,7 @@ public class HUDScreen implements Screen {
         conversationUI.setWidth(stage.getWidth()-40);
         conversationUI.setHeight(160);
 
-//        stage.addActor(statusUI);
+        stage.addActor(statusUI);
 //        _stage.addActor(_inventoryUI);
         stage.addActor(conversationUI);
 

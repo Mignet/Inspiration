@@ -53,7 +53,7 @@ public class WorldRenderer implements Disposable {
 		//mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		mapRenderer.setView(worldController.camera);
-		mapRenderer.render();
+//		mapRenderer.render();
 		mapRenderer.getBatch().begin();
 		//地面
 		TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.GROUND_LAYER);

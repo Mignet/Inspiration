@@ -49,6 +49,7 @@ public class WorldController extends InputAdapter {
 
     private void init() {
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+//        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(0, 0, 0);
         camera.update();
 
@@ -57,9 +58,9 @@ public class WorldController extends InputAdapter {
         player.setPosInMap(MapsManager.START_POINT);
 
         hudCamera = new OrthographicCamera();
-        hudCamera.setToOrtho(
-                false,Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
-        
+        hudCamera.setToOrtho(false,Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
+//        hudCamera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//physical world
+        hudCamera.update();
         hudScreen = new HUDScreen(hudCamera, player);
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(hudScreen.getStage());
