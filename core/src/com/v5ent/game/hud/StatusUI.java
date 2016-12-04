@@ -6,14 +6,16 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.battle.LevelTable;
 import com.v5ent.game.utils.AssetsManager;
 
-public class StatusUI extends Window {
+public class StatusUI extends Table {
     private Image _hpBar;
     private Image _mpBar;
     private Image _xpBar;
@@ -45,11 +47,9 @@ public class StatusUI extends Window {
     private float _barHeight = 0;
 
     public StatusUI(){
-        super("状态", AssetsManager.instance.STATUSUI_SKIN);
-
+        super(AssetsManager.instance.STATUSUI_SKIN);
+        this.setBackground("status");
         _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
-
-//        _observers = new Array<StatusObserver>();
 
         //groups
         WidgetGroup group = new WidgetGroup();
@@ -77,7 +77,7 @@ public class StatusUI extends Window {
         _mpValLabel = new Label(String.valueOf(_mpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label xpLabel = new Label(" 经验: ", AssetsManager.instance.STATUSUI_SKIN);
         _xpValLabel = new Label(String.valueOf(_xpVal), AssetsManager.instance.STATUSUI_SKIN);
-        Label levelLabel = new Label(" 等级: ", AssetsManager.instance.STATUSUI_SKIN);
+        Label levelLabel = new Label("Level:", AssetsManager.instance.STATUSUI_SKIN);
         _levelValLabel = new Label(String.valueOf(_levelVal), AssetsManager.instance.STATUSUI_SKIN);
         Label goldLabel = new Label(" 金币: ", AssetsManager.instance.STATUSUI_SKIN);
         _goldValLabel = new Label(String.valueOf(_goldVal), AssetsManager.instance.STATUSUI_SKIN);
@@ -93,12 +93,6 @@ public class StatusUI extends Window {
         _hpBar.setWidth(_barWidth * _hpVal/_hpCurrentMax);
         _mpBar.setWidth(_barWidth * _mpVal/_mpCurrentMax);
         _xpBar.setWidth(_barWidth * _xpVal/_xpCurrentMax);
-//        _hpBar.setPosition(3, 6);
-//        _mpBar.setPosition(3, 6);
-//        _xpBar.setPosition(3, 6);
-//        bar.setPosition(3, 6);
-//        bar2.setPosition(3, 6);
-//        bar3.setPosition(3, 6);
 
         //add to widget groups
         group.addActor(_hpBar);
@@ -111,35 +105,43 @@ public class StatusUI extends Window {
         //Add to layout
         defaults().expand().fill();
 
-        //account for the title padding
-        this.pad(this.getPadTop() + 10, 10, 10, 10);
+        //top layout
+        Table leftTable = new Table();
+        leftTable.add(header).size(header.getWidth(), header.getHeight()).pad(2,2,2,2).colspan(2);
+        leftTable.row();
 
-        this.add(header).size(header.getWidth(), header.getHeight());
-//        this.add(header).align(Align.left);
-        this.add(_questButton).align(Align.center);
-        this.add(_inventoryButton).align(Align.right).padRight(10);
-        this.row();
 
-        this.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10);
-        this.add(hpLabel);
-        this.add(_hpValLabel).align(Align.left);
-        this.row();
+        Table rightTable = new Table();
+        rightTable.add(levelLabel).align(Align.left);
+        rightTable.add(_levelValLabel).align(Align.left);
+//        rightTable.add(goldLabel);
+//        rightTable.add(_goldValLabel).align(Align.left);
+        rightTable.row();
 
-        this.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10);
-        this.add(mpLabel);
-        this.add(_mpValLabel).align(Align.left);
-        this.row();
+        rightTable.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10).colspan(4);
+//        rightTable.add(hpLabel);
+//        rightTable.add(_hpValLabel).align(Align.left);
+        rightTable.row();
 
-        this.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10);
-        this.add(xpLabel);
-        this.add(_xpValLabel).align(Align.left).padRight(20);
-        this.row();
+        rightTable.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10).colspan(4);
+//        rightTable.add(mpLabel);
+//        rightTable.add(_mpValLabel).align(Align.left);
+        rightTable.row();
 
-        this.add(levelLabel).align(Align.left);
-        this.add(_levelValLabel).align(Align.left);
-        this.row();
-        this.add(goldLabel);
-        this.add(_goldValLabel).align(Align.left);
+        rightTable.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10).colspan(4);
+//        rightTable.add(xpLabel);
+//        rightTable.add(_xpValLabel).align(Align.left).padRight(20);
+        rightTable.row();
+
+        //
+        Table topTable = new Table();
+        topTable.add(_questButton);
+        topTable.add(_inventoryButton);
+        topTable.row();
+
+        this.add(leftTable);
+        this.add(rightTable);
+        this.add(topTable);
 
 //        this.debug();
         this.pack();

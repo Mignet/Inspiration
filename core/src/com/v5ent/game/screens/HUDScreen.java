@@ -20,7 +20,7 @@ import com.v5ent.game.utils.Constants;
  */
 public class HUDScreen implements Screen {
     private Stage stage;
-    private DialogUI conversationUI;
+    private DialogUI dialogUI;
     private StatusUI statusUI;
 
     public Stage getStage() {
@@ -33,24 +33,24 @@ public class HUDScreen implements Screen {
         stage = new Stage(viewport);
         statusUI = new StatusUI();
         statusUI.setVisible(true);
-        statusUI.setPosition(0, 0);
-        statusUI.setKeepWithinStage(false);
-        statusUI.setMovable(false);
+        statusUI.setPosition(0,stage.getHeight()-statusUI.getHeight());
+//        statusUI.setKeepWithinStage(false);
+//        statusUI.setMovable(false);
 //        _inventoryUI = new InventoryUI();
-        conversationUI = new DialogUI();
-//        conversationUI.setMovable(true);
-        conversationUI.setModal(true);
-        conversationUI.setVisible(false);
-        conversationUI.setPosition(20, 10);
-        conversationUI.setWidth(stage.getWidth()-40);
-        conversationUI.setHeight(160);
+        dialogUI = new DialogUI();
+        dialogUI.setMovable(false);
+        dialogUI.setModal(true);
+        dialogUI.setVisible(false);
+        dialogUI.setPosition(20, 10);
+        dialogUI.setWidth(stage.getWidth()-40);
+        dialogUI.setHeight(160);
 
         stage.addActor(statusUI);
 //        _stage.addActor(_inventoryUI);
-        stage.addActor(conversationUI);
+        stage.addActor(dialogUI);
 
         statusUI.validate();
-        conversationUI.validate();
+        dialogUI.validate();
 
         //Listeners
         ImageButton inventoryButton = statusUI.getInventoryButton();
@@ -88,20 +88,20 @@ public class HUDScreen implements Screen {
                 }*/
             }
         });
-        conversationUI.getCloseButton().addListener(new ClickListener() {
+        dialogUI.getCloseButton().addListener(new ClickListener() {
                  @Override
                  public void clicked(InputEvent event, float x, float y) {
-                     conversationUI.setVisible(false);
+                     dialogUI.setVisible(false);
                  }
              }
         );
     }
     public void loadSpeech(Role npc){
-        conversationUI.loadConversation(npc);
-        conversationUI.setVisible(true);
+        dialogUI.loadConversation(npc);
+        dialogUI.setVisible(true);
     }
     public void hideSpeech(){
-        conversationUI.setVisible(false);
+        dialogUI.setVisible(false);
     }
     @Override
     public void show() {

@@ -5,8 +5,8 @@ repeat: none
 status
   rotate: false
   xy: 2, 2
-  size: 170, 120
-  orig: 170, 120
+  size: 170, 56
+  orig: 170, 56
   offset: 0, 0
   index: -1
 bar
