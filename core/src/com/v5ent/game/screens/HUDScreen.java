@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.v5ent.game.core.WorldController;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.hud.DialogUI;
 import com.v5ent.game.hud.StatusUI;
@@ -19,6 +20,7 @@ import com.v5ent.game.utils.Constants;
  * Created by Mignet on 2016/11/26.
  */
 public class HUDScreen implements Screen {
+    private WorldController worldController;
     private Stage stage;
     private DialogUI dialogUI;
     private StatusUI statusUI;
@@ -28,8 +30,9 @@ public class HUDScreen implements Screen {
     }
 
     private ExtendViewport viewport;
-    public HUDScreen(Camera camera, Role player) {
-        viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,camera);
+    public HUDScreen(WorldController controller, Role player) {
+        worldController = controller;
+        viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,controller.hudCamera);
         stage = new Stage(viewport);
         statusUI = new StatusUI();
         statusUI.setVisible(true);
@@ -91,6 +94,7 @@ public class HUDScreen implements Screen {
         dialogUI.getCloseButton().addListener(new ClickListener() {
                  @Override
                  public void clicked(InputEvent event, float x, float y) {
+                     worldController.closeSpeech();
                      dialogUI.setVisible(false);
                  }
              }

@@ -61,7 +61,7 @@ public class WorldController extends InputAdapter {
         hudCamera.setToOrtho(false,Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
 //        hudCamera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//physical world
         hudCamera.update();
-        hudScreen = new HUDScreen(hudCamera, player);
+        hudScreen = new HUDScreen(this, player);
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(hudScreen.getStage());
         multiplexer.addProcessor(this);
@@ -189,6 +189,15 @@ public class WorldController extends InputAdapter {
         return true;
     }
 
+    public void closeSpeech(){
+        for (Npc npc : this.mapMgr.npcs) {
+            if(npc.isSelected()){
+                npc.setSelected(false);
+                npc.setCurrentDir(Role.Direction.DOWN);
+                hudScreen.hideSpeech();
+            }
+        }
+    }
     private boolean isCollisionWithNpc(int x, int y) {
         for (Npc npc : this.mapMgr.npcs) {
             int npcX = MathUtils.floor(npc.getX() / 32);

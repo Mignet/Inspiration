@@ -21,11 +21,11 @@ import com.v5ent.game.utils.AssetsManager;
 public class DialogUI extends Window {
     private static final String TAG = DialogUI.class.getSimpleName();
 
-    private Label _dialogText;
-    private List _listItems;
+    private Label talkText;
+    private List items;
     private ConversationGraph _graph;
 
-    private TextButton _closeButton;
+    private TextButton closeButton;
 
     private Json _json;
 
@@ -36,14 +36,14 @@ public class DialogUI extends Window {
         _graph = new ConversationGraph();
 
         //create
-        _dialogText = new Label("没有谈话", AssetsManager.instance.STATUSUI_SKIN);
-        _dialogText.setWrap(true);
-        _dialogText.setAlignment(Align.center);
-        _listItems = new List<ConversationChoice>(AssetsManager.instance.STATUSUI_SKIN);
+        talkText = new Label("没有谈话", AssetsManager.instance.STATUSUI_SKIN);
+        talkText.setWrap(true);
+        talkText.setAlignment(Align.center);
+        items = new List<ConversationChoice>(AssetsManager.instance.STATUSUI_SKIN);
 
-        _closeButton = new TextButton("X", AssetsManager.instance.STATUSUI_SKIN);
+        closeButton = new TextButton("X", AssetsManager.instance.STATUSUI_SKIN);
 
-        ScrollPane scrollPane = new ScrollPane(_listItems/*, AssetsManager.instance.STATUSUI_SKIN, "inventoryPane"*/);
+        ScrollPane scrollPane = new ScrollPane(items);
         scrollPane.setOverscroll(false, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setScrollingDisabled(true, false);
@@ -52,11 +52,11 @@ public class DialogUI extends Window {
 
         //layout
         this.add();
-        this.add(_closeButton);
+        this.add(closeButton);
         this.row();
 
         this.defaults().expand().fill();
-        this.add(_dialogText).pad(10, 10, 10, 10);
+        this.add(talkText).pad(10, 10, 10, 10);
         this.row();
         this.add(scrollPane).pad(10,10,10,10);
 
@@ -64,10 +64,10 @@ public class DialogUI extends Window {
         this.pack();
 
         //Listeners
-        _listItems.addListener(new ClickListener() {
+        items.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                ConversationChoice choice = (ConversationChoice)_listItems.getSelected();
+                ConversationChoice choice = (ConversationChoice)items.getSelected();
                 if( choice == null ) return;
                 //TODO: pickup,sleep event etc
 //                _graph.notify(_graph, choice.getConversationCommandEvent());
@@ -78,7 +78,7 @@ public class DialogUI extends Window {
     }
 
     public TextButton getCloseButton(){
-        return _closeButton;
+        return closeButton;
     }
 
     public void loadConversation(Role role){
@@ -113,20 +113,20 @@ public class DialogUI extends Window {
         Conversation conversation = _graph.getConversationByID(conversationID);
         if( conversation == null ) return;
         _graph.setCurrentConversation(conversationID);
-        _dialogText.setText(conversation.getDialog());
+        talkText.setText(conversation.getDialog());
         ArrayList<ConversationChoice> choices =  _graph.getCurrentChoices();
         if( choices == null ) {
             this.setHeight(160);
             return;
         }
         this.setHeight(160 + choices.size()*30);
-        _listItems.setItems(choices.toArray());
-        _listItems.setSelectedIndex(-1);
+        items.setItems(choices.toArray());
+        items.setSelectedIndex(-1);
     }
 
     private void clearDialog(){
-        _dialogText.setText("");
-        _listItems.clearItems();
+        talkText.setText("");
+        items.clearItems();
     }
 
 }
