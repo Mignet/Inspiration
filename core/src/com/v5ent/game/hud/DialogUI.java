@@ -119,7 +119,7 @@ public class DialogUI extends Window {
             this.setHeight(160);
             return;
         }
-        this.setHeight(160 + choices.size()*30);
+        this.setHeight(140 + choices.size()*30);
         items.setItems(choices.toArray());
         items.setSelectedIndex(-1);
     }

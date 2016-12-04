@@ -36,10 +36,12 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	public Texture shadow;
 	public Texture selected;
 	private final static String STATUSUI_TEXTURE_ATLAS_PATH = "skins/statusui.pack";
+	private final static String ITEMS_TEXTURE_ATLAS_PATH = "skins/items.atlas";
 	private final static String STATUSUI_SKIN_PATH = "skins/statusui.json";
 
-	public static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
-	public static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
+	public TextureAtlas STATUSUI_TEXTUREATLAS ;
+	public TextureAtlas ITEMS_TEXTUREATLAS ;
+	public Skin STATUSUI_SKIN ;
 	// singleton: prevent instantiation from other classes
 	private AssetsManager() {
 	}
@@ -177,7 +179,9 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		assetManager.load(Resource.TOUCH,Texture.class);
 		assetManager.load(Resource.SHADOW,Texture.class);
 		assetManager.load(Resource.SELECTED,Texture.class);
-		assetManager.load(Resource.SELECTED,Texture.class);
+
+		assetManager.load(STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
+		assetManager.load(ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
 
@@ -210,6 +214,9 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		touch = new AssetTouch(assetManager.get(Resource.TOUCH,Texture.class));
 		shadow = assetManager.get(Resource.SHADOW,Texture.class);
 		selected = assetManager.get(Resource.SELECTED,Texture.class);
+		STATUSUI_TEXTUREATLAS = assetManager.get(STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
+		ITEMS_TEXTUREATLAS = assetManager.get(ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
+		STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
 	}
 
 	@Override

@@ -2,10 +2,12 @@ package com.v5ent.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -13,7 +15,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.v5ent.game.core.WorldController;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.hud.DialogUI;
+import com.v5ent.game.hud.InventoryUI;
 import com.v5ent.game.hud.StatusUI;
+import com.v5ent.game.inventory.InventoryItem;
+import com.v5ent.game.inventory.InventoryItemLocation;
 import com.v5ent.game.utils.Constants;
 
 /**
@@ -22,8 +27,11 @@ import com.v5ent.game.utils.Constants;
 public class HUDScreen implements Screen {
     private WorldController worldController;
     private Stage stage;
-    private DialogUI dialogUI;
     private StatusUI statusUI;
+    private DialogUI dialogUI;
+    private InventoryUI inventoryUI;
+    private final ImageButton inventoryButton;
+    private final ImageButton questButton;
 
     public Stage getStage() {
         return stage;
@@ -39,7 +47,13 @@ public class HUDScreen implements Screen {
         statusUI.setPosition(0,stage.getHeight()-statusUI.getHeight());
 //        statusUI.setKeepWithinStage(false);
 //        statusUI.setMovable(false);
-//        _inventoryUI = new InventoryUI();
+        inventoryUI = new InventoryUI();
+        inventoryUI.setKeepWithinStage(false);
+        inventoryUI.setMovable(false);
+        inventoryUI.setVisible(false);
+        inventoryUI.setPosition(20, 0);
+        initInventory(player);
+
         dialogUI = new DialogUI();
         dialogUI.setMovable(false);
         dialogUI.setModal(true);
@@ -49,19 +63,26 @@ public class HUDScreen implements Screen {
         dialogUI.setHeight(160);
 
         stage.addActor(statusUI);
-//        _stage.addActor(_inventoryUI);
+        stage.addActor(inventoryUI);
         stage.addActor(dialogUI);
 
         statusUI.validate();
         dialogUI.validate();
+        inventoryUI.validate();
+
+        //add tooltips to the stage
+        Array<Actor> actors = inventoryUI.getInventoryActors();
+        for(Actor actor : actors){
+            stage.addActor(actor);
+        }
 
         //Listeners
-        ImageButton inventoryButton = statusUI.getInventoryButton();
+        inventoryButton = statusUI.getInventoryButton();
         inventoryButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-               /* _inventoryUI.setVisible(_inventoryUI.isVisible() ? false : true);
+                inventoryUI.setVisible(inventoryUI.isVisible() ? false : true);
                 //显示即禁用
-                if(_inventoryUI.isVisible()){
+                /*if(_inventoryUI.isVisible()){
                     followCnt++;
                 }else{
                     followCnt--;
@@ -74,7 +95,7 @@ public class HUDScreen implements Screen {
             }
         });
 
-        ImageButton questButton = statusUI.getQuestButton();
+        questButton = statusUI.getQuestButton();
         questButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                /* _questUI.setVisible(_questUI.isVisible() ? false : true);
@@ -91,6 +112,15 @@ public class HUDScreen implements Screen {
                 }*/
             }
         });
+        inventoryUI.getCloseButton().addListener(new ClickListener() {
+                 @Override
+                 public void clicked(InputEvent event, float x, float y) {
+                     inventoryUI.setVisible(false);
+                     inventoryButton.setChecked(false);
+//                     worldController.closeSpeech();
+                 }
+             }
+        );
         dialogUI.getCloseButton().addListener(new ClickListener() {
                  @Override
                  public void clicked(InputEvent event, float x, float y) {
@@ -100,6 +130,28 @@ public class HUDScreen implements Screen {
              }
         );
     }
+
+    private void initInventory(Role player) {
+        InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
+        InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
+        inventoryUI.resetEquipSlots();
+
+//        questUI.setQuests(new Array<QuestGraph>());
+
+        //add default items if first time
+        Array<InventoryItem.ItemTypeID> items = player.getInventory();
+        Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
+        for( int i = 0; i < items.size; i++){
+            itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, InventoryUI.PLAYER_INVENTORY));
+        }
+        InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
+//        profileManager.setProperty("playerInventory", InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
+
+        //start the player with some money
+        statusUI.setGoldValue(2000);
+        statusUI.setStatusForLevel(1);
+    }
+
     public void loadSpeech(Role npc){
         dialogUI.loadConversation(npc);
         dialogUI.setVisible(true);

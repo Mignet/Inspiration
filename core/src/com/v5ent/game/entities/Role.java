@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.pfa.MyNode;
 import com.v5ent.game.utils.AssetsManager;
 
@@ -41,9 +42,15 @@ public class Role extends Sprite{
 	/**just for draw */
 	protected TextureRegion currentFrame = null;
 	public Array<MyNode> path = new Array<MyNode>(true,10);
-
-	// what role want to move
-	private Vector2 targetPosition;
+	// move to target
+	private Vector2 movingTarget;
+	//InventoryItem
+	private String questConfigPath;
+	private String currentQuestID;
+	private String itemTypeID = "NONE";
+	// role inventory
+	private Array<InventoryItem.ItemTypeID> inventory = new Array<InventoryItem.ItemTypeID>();;
+	
 
 	public Animation getAnimation(State animationType) {
 		if(currentState==State.IDLE || currentState==State.FIXED){
@@ -92,7 +99,7 @@ public class Role extends Sprite{
 	public void init(String entityId){
 		this.entityId = entityId;
 		this.nextPosition = new Vector2();
-		this.targetPosition = new Vector2();
+		this.movingTarget = new Vector2();
 		AssetsManager.AssetRole assetRole = AssetsManager.instance.assetRoles.get(entityId);
 		this.idleLeftAnimation = assetRole.idleLeftAnimation;
 		this.idleRightAnimation = assetRole.idleRightAnimation;
@@ -107,6 +114,20 @@ public class Role extends Sprite{
 		this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
 		// Set origin to sprite's center
 		this.setOrigin(this.getWidth() / 2.0f, 0);
+		//inventory
+		inventory.add(InventoryItem.ItemTypeID.ARMOR04);
+		inventory.add(InventoryItem.ItemTypeID.BOOTS03);
+		inventory.add(InventoryItem.ItemTypeID.HELMET05);
+		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
+		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
+		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
+		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
+		inventory.add(InventoryItem.ItemTypeID.SCROLL01);
+		inventory.add(InventoryItem.ItemTypeID.SCROLL01);
+		inventory.add(InventoryItem.ItemTypeID.SCROLL01);
+		inventory.add(InventoryItem.ItemTypeID.SHIELD02);
+		inventory.add(InventoryItem.ItemTypeID.WANDS02);
+		inventory.add(InventoryItem.ItemTypeID.WEAPON01);
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
@@ -118,8 +139,8 @@ public class Role extends Sprite{
 		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
 		if(this.currentState==State.WALKING){
 			calcNextPosition(delta);
-			if(Math.abs(this.nextPosition.x-this.targetPosition.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.targetPosition.y*32f)<speed*delta){
-				this.setPosInMap(targetPosition);
+			if(Math.abs(this.nextPosition.x-this.movingTarget.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.movingTarget.y*32f)<speed*delta){
+				this.setPosInMap(movingTarget);
 				if(path!=null&&path.size>0){
 					MyNode nextPoint = path.pop();
 					moveTo(nextPoint.getX(),nextPoint.getY());
@@ -198,7 +219,7 @@ public class Role extends Sprite{
 		float testX = this.getX();
 		float testY = this.getY();
 		speed *= (deltaTime);
-		Vector2 v = new Vector2(targetPosition.x*32f-testX,targetPosition.y*32f-testY).nor();
+		Vector2 v = new Vector2(movingTarget.x*32f-testX,movingTarget.y*32f-testY).nor();
 		nextPosition.x = testX + v.x*speed;
 		nextPosition.y = testY + v.y*speed;
 //		Gdx.app.debug(TAG, "nextPosition:"+nextPosition);
@@ -209,7 +230,7 @@ public class Role extends Sprite{
 
 	public void setPosInMap(Vector2 point){
 		this.setPosition(point.x*32f,point.y*32f);
-		targetPosition = point.cpy();
+		movingTarget = point.cpy();
 	}
 
 	public String getEntityId() {
@@ -218,11 +239,24 @@ public class Role extends Sprite{
 	public boolean isArrived() {
 		return isArrived;
 	}
-
 	public void setArrived(boolean arrived) {
 		isArrived = arrived;
 	}
+	public String getItemTypeID() {
+		return itemTypeID;
+	}
 
+	public void setItemTypeID(String itemTypeID) {
+		this.itemTypeID = itemTypeID;
+	}
+
+	public Array<InventoryItem.ItemTypeID> getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Array<InventoryItem.ItemTypeID> inventory) {
+		this.inventory = inventory;
+	}
 	public boolean isSelected() {
 		return isSelected;
 	}
@@ -252,7 +286,7 @@ public class Role extends Sprite{
 			}
 		}
 		this.currentState = State.WALKING;
-		targetPosition = new Vector2(x,y);
+		movingTarget = new Vector2(x,y);
 		isArrived = false;
 	}
 	public void followPath(Array<MyNode> newPath){

@@ -14,6 +14,8 @@ public class DesktopLauncher {
 		cfg.useGL30 = false;
 		cfg.width = 640;
 		cfg.height = 480;
+//		cfg.width = 800;
+//		cfg.height = 600;
 		// fullscreen
 // 		cfg.fullscreen = true;
 		// vSync
