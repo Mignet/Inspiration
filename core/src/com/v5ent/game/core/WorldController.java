@@ -194,7 +194,6 @@ public class WorldController extends InputAdapter {
             if(npc.isSelected()){
                 npc.setSelected(false);
                 npc.setCurrentDir(Role.Direction.DOWN);
-                hudScreen.hideSpeech();
             }
         }
     }
@@ -205,7 +204,6 @@ public class WorldController extends InputAdapter {
             if(npc.isSelected()){
                 npc.setSelected(false);
                 npc.setCurrentDir(Role.Direction.DOWN);
-                hudScreen.hideSpeech();
             }
             if (npcX == x && npcY == y) {
                 int x0 = MathUtils.floor(player.getX() / 32);

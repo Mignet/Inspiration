@@ -8,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.battle.LevelTable;
@@ -40,10 +38,9 @@ public class StatusUI extends Table {
     private Label _hpValLabel;
     private Label _mpValLabel;
     private Label _xpValLabel;
-    private Label _levelValLabel;
+    private Label levelValLabel;
     private Label _goldValLabel;
 
-    private float _barWidth = 0;
     private float _barHeight = 0;
 
     public StatusUI(){
@@ -66,10 +63,7 @@ public class StatusUI extends Table {
 
         Image header = new Image(new Texture(Gdx.files.internal("heros/header1.png")));
 
-        _barWidth = _hpBar.getWidth();
         _barHeight = _hpBar.getHeight();
-
-
         //labels
         Label hpLabel = new Label(" 血量: ", AssetsManager.instance.STATUSUI_SKIN);
         _hpValLabel = new Label(String.valueOf(_hpVal), AssetsManager.instance.STATUSUI_SKIN);
@@ -78,7 +72,7 @@ public class StatusUI extends Table {
         Label xpLabel = new Label(" 经验: ", AssetsManager.instance.STATUSUI_SKIN);
         _xpValLabel = new Label(String.valueOf(_xpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label levelLabel = new Label("Level:", AssetsManager.instance.STATUSUI_SKIN);
-        _levelValLabel = new Label(String.valueOf(_levelVal), AssetsManager.instance.STATUSUI_SKIN);
+        levelValLabel = new Label(String.valueOf(_levelVal), AssetsManager.instance.STATUSUI_SKIN);
         Label goldLabel = new Label(" 金币: ", AssetsManager.instance.STATUSUI_SKIN);
         _goldValLabel = new Label(String.valueOf(_goldVal), AssetsManager.instance.STATUSUI_SKIN);
 
@@ -90,9 +84,9 @@ public class StatusUI extends Table {
         _questButton.getImageCell().size(32,32);
 
         //Align images
-        _hpBar.setWidth(_barWidth * _hpVal/_hpCurrentMax);
-        _mpBar.setWidth(_barWidth * _mpVal/_mpCurrentMax);
-        _xpBar.setWidth(_barWidth * _xpVal/_xpCurrentMax);
+        _hpBar.setWidth(100 * _hpVal/_hpCurrentMax);
+        _mpBar.setWidth(100 * _mpVal/_mpCurrentMax);
+        _xpBar.setWidth(100 * _xpVal/_xpCurrentMax);
 
         //add to widget groups
         group.addActor(_hpBar);
@@ -107,13 +101,13 @@ public class StatusUI extends Table {
 
         //top layout
         Table leftTable = new Table();
-        leftTable.add(header).size(header.getWidth(), header.getHeight()).pad(2,2,2,2).colspan(2);
+        leftTable.add(header).size(header.getWidth(), header.getHeight()).pad(2,2,2,2);
         leftTable.row();
 
 
         Table rightTable = new Table();
         rightTable.add(levelLabel).align(Align.left);
-        rightTable.add(_levelValLabel).align(Align.left);
+        rightTable.add(levelValLabel).align(Align.left);
 //        rightTable.add(goldLabel);
 //        rightTable.add(_goldValLabel).align(Align.left);
         rightTable.row();
@@ -160,7 +154,7 @@ public class StatusUI extends Table {
     }
     public void setLevelValue(int levelValue){
         this._levelVal = levelValue;
-        _levelValLabel.setText(String.valueOf(_levelVal));
+        levelValLabel.setText(String.valueOf(_levelVal));
 //        notify(_levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
     }
 
@@ -342,7 +336,7 @@ public class StatusUI extends Table {
         int val = MathUtils.clamp(currentVal, 0, maxVal);
         float tempPercent = (float) val / (float) maxVal;
         float percentage = MathUtils.clamp(tempPercent, 0, 100);
-        bar.setSize(_barWidth*percentage, _barHeight);
+        bar.setSize(100*percentage, _barHeight);
     }
 
 }

@@ -104,9 +104,6 @@ public class HUDScreen implements Screen {
         dialogUI.loadConversation(npc);
         dialogUI.setVisible(true);
     }
-    public void hideSpeech(){
-        dialogUI.setVisible(false);
-    }
     @Override
     public void show() {
 
