@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.v5ent.game.hud.InventoryUI;
 import com.v5ent.game.utils.AssetsManager;
 
 public class InventorySlot extends Stack {
@@ -15,71 +16,74 @@ public class InventorySlot extends Stack {
     //All slots have this default image
     private Stack _defaultBackground;
     private Image _customBackgroundDecal;
-    private Label _numItemsLabel;
-    private int _numItemsVal = 0;
+    private Label numItemsLabel;
+    private int numItemsVal = 0;
     private int _filterItemType;
+    InventoryUI inventoryUI;
 
-
-    public InventorySlot(){
+    //empty slot
+    public InventorySlot(InventoryUI parent){
+        inventoryUI = parent;
         _filterItemType = 0; //filter nothing
         _defaultBackground = new Stack();
         _customBackgroundDecal = new Image();
         Image image = new Image(AssetsManager.instance.STATUSUI_SKIN,"cell");
 
-        _numItemsLabel = new Label(String.valueOf(_numItemsVal), AssetsManager.instance.STATUSUI_SKIN);
-        _numItemsLabel.setAlignment(Align.bottomRight);
-        _numItemsLabel.setVisible(false);
+        numItemsLabel = new Label(String.valueOf(numItemsVal), AssetsManager.instance.STATUSUI_SKIN);
+        numItemsLabel.setAlignment(Align.bottomRight);
+        numItemsLabel.setVisible(false);
 
         _defaultBackground.add(image);
 
         _defaultBackground.setName("background");
-        _numItemsLabel.setName("numitems");
+        numItemsLabel.setName("numitems");
 
         this.add(_defaultBackground);
-        this.add(_numItemsLabel);
+        this.add(numItemsLabel);
     }
 
-    public InventorySlot(int filterItemType, Image customBackgroundDecal){
-        this();
+    public InventorySlot(InventoryUI inventoryUI,int filterItemType, Image customBackgroundDecal){
+        this(inventoryUI);
         _filterItemType = filterItemType;
         _customBackgroundDecal = customBackgroundDecal;
         _defaultBackground.add(_customBackgroundDecal);
     }
 
     public void decrementItemCount(boolean sendRemoveNotification) {
-        _numItemsVal--;
-        _numItemsLabel.setText(String.valueOf(_numItemsVal));
+        numItemsVal--;
+        numItemsLabel.setText(String.valueOf(numItemsVal));
         if( _defaultBackground.getChildren().size == 1 ){
             _defaultBackground.add(_customBackgroundDecal);
         }
         checkVisibilityOfItemCount();
-        /*if( sendRemoveNotification ){
-            notify(this, InventorySlotObserver.SlotEvent.REMOVED_ITEM);
-        }*/
-
+        if( sendRemoveNotification ){
+//            notify(this, InventorySlotObserver.SlotEvent.REMOVED_ITEM);
+            inventoryUI.removedItem(this);
+        }
     }
 
     public void incrementItemCount(boolean sendAddNotification) {
-        _numItemsVal++;
-        _numItemsLabel.setText(String.valueOf(_numItemsVal));
+        numItemsVal++;
+        numItemsLabel.setText(String.valueOf(numItemsVal));
         if( _defaultBackground.getChildren().size > 1 ){
             _defaultBackground.getChildren().pop();
         }
         checkVisibilityOfItemCount();
-        /*if( sendAddNotification ){
-            notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
-        }*/
+        if( sendAddNotification ){
+//            notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
+            inventoryUI.addedItem(this);
+        }
     }
 
     @Override
     public void add(Actor actor) {
         super.add(actor);
 
-        if( _numItemsLabel == null ){
+        if( numItemsLabel == null ){
             return;
         }
 
-        if( !actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel) ) {
+        if( !actor.equals(_defaultBackground) && !actor.equals(numItemsLabel) ) {
             incrementItemCount(true);
         }
     }
@@ -87,11 +91,11 @@ public class InventorySlot extends Stack {
     public void remove(Actor actor) {
         super.removeActor(actor);
 
-        if( _numItemsLabel == null ){
+        if( numItemsLabel == null ){
             return;
         }
 
-        if( !actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel) ) {
+        if( !actor.equals(_defaultBackground) && !actor.equals(numItemsLabel) ) {
             decrementItemCount(true);
         }
     }
@@ -100,11 +104,11 @@ public class InventorySlot extends Stack {
         for( Actor actor : array){
             super.add(actor);
 
-            if( _numItemsLabel == null ){
+            if( numItemsLabel == null ){
                 return;
             }
 
-            if( !actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel) ) {
+            if( !actor.equals(_defaultBackground) && !actor.equals(numItemsLabel) ) {
                 incrementItemCount(true);
             }
         }
@@ -160,10 +164,10 @@ public class InventorySlot extends Stack {
     }
 
     private void checkVisibilityOfItemCount(){
-        if( _numItemsVal < 2){
-            _numItemsLabel.setVisible(false);
+        if( numItemsVal < 2){
+            numItemsLabel.setVisible(false);
         }else{
-            _numItemsLabel.setVisible(true);
+            numItemsLabel.setVisible(true);
         }
     }
 

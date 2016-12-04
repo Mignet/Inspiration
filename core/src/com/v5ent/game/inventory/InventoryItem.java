@@ -14,14 +14,14 @@ public class InventoryItem extends Image {
         EQUIPPABLE(2),
         STACKABLE(4);
 
-        private int _attribute;
+        private int attribute;
 
         ItemAttribute(int attribute){
-            this._attribute = attribute;
+            this.attribute = attribute;
         }
 
         public int getValue(){
-            return _attribute;
+            return attribute;
         }
 
     }
@@ -40,14 +40,14 @@ public class InventoryItem extends Image {
         ARMOR_FEET(1024),
         QUEST_ITEM(2048);
 
-        private int _itemUseType;
+        private int itemUseType;
 
         ItemUseType(int itemUseType){
-            this._itemUseType = itemUseType;
+            this.itemUseType = itemUseType;
         }
 
         public int getValue(){
-            return _itemUseType;
+            return itemUseType;
         }
     }
 

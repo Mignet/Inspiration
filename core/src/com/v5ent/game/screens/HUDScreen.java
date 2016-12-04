@@ -47,12 +47,11 @@ public class HUDScreen implements Screen {
         statusUI.setPosition(0,stage.getHeight()-statusUI.getHeight());
 //        statusUI.setKeepWithinStage(false);
 //        statusUI.setMovable(false);
-        inventoryUI = new InventoryUI();
+        inventoryUI = new InventoryUI(this);
         inventoryUI.setKeepWithinStage(false);
         inventoryUI.setMovable(false);
         inventoryUI.setVisible(false);
         inventoryUI.setPosition(20, 0);
-        initInventory(player);
 
         dialogUI = new DialogUI();
         dialogUI.setMovable(false);
@@ -81,35 +80,13 @@ public class HUDScreen implements Screen {
         inventoryButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 inventoryUI.setVisible(inventoryUI.isVisible() ? false : true);
-                //显示即禁用
-                /*if(_inventoryUI.isVisible()){
-                    followCnt++;
-                }else{
-                    followCnt--;
-                }
-                if(followCnt>0){
-                    _mapMgr.setFollowSwitch(false);
-                }else{
-                    _mapMgr.setFollowSwitch(true);
-                }*/
             }
         });
 
         questButton = statusUI.getQuestButton();
         questButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-               /* _questUI.setVisible(_questUI.isVisible() ? false : true);
-                //显示即禁用
-                if(_questUI.isVisible()){
-                    followCnt++;
-                }else{
-                    followCnt--;
-                }
-                if(followCnt>0){
-                    _mapMgr.setFollowSwitch(false);
-                }else{
-                    _mapMgr.setFollowSwitch(true);
-                }*/
+               /* _questUI.setVisible(_questUI.isVisible() ? false : true);*/
             }
         });
         inventoryUI.getCloseButton().addListener(new ClickListener() {
@@ -117,7 +94,6 @@ public class HUDScreen implements Screen {
                  public void clicked(InputEvent event, float x, float y) {
                      inventoryUI.setVisible(false);
                      inventoryButton.setChecked(false);
-//                     worldController.closeSpeech();
                  }
              }
         );
@@ -129,9 +105,11 @@ public class HUDScreen implements Screen {
                  }
              }
         );
+
+        initDatasByPlayer(player);
     }
 
-    private void initInventory(Role player) {
+    private void initDatasByPlayer(Role player) {
         InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
         InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
         inventoryUI.resetEquipSlots();
@@ -149,12 +127,31 @@ public class HUDScreen implements Screen {
 
         //start the player with some money
         statusUI.setGoldValue(2000);
-        statusUI.setStatusForLevel(1);
+//        statusUI.setStatusForLevel(1);
     }
 
+    /**
+     * speech
+     * @param npc
+     */
     public void loadSpeech(Role npc){
         dialogUI.loadConversation(npc);
         dialogUI.setVisible(true);
+    }
+
+    /**
+     * ITEM CONSUMED
+     * @param type
+     * @param typeValue
+     */
+    public void consumeItem(int type,int typeValue){
+        if( InventoryItem.doesRestoreHP(type) ){
+//            notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_EATING);
+            statusUI.addHPValue(typeValue);
+        }else if( InventoryItem.doesRestoreMP(type) ){
+//            notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
+            statusUI.addMPValue(typeValue);
+        }
     }
     @Override
     public void show() {

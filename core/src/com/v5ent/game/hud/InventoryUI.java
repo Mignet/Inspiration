@@ -24,14 +24,15 @@ import com.v5ent.game.inventory.InventorySlotSource;
 import com.v5ent.game.inventory.InventorySlotTarget;
 import com.v5ent.game.inventory.InventorySlotTooltip;
 import com.v5ent.game.inventory.InventorySlotTooltipListener;
+import com.v5ent.game.screens.HUDScreen;
 import com.v5ent.game.utils.AssetsManager;
 
 public class InventoryUI extends Window{
     public static final String TAG = InventoryUI.class.getName();
     public static final String PLAYER_INVENTORY = "Player_Inventory";
     public static final String STORE_INVENTORY = "Store_Inventory";
+    private HUDScreen hudScreen;
     private final TextButton closeButton;
-
     private final static int _numSlots = 32;
     private int slotRows = 8;
     private Table inventorySlotTable;
@@ -40,10 +41,10 @@ public class InventoryUI extends Window{
     private DragAndDrop dragAndDrop;
     private Array<Actor> inventoryActors;
 
-    private Label _DPValLabel;
-    private int _DPVal = 0;
-    private Label _APValLabel;
-    private int _APVal = 0;
+    private Label DPValLabel;
+    private int DPVal = 0;
+    private Label APValLabel;
+    private int APVal = 0;
 
     private final int _slotWidth = 50;
     private final int _slotHeight = 50;
@@ -51,9 +52,10 @@ public class InventoryUI extends Window{
 
     private InventorySlotTooltip inventorySlotTooltip;
 
-    public InventoryUI(){
+    public InventoryUI(HUDScreen parent){
         super("Inventory", AssetsManager.instance.STATUSUI_SKIN, "solidbackground");
         this.setModal(true);
+        hudScreen = parent;
         closeButton = new TextButton("X", AssetsManager.instance.STATUSUI_SKIN);
         dragAndDrop = new DragAndDrop();
         inventoryActors = new Array<Actor>();
@@ -70,24 +72,24 @@ public class InventoryUI extends Window{
         inventorySlotTooltip = new InventorySlotTooltip(AssetsManager.instance.STATUSUI_SKIN);
 
         Label DPLabel = new Label("Defense: ", AssetsManager.instance.STATUSUI_SKIN);
-        _DPValLabel = new Label(String.valueOf(_DPVal), AssetsManager.instance.STATUSUI_SKIN);
+        DPValLabel = new Label(String.valueOf(DPVal), AssetsManager.instance.STATUSUI_SKIN);
 
         Label APLabel = new Label("Attack : ", AssetsManager.instance.STATUSUI_SKIN);
-        _APValLabel = new Label(String.valueOf(_APVal), AssetsManager.instance.STATUSUI_SKIN);
+        APValLabel = new Label(String.valueOf(APVal), AssetsManager.instance.STATUSUI_SKIN);
 
         Table labelTable = new Table();
         labelTable.add(DPLabel).align(Align.left);
-        labelTable.add(_DPValLabel).align(Align.center);
+        labelTable.add(DPValLabel).align(Align.center);
         labelTable.row();
         labelTable.row();
         labelTable.add(APLabel).align(Align.left);
-        labelTable.add(_APValLabel).align(Align.center);
+        labelTable.add(APValLabel).align(Align.center);
 
-        InventorySlot headSlot = new InventorySlot(
+        InventorySlot headSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.ARMOR_HELMET.getValue(),
                 new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_helmet")));
 
-        InventorySlot leftArmSlot = new InventorySlot(
+        InventorySlot leftArmSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.WEAPON_ONEHAND.getValue() |
                 InventoryItem.ItemUseType.WEAPON_TWOHAND.getValue() |
                 InventoryItem.ItemUseType.ARMOR_SHIELD.getValue() |
@@ -96,7 +98,7 @@ public class InventoryUI extends Window{
                 new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_weapon"))
         );
 
-        InventorySlot rightArmSlot = new InventorySlot(
+        InventorySlot rightArmSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.WEAPON_ONEHAND.getValue() |
                 InventoryItem.ItemUseType.WEAPON_TWOHAND.getValue() |
                 InventoryItem.ItemUseType.ARMOR_SHIELD.getValue() |
@@ -105,11 +107,11 @@ public class InventoryUI extends Window{
                 new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_shield"))
         );
 
-        InventorySlot chestSlot = new InventorySlot(
+        InventorySlot chestSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.ARMOR_CHEST.getValue(),
                 new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
 
-        InventorySlot legsSlot = new InventorySlot(
+        InventorySlot legsSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.ARMOR_FEET.getValue(),
                 new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_boot")));
 
@@ -135,7 +137,7 @@ public class InventoryUI extends Window{
 
         //layout
         for(int i = 1; i <= _numSlots; i++){
-            InventorySlot inventorySlot = new InventorySlot();
+            InventorySlot inventorySlot = new InventorySlot(this);
             inventorySlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
             dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
 
@@ -151,7 +153,7 @@ public class InventoryUI extends Window{
                                                      InventoryItem item = slot.getTopInventoryItem();
                                                      if( item.isConsumable() ){
 //                                                         String itemInfo = item.getItemUseType() + Component.MESSAGE_TOKEN + item.getItemUseTypeValue();
-//                                                         InventoryUI.this.notify(itemInfo, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
+                                                         hudScreen.consumeItem(item.getItemUseType(),item.getItemUseTypeValue());
                                                          slot.removeActor(item);
                                                          slot.remove(item);
                                                      }
@@ -211,14 +213,14 @@ public class InventoryUI extends Window{
     }
 
     public void resetEquipSlots(){
-        _DPVal = 0;
-        _APVal = 0;
+        DPVal = 0;
+        APVal = 0;
 
-        _DPValLabel.setText(String.valueOf(_DPVal));
-//        notify(String.valueOf(_DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+        DPValLabel.setText(String.valueOf(DPVal));
+//        notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
 
-        _APValLabel.setText(String.valueOf(_APVal));
-//        notify(String.valueOf(_APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+        APValLabel.setText(String.valueOf(APVal));
+//        notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
     }
 
     public static void clearInventoryItems(Table targetTable){
@@ -414,44 +416,80 @@ public class InventoryUI extends Window{
         return inventoryActors;
     }
 
-    /*@Override
-    public void onNotify(InventorySlot slot, SlotEvent event) {
+    public void addedItem(InventorySlot slot){
+        InventoryItem addItem = slot.getTopInventoryItem();
+        if( addItem == null ) return;
+        if( addItem.isInventoryItemOffensive() ){
+            APVal += addItem.getItemUseTypeValue();
+            APValLabel.setText(String.valueOf(APVal));
+//            notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+
+            if( addItem.isInventoryItemOffensiveWand() ){
+//                notify(String.valueOf(addItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.ADD_WAND_AP);
+            }
+
+        }else if( addItem.isInventoryItemDefensive() ){
+            DPVal += addItem.getItemUseTypeValue();
+            DPValLabel.setText(String.valueOf(DPVal));
+//            notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+        }
+    }
+    public void removedItem(InventorySlot slot){
+        InventoryItem removeItem = slot.getTopInventoryItem();
+        if( removeItem == null ) return;
+        if( removeItem.isInventoryItemOffensive() ){
+            APVal -= removeItem.getItemUseTypeValue();
+            APValLabel.setText(String.valueOf(APVal));
+//            notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+
+            if( removeItem.isInventoryItemOffensiveWand() ){
+//                notify(String.valueOf(removeItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
+            }
+
+        }else if( removeItem.isInventoryItemDefensive() ){
+            DPVal -= removeItem.getItemUseTypeValue();
+            DPValLabel.setText(String.valueOf(DPVal));
+//            notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+        }
+    }
+//    @Override
+   /* public void onNotify(InventorySlot slot, SlotEvent event) {
         switch(event)
         {
             case ADDED_ITEM:
                 InventoryItem addItem = slot.getTopInventoryItem();
                 if( addItem == null ) return;
                 if( addItem.isInventoryItemOffensive() ){
-                    _APVal += addItem.getItemUseTypeValue();
-                    _APValLabel.setText(String.valueOf(_APVal));
-                    notify(String.valueOf(_APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+                    APVal += addItem.getItemUseTypeValue();
+                    APValLabel.setText(String.valueOf(APVal));
+                    notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
 
                     if( addItem.isInventoryItemOffensiveWand() ){
                         notify(String.valueOf(addItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.ADD_WAND_AP);
                     }
 
                 }else if( addItem.isInventoryItemDefensive() ){
-                    _DPVal += addItem.getItemUseTypeValue();
-                    _DPValLabel.setText(String.valueOf(_DPVal));
-                    notify(String.valueOf(_DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+                    DPVal += addItem.getItemUseTypeValue();
+                    DPValLabel.setText(String.valueOf(DPVal));
+                    notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
                 }
                 break;
             case REMOVED_ITEM:
                 InventoryItem removeItem = slot.getTopInventoryItem();
                 if( removeItem == null ) return;
                 if( removeItem.isInventoryItemOffensive() ){
-                    _APVal -= removeItem.getItemUseTypeValue();
-                    _APValLabel.setText(String.valueOf(_APVal));
-                    notify(String.valueOf(_APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+                    APVal -= removeItem.getItemUseTypeValue();
+                    APValLabel.setText(String.valueOf(APVal));
+                    notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
 
                     if( removeItem.isInventoryItemOffensiveWand() ){
                         notify(String.valueOf(removeItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
                     }
 
                 }else if( removeItem.isInventoryItemDefensive() ){
-                    _DPVal -= removeItem.getItemUseTypeValue();
-                    _DPValLabel.setText(String.valueOf(_DPVal));
-                    notify(String.valueOf(_DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+                    DPVal -= removeItem.getItemUseTypeValue();
+                    DPValLabel.setText(String.valueOf(DPVal));
+                    notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
                 }
                 break;
             default:

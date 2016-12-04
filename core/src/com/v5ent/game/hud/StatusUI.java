@@ -27,16 +27,16 @@ public class StatusUI extends Table {
     //Attributes
     private int _levelVal = 1;
     private int _goldVal = 10;
-    private int _hpVal = 100;
-    private int _mpVal = 80;
-    private int _xpVal = 0;
+    private int _hpVal = 80;
+    private int mpVal = 80;
+    private int _xpVal = 10;
 
     private int _xpCurrentMax = 100;
     private int _hpCurrentMax = 100;
     private int _mpCurrentMax = 100;
 
     private Label _hpValLabel;
-    private Label _mpValLabel;
+    private Label mpValLabel;
     private Label _xpValLabel;
     private Label levelValLabel;
     private Label _goldValLabel;
@@ -45,7 +45,7 @@ public class StatusUI extends Table {
 
     public StatusUI(){
         super(AssetsManager.instance.STATUSUI_SKIN);
-        this.setBackground("status");
+//        this.setBackground("status");
         _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
 
         //groups
@@ -68,7 +68,7 @@ public class StatusUI extends Table {
         Label hpLabel = new Label(" 血量: ", AssetsManager.instance.STATUSUI_SKIN);
         _hpValLabel = new Label(String.valueOf(_hpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label mpLabel = new Label(" 魔力: ", AssetsManager.instance.STATUSUI_SKIN);
-        _mpValLabel = new Label(String.valueOf(_mpVal), AssetsManager.instance.STATUSUI_SKIN);
+        mpValLabel = new Label(String.valueOf(mpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label xpLabel = new Label(" 经验: ", AssetsManager.instance.STATUSUI_SKIN);
         _xpValLabel = new Label(String.valueOf(_xpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label levelLabel = new Label("Level:", AssetsManager.instance.STATUSUI_SKIN);
@@ -84,9 +84,9 @@ public class StatusUI extends Table {
         _questButton.getImageCell().size(32,32);
 
         //Align images
-        _hpBar.setWidth(100 * _hpVal/_hpCurrentMax);
-        _mpBar.setWidth(100 * _mpVal/_mpCurrentMax);
-        _xpBar.setWidth(100 * _xpVal/_xpCurrentMax);
+        _hpBar.setWidth(100 * (_hpVal*1.0f/_hpCurrentMax));
+        _mpBar.setWidth(100 * (mpVal*1.0f/_mpCurrentMax));
+        _xpBar.setWidth(100 * (_xpVal*1.0f/_xpCurrentMax));
 
         //add to widget groups
         group.addActor(_hpBar);
@@ -119,7 +119,7 @@ public class StatusUI extends Table {
 
         rightTable.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10).colspan(4);
 //        rightTable.add(mpLabel);
-//        rightTable.add(_mpValLabel).align(Align.left);
+//        rightTable.add(mpValLabel).align(Align.left);
         rightTable.row();
 
         rightTable.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10).colspan(4);
@@ -294,34 +294,34 @@ public class StatusUI extends Table {
 
     //MP
     public int getMPValue(){
-        return _mpVal;
+        return mpVal;
     }
 
     public void removeMPValue(int mpValue){
-        _mpVal = MathUtils.clamp(_mpVal - mpValue, 0, _mpCurrentMax);
-        _mpValLabel.setText(String.valueOf(_mpVal));
+        mpVal = MathUtils.clamp(mpVal - mpValue, 0, _mpCurrentMax);
+        mpValLabel.setText(String.valueOf(mpVal));
 
-        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+        updateBar(_mpBar, mpVal, _mpCurrentMax);
 
-//        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+//        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void addMPValue(int mpValue){
-        _mpVal = MathUtils.clamp(_mpVal + mpValue, 0, _mpCurrentMax);
-        _mpValLabel.setText(String.valueOf(_mpVal));
+        mpVal = MathUtils.clamp(mpVal + mpValue, 0, _mpCurrentMax);
+        mpValLabel.setText(String.valueOf(mpVal));
 
-        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+        updateBar(_mpBar, mpVal, _mpCurrentMax);
 
-//        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+//        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void setMPValue(int mpValue){
-        this._mpVal = mpValue;
-        _mpValLabel.setText(String.valueOf(_mpVal));
+        this.mpVal = mpValue;
+        mpValLabel.setText(String.valueOf(mpVal));
 
-        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+        updateBar(_mpBar, mpVal, _mpCurrentMax);
 
-//        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+//        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void setMPValueMax(int maxMPValue){

@@ -79,7 +79,7 @@ public class WorldController extends InputAdapter {
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
             npc.update(deltaTime);
-//            npc.randomMove(this);
+            npc.randomMove(this);
         }
         handleDebugInput(deltaTime);
         //camera follow the Player
@@ -90,8 +90,6 @@ public class WorldController extends InputAdapter {
         y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.rows * 32f - Constants.VIEWPORT_HEIGHT / 2);
         camera.position.set(x, y, 0f);
         camera.update();
-//        hudCamera.position.set(x, y, 0f);
-//        hudCamera.update();
     }
 
     private void handleDebugInput(float delta) {
@@ -194,6 +192,7 @@ public class WorldController extends InputAdapter {
             if(npc.isSelected()){
                 npc.setSelected(false);
                 npc.setCurrentDir(Role.Direction.DOWN);
+                npc.setState(npc.getDefaultState());
             }
         }
     }
@@ -201,18 +200,22 @@ public class WorldController extends InputAdapter {
         for (Npc npc : this.mapMgr.npcs) {
             int npcX = MathUtils.floor(npc.getX() / 32);
             int npcY = MathUtils.floor(npc.getY() / 32);
+            //this block is none
             if(npc.isSelected()){
                 npc.setSelected(false);
                 npc.setCurrentDir(Role.Direction.DOWN);
+                npc.setState(npc.getDefaultState());
             }
             if (npcX == x && npcY == y) {
                 int x0 = MathUtils.floor(player.getX() / 32);
                 int y0 = MathUtils.floor(player.getY() / 32);
                 float distance = (x - x0) * (x - x0) + (y - y0) * (y - y0);
+                //I click you
                 if (distance < 10f) {
                     Gdx.app.debug(TAG, "distance:" + distance + " you clicked " + npc.getEntityId());
-                    //TODO:talk with npc
+                    //talk with npc,npc must fixed when talk
                     npc.setSelected(true);
+                    npc.setState(Role.State.FIXED);
                     hudScreen.loadSpeech(npc);
                     //1.face to face
                     int gapX = x0 - npcX;

@@ -69,7 +69,7 @@ associatedChoices: {
                 {
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 3
-                        destinationId: 1
+                        destinationId: 2
                         choicePhrase: 回到开始!
 						conversationCommandEvent: NONE
                 }
@@ -78,7 +78,7 @@ associatedChoices: {
                 {
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 4
-                        destinationId: 1
+                        destinationId: 2
                         choicePhrase: 回到开始!
 						conversationCommandEvent: NONE
                 }
@@ -87,7 +87,7 @@ associatedChoices: {
                 {
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 5
-                        destinationId: 1
+                        destinationId: 2
                         choicePhrase: 回到开始!
 						conversationCommandEvent: NONE
                 }
@@ -96,7 +96,7 @@ associatedChoices: {
                 {
                         class: com.v5ent.game.dialog.ConversationChoice
                         sourceId: 6
-                        destinationId: 1
+                        destinationId: 2
                         choicePhrase: 回到开始!
 						conversationCommandEvent: NONE
                 }

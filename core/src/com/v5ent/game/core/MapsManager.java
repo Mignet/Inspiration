@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
+import com.v5ent.game.utils.AssetsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class MapsManager {
     }
 
     public void loadMap(String mapId) {
-        com.v5ent.game.utils.AssetsManager.AssetTiledMap assetTiledMap = com.v5ent.game.utils.AssetsManager.instance.assetTiledMaps.get(mapId);
+        AssetsManager.AssetTiledMap assetTiledMap = AssetsManager.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
         this.cols = assetTiledMap.mapTileWidth;
@@ -72,8 +73,13 @@ public class MapsManager {
                         if("RIGHT".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.RIGHT);
                         }
+                        //Npc state
                         if("FIXED".equals(r.getProperties().get("State"))){
                             n.setState(Role.State.FIXED);
+                            n.setDefaultState(Role.State.FIXED);
+                        }else{
+                            n.setState(Role.State.IDLE);
+                            n.setDefaultState(Role.State.IDLE);
                         }
                         this.npcs.add(n);
                     }

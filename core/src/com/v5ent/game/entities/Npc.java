@@ -12,9 +12,16 @@ import java.util.Random;
 
 public class Npc extends Role {
     private static final String TAG = Npc.class.getSimpleName();
-    private boolean selected;
-    Random r = new Random(100);
 
+    private State defaultState;
+
+    public State getDefaultState() {
+        return defaultState;
+    }
+
+    public void setDefaultState(State defaultState) {
+        this.defaultState = defaultState;
+    }
     public Npc(String entityId) {
         super(entityId);
         this.setCurrentDir(Direction.UP);
@@ -26,7 +33,8 @@ public class Npc extends Role {
         int x = MathUtils.floor(getX()/32);
         int y = MathUtils.floor(getY()/32);
         if(this.getState()==State.IDLE){
-            int randInt = r.nextInt(32);
+            Random r = new Random(System.currentTimeMillis());
+            int randInt = r.nextInt(64);
             if(randInt<4){
                 switch (randInt){
                     case 0:

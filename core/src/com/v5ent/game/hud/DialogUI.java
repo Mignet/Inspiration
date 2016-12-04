@@ -73,8 +73,7 @@ public class DialogUI extends Window {
 //                _graph.notify(_graph, choice.getConversationCommandEvent());
                 populateConversationDialog(choice.getDestinationId());
             }
-                               }
-        );
+        });
     }
 
     public TextButton getCloseButton(){
