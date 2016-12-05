@@ -86,8 +86,8 @@ public class WorldController extends InputAdapter {
         float x = player.getX();
         float y = player.getY();
         //make sure camera in map
-        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.cols * 32f - Constants.VIEWPORT_WIDTH / 2);
-        y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.rows * 32f - Constants.VIEWPORT_HEIGHT / 2);
+        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.width - Constants.VIEWPORT_WIDTH / 2);
+        y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.height - Constants.VIEWPORT_HEIGHT / 2);
         camera.position.set(x, y, 0f);
         camera.update();
     }

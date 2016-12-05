@@ -27,6 +27,8 @@ public class MapsManager {
     public static final float CELL_UNIT = 32.0f;
     public int rows;
     public int cols;
+    public int width;
+    public int height;
 
     private String mapName;
     private TiledMap map;
@@ -52,6 +54,9 @@ public class MapsManager {
         this.map = assetTiledMap.tiledMap;
         this.cols = assetTiledMap.mapTileWidth;
         this.rows = assetTiledMap.mapTileHeight;
+
+        this.width = assetTiledMap.mapPixelWidth;
+        this.height = assetTiledMap.mapPixelHeight;
         MapLayer npcLayer = this.map.getLayers().get("npc");
         if(npcLayer!=null){
             for(MapObject o:npcLayer.getObjects()){
