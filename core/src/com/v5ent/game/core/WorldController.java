@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
@@ -29,12 +30,16 @@ import com.v5ent.game.utils.Constants;
 public class WorldController extends InputAdapter {
 
     private static final String TAG = WorldController.class.getName();
-    /** main camera **/
+    /**
+     * main camera
+     **/
     public OrthographicCamera camera = null;
 
     public OrthographicCamera hudCamera = null;
     private InputMultiplexer multiplexer;
-    /**head-up-display */
+    /**
+     * head-up-display
+     */
     public HUDScreen hudScreen;
 
     public MapsManager mapMgr;
@@ -58,7 +63,7 @@ public class WorldController extends InputAdapter {
         player.setPosInMap(MapsManager.START_POINT);
 
         hudCamera = new OrthographicCamera();
-        hudCamera.setToOrtho(false,Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
+        hudCamera.setToOrtho(false, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
 //        hudCamera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//physical world
         hudCamera.update();
         hudScreen = new HUDScreen(this, player);
@@ -82,14 +87,55 @@ public class WorldController extends InputAdapter {
             npc.randomMove(this);
         }
         handleDebugInput(deltaTime);
-        //camera follow the Player
+        //follow the Player
         float x = player.getX();
         float y = player.getY();
-        //make sure camera in map
-        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.width - Constants.VIEWPORT_WIDTH / 2);
-        y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.height - Constants.VIEWPORT_HEIGHT / 2);
         camera.position.set(x, y, 0f);
+        //make sure camera in map
+//        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.width - Constants.VIEWPORT_WIDTH / 2);
+//        y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.height - Constants.VIEWPORT_HEIGHT / 2);
+        offsetCamera(mapMgr.width, mapMgr.height, camera);
         camera.update();
+    }
+
+    private void offsetCamera(int mapWidth, int mapHeight, Camera cam) {
+        // These values likely need to be scaled according to your world coordinates.
+        // The left boundary of the map (x)
+        int mapLeft = 0;
+        // The right boundary of the map (x + width)
+        int mapRight = 0 + mapWidth;
+        // The bottom boundary of the map (y)
+        int mapBottom = 0;
+        // The top boundary of the map (y + height)
+        int mapTop = 0 + mapHeight;
+        // The camera dimensions, halved
+        float cameraHalfWidth = cam.viewportWidth * .5f;
+        float cameraHalfHeight = cam.viewportHeight * .5f;
+
+        // Move camera after player as normal
+
+        float cameraLeft = cam.position.x - cameraHalfWidth;
+        float cameraRight = cam.position.x + cameraHalfWidth;
+        float cameraBottom = cam.position.y - cameraHalfHeight;
+        float cameraTop = cam.position.y + cameraHalfHeight;
+
+        // Horizontal axis
+        if (mapWidth < cam.viewportWidth) {
+            cam.position.x = mapRight / 2;
+        } else if (cameraLeft <= mapLeft) {
+            cam.position.x = mapLeft + cameraHalfWidth;
+        } else if (cameraRight >= mapRight) {
+            cam.position.x = mapRight - cameraHalfWidth;
+        }
+
+        // Vertical axis
+        if (mapHeight < cam.viewportHeight) {
+            cam.position.y = mapTop / 2;
+        } else if (cameraBottom <= mapBottom) {
+            cam.position.y = mapBottom + cameraHalfHeight;
+        } else if (cameraTop >= mapTop) {
+            cam.position.y = mapTop - cameraHalfHeight;
+        }
     }
 
     private void handleDebugInput(float delta) {
@@ -187,21 +233,22 @@ public class WorldController extends InputAdapter {
         return true;
     }
 
-    public void closeSpeech(){
+    public void closeSpeech() {
         for (Npc npc : this.mapMgr.npcs) {
-            if(npc.isSelected()){
+            if (npc.isSelected()) {
                 npc.setSelected(false);
                 npc.setCurrentDir(Role.Direction.DOWN);
                 npc.setState(npc.getDefaultState());
             }
         }
     }
+
     private boolean isCollisionWithNpc(int x, int y) {
         for (Npc npc : this.mapMgr.npcs) {
             int npcX = MathUtils.floor(npc.getX() / 32);
             int npcY = MathUtils.floor(npc.getY() / 32);
             //this block is none
-            if(npc.isSelected()){
+            if (npc.isSelected()) {
                 npc.setSelected(false);
                 npc.setCurrentDir(Role.Direction.DOWN);
                 npc.setState(npc.getDefaultState());
