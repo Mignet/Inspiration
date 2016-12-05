@@ -14,39 +14,36 @@ import com.v5ent.game.battle.LevelTable;
 import com.v5ent.game.utils.AssetsManager;
 
 public class StatusUI extends Table {
-    private Image _hpBar;
-    private Image _mpBar;
-    private Image _xpBar;
+    private Image hpBar;
+    private Image mpBar;
+    private Image xpBar;
 
-    private ImageButton _inventoryButton;
-    private ImageButton _questButton;
-
-    private Array<LevelTable> _levelTables;
+    private Array<LevelTable> levelTables;
     private static final String LEVEL_TABLE_CONFIG = "data/level_tables.json";
 
     //Attributes
-    private int _levelVal = 1;
-    private int _goldVal = 10;
-    private int _hpVal = 80;
+    private int levelVal = 1;
+    private int goldVal = 10;
+    private int hpVal = 80;
     private int mpVal = 80;
-    private int _xpVal = 10;
+    private int xpVal = 10;
 
-    private int _xpCurrentMax = 100;
-    private int _hpCurrentMax = 100;
-    private int _mpCurrentMax = 100;
+    private int xpCurrentMax = 100;
+    private int hpCurrentMax = 100;
+    private int mpCurrentMax = 100;
 
-    private Label _hpValLabel;
+    private Label hpValLabel;
     private Label mpValLabel;
-    private Label _xpValLabel;
+    private Label xpValLabel;
     private Label levelValLabel;
-    private Label _goldValLabel;
+    private Label goldValLabel;
 
     private float _barHeight = 0;
 
     public StatusUI(){
         super(AssetsManager.instance.STATUSUI_SKIN);
 //        this.setBackground("status");
-        _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
+        levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
 
         //groups
         WidgetGroup group = new WidgetGroup();
@@ -54,46 +51,40 @@ public class StatusUI extends Table {
         WidgetGroup group3 = new WidgetGroup();
 
         //images
-        _hpBar = new Image(new Texture(Gdx.files.internal("hud/hp_bar.png")));
+        hpBar = new Image(new Texture(Gdx.files.internal("hud/hp_bar.png")));
         Image bar = new Image(new Texture(Gdx.files.internal("hud/bar.png")));
-        _mpBar = new Image(new Texture(Gdx.files.internal("hud/mp_bar.png")));
+        mpBar = new Image(new Texture(Gdx.files.internal("hud/mp_bar.png")));
         Image bar2 = new Image(new Texture(Gdx.files.internal("hud/bar.png")));
-        _xpBar = new Image(new Texture(Gdx.files.internal("hud/mp_bar.png")));
+        xpBar = new Image(new Texture(Gdx.files.internal("hud/xp_bar.png")));
         Image bar3 = new Image(new Texture(Gdx.files.internal("hud/bar.png")));
 
         Image header = new Image(new Texture(Gdx.files.internal("heros/header1.png")));
 
-        _barHeight = _hpBar.getHeight();
+        _barHeight = hpBar.getHeight();
         //labels
         Label hpLabel = new Label(" 血量: ", AssetsManager.instance.STATUSUI_SKIN);
-        _hpValLabel = new Label(String.valueOf(_hpVal), AssetsManager.instance.STATUSUI_SKIN);
+        hpValLabel = new Label(String.valueOf(hpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label mpLabel = new Label(" 魔力: ", AssetsManager.instance.STATUSUI_SKIN);
         mpValLabel = new Label(String.valueOf(mpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label xpLabel = new Label(" 经验: ", AssetsManager.instance.STATUSUI_SKIN);
-        _xpValLabel = new Label(String.valueOf(_xpVal), AssetsManager.instance.STATUSUI_SKIN);
+        xpValLabel = new Label(String.valueOf(xpVal), AssetsManager.instance.STATUSUI_SKIN);
         Label levelLabel = new Label("Level:", AssetsManager.instance.STATUSUI_SKIN);
-        levelValLabel = new Label(String.valueOf(_levelVal), AssetsManager.instance.STATUSUI_SKIN);
+        levelValLabel = new Label(String.valueOf(levelVal), AssetsManager.instance.STATUSUI_SKIN);
         Label goldLabel = new Label(" 金币: ", AssetsManager.instance.STATUSUI_SKIN);
-        _goldValLabel = new Label(String.valueOf(_goldVal), AssetsManager.instance.STATUSUI_SKIN);
+        goldValLabel = new Label(String.valueOf(goldVal), AssetsManager.instance.STATUSUI_SKIN);
 
-        //buttons
-        _inventoryButton= new ImageButton(AssetsManager.instance.STATUSUI_SKIN, "inventory-button");
-        _inventoryButton.getImageCell().size(32, 32);
-
-        _questButton = new ImageButton(AssetsManager.instance.STATUSUI_SKIN, "quest-button");
-        _questButton.getImageCell().size(32,32);
 
         //Align images
-        _hpBar.setWidth(100 * (_hpVal*1.0f/_hpCurrentMax));
-        _mpBar.setWidth(100 * (mpVal*1.0f/_mpCurrentMax));
-        _xpBar.setWidth(100 * (_xpVal*1.0f/_xpCurrentMax));
+        hpBar.setWidth(100 * (hpVal*1.0f/hpCurrentMax));
+        mpBar.setWidth(100 * (mpVal*1.0f/mpCurrentMax));
+        xpBar.setWidth(100 * (xpVal*1.0f/xpCurrentMax));
 
         //add to widget groups
-        group.addActor(_hpBar);
+        group.addActor(hpBar);
         group.addActor(bar);
-        group2.addActor(_mpBar);
+        group2.addActor(mpBar);
         group2.addActor(bar2);
-        group3.addActor(_xpBar);
+        group3.addActor(xpBar);
         group3.addActor(bar3);
 
         //Add to layout
@@ -106,111 +97,96 @@ public class StatusUI extends Table {
 
 
         Table rightTable = new Table();
-        rightTable.add(levelLabel).align(Align.left);
+        rightTable.add(levelLabel);
         rightTable.add(levelValLabel).align(Align.left);
 //        rightTable.add(goldLabel);
-//        rightTable.add(_goldValLabel).align(Align.left);
+//        rightTable.add(goldValLabel).align(Align.left);
         rightTable.row();
 
-        rightTable.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10).colspan(4);
+        rightTable.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10).colspan(2);
 //        rightTable.add(hpLabel);
-//        rightTable.add(_hpValLabel).align(Align.left);
+//        rightTable.add(hpValLabel).align(Align.left);
         rightTable.row();
 
-        rightTable.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10).colspan(4);
+        rightTable.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10).colspan(2);
 //        rightTable.add(mpLabel);
 //        rightTable.add(mpValLabel).align(Align.left);
         rightTable.row();
 
-        rightTable.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10).colspan(4);
+        rightTable.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10).colspan(2);
 //        rightTable.add(xpLabel);
-//        rightTable.add(_xpValLabel).align(Align.left).padRight(20);
+//        rightTable.add(xpValLabel).align(Align.left).padRight(20);
         rightTable.row();
-
-        //
-        Table topTable = new Table();
-        topTable.add(_questButton);
-        topTable.add(_inventoryButton);
-        topTable.row();
 
         this.add(leftTable);
         this.add(rightTable);
-        this.add(topTable);
 
-//        this.debug();
+        this.debug();
         this.pack();
     }
 
-    public ImageButton getInventoryButton() {
-        return _inventoryButton;
-    }
-
-    public ImageButton getQuestButton() {
-        return _questButton;
-    }
-
     public int getLevelValue(){
-        return _levelVal;
+        return levelVal;
     }
     public void setLevelValue(int levelValue){
-        this._levelVal = levelValue;
-        levelValLabel.setText(String.valueOf(_levelVal));
-//        notify(_levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
+        this.levelVal = levelValue;
+        levelValLabel.setText(String.valueOf(levelVal));
+//        notify(levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
     }
 
     public int getGoldValue(){
-        return _goldVal;
+        return goldVal;
     }
     public void setGoldValue(int goldValue){
-        this._goldVal = goldValue;
-        _goldValLabel.setText(String.valueOf(_goldVal));
-//        notify(_goldVal, StatusObserver.StatusEvent.UPDATED_GP);
+        this.goldVal = goldValue;
+        goldValLabel.setText(String.valueOf(goldVal));
+//        notify(goldVal, StatusObserver.StatusEvent.UPDATED_GP);
     }
 
     public void addGoldValue(int goldValue){
-        this._goldVal += goldValue;
-        _goldValLabel.setText(String.valueOf(_goldVal));
-//        notify(_goldVal, StatusObserver.StatusEvent.UPDATED_GP);
+        this.goldVal += goldValue;
+        goldValLabel.setText(String.valueOf(goldVal));
+//        notify(goldVal, StatusObserver.StatusEvent.UPDATED_GP);
     }
 
     public int getXPValue(){
-        return _xpVal;
+        return xpVal;
     }
 
     public void addXPValue(int xpValue){
-        this._xpVal += xpValue;
+        this.xpVal += xpValue;
 
-        if( _xpVal > _xpCurrentMax ){
+        if( xpVal > xpCurrentMax ){
             updateToNewLevel();
         }
 
-        _xpValLabel.setText(String.valueOf(_xpVal));
+        xpValLabel.setText(String.valueOf(xpVal));
 
-        updateBar(_xpBar, _xpVal, _xpCurrentMax);
+        updateBar(xpBar, xpVal, xpCurrentMax);
 
-//        notify(_xpVal, StatusObserver.StatusEvent.UPDATED_XP);
+//        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
 
     public void setXPValue(int xpValue){
-        this._xpVal = xpValue;
+        this.xpVal = xpValue;
 
-        if( _xpVal > _xpCurrentMax ){
+        if( xpVal > xpCurrentMax ){
             updateToNewLevel();
         }
 
-        _xpValLabel.setText(String.valueOf(_xpVal));
+        xpValLabel.setText(String.valueOf(xpVal));
 
-        updateBar(_xpBar, _xpVal, _xpCurrentMax);
+        updateBar(xpBar, xpVal, xpCurrentMax);
 
-//        notify(_xpVal, StatusObserver.StatusEvent.UPDATED_XP);
+//        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
 
     public void setXPValueMax(int maxXPValue){
-        this._xpCurrentMax = maxXPValue;
+        this.xpCurrentMax = maxXPValue;
     }
 
     public void setStatusForLevel(int level){
-        for( LevelTable table: _levelTables ){
+        for( LevelTable table: levelTables ){
             if( Integer.parseInt(table.getLevelID()) == level ){
                 setXPValueMax(table.getXpMax());
                 setXPValue(0);
@@ -228,9 +204,9 @@ public class StatusUI extends Table {
     }
 
     public void updateToNewLevel(){
-        for( LevelTable table: _levelTables ){
-            //System.out.println("XPVAL " + _xpVal + " table XPMAX " + table.getXpMax() );
-            if( _xpVal > table.getXpMax() ){
+        for( LevelTable table: levelTables ){
+            //System.out.println("XPVAL " + xpVal + " table XPMAX " + table.getXpMax() );
+            if( xpVal > table.getXpMax() ){
                 continue;
             }else{
                 setXPValueMax(table.getXpMax());
@@ -242,54 +218,54 @@ public class StatusUI extends Table {
                 setMPValue(table.getMpMax());
 
                 setLevelValue(Integer.parseInt(table.getLevelID()));
-//                notify(_levelVal, StatusObserver.StatusEvent.LEVELED_UP);
+//                notify(levelVal, StatusObserver.StatusEvent.LEVELED_UP);
                 return;
             }
         }
     }
 
     public int getXPValueMax(){
-        return _xpCurrentMax;
+        return xpCurrentMax;
     }
 
     //HP
     public int getHPValue(){
-        return _hpVal;
+        return hpVal;
     }
 
     public void removeHPValue(int hpValue){
-        _hpVal = MathUtils.clamp(_hpVal - hpValue, 0, _hpCurrentMax);
-        _hpValLabel.setText(String.valueOf(_hpVal));
+        hpVal = MathUtils.clamp(hpVal - hpValue, 0, hpCurrentMax);
+        hpValLabel.setText(String.valueOf(hpVal));
 
-        updateBar(_hpBar, _hpVal, _hpCurrentMax);
+        updateBar(hpBar, hpVal, hpCurrentMax);
 
-//        notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+//        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public void addHPValue(int hpValue){
-        _hpVal = MathUtils.clamp(_hpVal + hpValue, 0, _hpCurrentMax);
-        _hpValLabel.setText(String.valueOf(_hpVal));
+        hpVal = MathUtils.clamp(hpVal + hpValue, 0, hpCurrentMax);
+        hpValLabel.setText(String.valueOf(hpVal));
 
-        updateBar(_hpBar, _hpVal, _hpCurrentMax);
+        updateBar(hpBar, hpVal, hpCurrentMax);
 
-//        notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+//        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public void setHPValue(int hpValue){
-        this._hpVal = hpValue;
-        _hpValLabel.setText(String.valueOf(_hpVal));
+        this.hpVal = hpValue;
+        hpValLabel.setText(String.valueOf(hpVal));
 
-        updateBar(_hpBar, _hpVal, _hpCurrentMax);
+        updateBar(hpBar, hpVal, hpCurrentMax);
 
-//        notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+//        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public void setHPValueMax(int maxHPValue){
-        this._hpCurrentMax = maxHPValue;
+        this.hpCurrentMax = maxHPValue;
     }
 
     public int getHPValueMax(){
-        return _hpCurrentMax;
+        return hpCurrentMax;
     }
 
     //MP
@@ -298,19 +274,19 @@ public class StatusUI extends Table {
     }
 
     public void removeMPValue(int mpValue){
-        mpVal = MathUtils.clamp(mpVal - mpValue, 0, _mpCurrentMax);
+        mpVal = MathUtils.clamp(mpVal - mpValue, 0, mpCurrentMax);
         mpValLabel.setText(String.valueOf(mpVal));
 
-        updateBar(_mpBar, mpVal, _mpCurrentMax);
+        updateBar(mpBar, mpVal, mpCurrentMax);
 
 //        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void addMPValue(int mpValue){
-        mpVal = MathUtils.clamp(mpVal + mpValue, 0, _mpCurrentMax);
+        mpVal = MathUtils.clamp(mpVal + mpValue, 0, mpCurrentMax);
         mpValLabel.setText(String.valueOf(mpVal));
 
-        updateBar(_mpBar, mpVal, _mpCurrentMax);
+        updateBar(mpBar, mpVal, mpCurrentMax);
 
 //        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
@@ -319,17 +295,17 @@ public class StatusUI extends Table {
         this.mpVal = mpValue;
         mpValLabel.setText(String.valueOf(mpVal));
 
-        updateBar(_mpBar, mpVal, _mpCurrentMax);
+        updateBar(mpBar, mpVal, mpCurrentMax);
 
 //        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void setMPValueMax(int maxMPValue){
-        this._mpCurrentMax = maxMPValue;
+        this.mpCurrentMax = maxMPValue;
     }
 
     public int getMPValueMax(){
-        return _mpCurrentMax;
+        return mpCurrentMax;
     }
 
     public void updateBar(Image bar, int currentVal, int maxVal){

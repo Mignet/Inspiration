@@ -16,6 +16,7 @@ import com.v5ent.game.dialog.Conversation;
 import com.v5ent.game.dialog.ConversationChoice;
 import com.v5ent.game.dialog.ConversationGraph;
 import com.v5ent.game.entities.Role;
+import com.v5ent.game.screens.HUDScreen;
 import com.v5ent.game.utils.AssetsManager;
 
 public class DialogUI extends Window {
@@ -24,14 +25,14 @@ public class DialogUI extends Window {
     private Label talkText;
     private List items;
     private ConversationGraph _graph;
-
+    private HUDScreen hudScreen;
     private TextButton closeButton;
 
     private Json _json;
 
-    public DialogUI() {
+    public DialogUI(HUDScreen parent) {
         super("对话", AssetsManager.instance.STATUSUI_SKIN, "solidbackground");
-
+        hudScreen = parent;
         _json = new Json();
         _graph = new ConversationGraph();
 
@@ -71,6 +72,7 @@ public class DialogUI extends Window {
                 if( choice == null ) return;
                 //TODO: pickup,sleep event etc
 //                _graph.notify(_graph, choice.getConversationCommandEvent());
+                hudScreen.executeCommandEvent(_graph, choice.getConversationCommandEvent());
                 populateConversationDialog(choice.getDestinationId());
             }
         });

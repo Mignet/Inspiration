@@ -1,6 +1,5 @@
 package com.v5ent.game.inventory;
 
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.v5ent.game.hud.InventoryUI;
+import com.v5ent.game.hud.StoreInventoryUI;
 import com.v5ent.game.utils.AssetsManager;
 
 public class InventorySlot extends Stack {
@@ -19,7 +19,9 @@ public class InventorySlot extends Stack {
     private Label numItemsLabel;
     private int numItemsVal = 0;
     private int _filterItemType;
+
     InventoryUI inventoryUI = null;
+    StoreInventoryUI storeInventoryUI = null;
 
     //empty slot
     public InventorySlot(){
@@ -48,6 +50,10 @@ public class InventorySlot extends Stack {
         _customBackgroundDecal = customBackgroundDecal;
         _defaultBackground.add(_customBackgroundDecal);
     }
+    public InventorySlot(StoreInventoryUI storeInventoryUI){
+        this();
+        this.storeInventoryUI =  storeInventoryUI;
+    }
 
     public void decrementItemCount(boolean sendRemoveNotification) {
         numItemsVal--;
@@ -56,9 +62,14 @@ public class InventorySlot extends Stack {
             _defaultBackground.add(_customBackgroundDecal);
         }
         checkVisibilityOfItemCount();
-        if( sendRemoveNotification && inventoryUI!=null){
+        if( sendRemoveNotification ){
 //            notify(this, InventorySlotObserver.SlotEvent.REMOVED_ITEM);
-            inventoryUI.removedItem(this);
+            if(inventoryUI!=null){
+                inventoryUI.removedItem(this);
+            }
+            if(storeInventoryUI!=null){
+                storeInventoryUI.removedItem(this);
+            }
         }
     }
 
@@ -69,9 +80,14 @@ public class InventorySlot extends Stack {
             _defaultBackground.getChildren().pop();
         }
         checkVisibilityOfItemCount();
-        if( sendAddNotification && inventoryUI!=null){
+        if( sendAddNotification){
 //            notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
-            inventoryUI.addedItem(this);
+            if(inventoryUI!=null) {
+                inventoryUI.addedItem(this);
+            }
+            if(storeInventoryUI!=null) {
+                storeInventoryUI.addedItem(this);
+            }
         }
     }
 

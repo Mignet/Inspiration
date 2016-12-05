@@ -233,11 +233,11 @@ public class WorldController extends InputAdapter {
         return true;
     }
 
-    public void closeSpeech() {
+    public void closeSpeechWithNpc() {
         for (Npc npc : this.mapMgr.npcs) {
             if (npc.isSelected()) {
                 npc.setSelected(false);
-                npc.setCurrentDir(Role.Direction.DOWN);
+                npc.setCurrentDir(npc.getDefaultDir());
                 npc.setState(npc.getDefaultState());
             }
         }
@@ -250,7 +250,7 @@ public class WorldController extends InputAdapter {
             //this block is none
             if (npc.isSelected()) {
                 npc.setSelected(false);
-                npc.setCurrentDir(Role.Direction.DOWN);
+                npc.setCurrentDir(npc.getDefaultDir());
                 npc.setState(npc.getDefaultState());
             }
             if (npcX == x && npcY == y) {
@@ -284,22 +284,6 @@ public class WorldController extends InputAdapter {
                             npc.setCurrentDir(Role.Direction.RIGHT);
                         }
                     }
-                    /*if (x0 < npcX) {
-                        player.setCurrentDir(Role.Direction.RIGHT);
-                        npc.setCurrentDir(Role.Direction.LEFT);
-                    }
-                    if (x0 > npcX) {
-                        player.setCurrentDir(Role.Direction.LEFT);
-                        npc.setCurrentDir(Role.Direction.RIGHT);
-                    }
-                    if (y0 < npcY) {
-                        player.setCurrentDir(Role.Direction.UP);
-                        npc.setCurrentDir(Role.Direction.DOWN);
-                    }
-                    if (y0 > npcY) {
-                        player.setCurrentDir(Role.Direction.DOWN);
-                        npc.setCurrentDir(Role.Direction.UP);
-                    }*/
                 }
                 return true;
             }
@@ -340,4 +324,12 @@ public class WorldController extends InputAdapter {
         return false;
     }
 
+    public Npc getCurrentSelectedNpc() {
+        for (Npc npc : this.mapMgr.npcs) {
+            if (npc.isSelected()) {
+                return npc;
+            }
+        }
+        return null;
+    }
 }

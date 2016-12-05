@@ -15,6 +15,16 @@ public class Npc extends Role {
 
     private State defaultState;
 
+    private Direction defaultDir;
+
+    public void setDefaultDir(Direction defaultDir) {
+        this.defaultDir = defaultDir;
+    }
+
+    public Direction getDefaultDir() {
+        return defaultDir;
+    }
+
     public State getDefaultState() {
         return defaultState;
     }

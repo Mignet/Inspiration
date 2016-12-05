@@ -33,7 +33,8 @@ public class InventoryUI extends Window{
     public static final String STORE_INVENTORY = "Store_Inventory";
     private HUDScreen hudScreen;
     private final TextButton closeButton;
-    private final static int _numSlots = 32;
+    //num of slots
+    public final static int _numSlots = 32;
     private int slotRows = 8;
     private Table inventorySlotTable;
     private Table playerSlotsTable;

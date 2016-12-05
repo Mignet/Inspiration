@@ -68,15 +68,19 @@ public class MapsManager {
                         n.setPosInMap(new Vector2(r.getRectangle().x/32,r.getRectangle().y/32));
                         if("DOWN".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.DOWN);
+                            n.setDefaultDir(Role.Direction.DOWN);
                         }
                         if("UP".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.UP);
+                            n.setDefaultDir(Role.Direction.UP);
                         }
                         if("LEFT".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.LEFT);
+                            n.setDefaultDir(Role.Direction.LEFT);
                         }
                         if("RIGHT".equals(r.getProperties().get("Dir"))){
                             n.setCurrentDir(Role.Direction.RIGHT);
+                            n.setDefaultDir(Role.Direction.RIGHT);
                         }
                         //Npc state
                         if("FIXED".equals(r.getProperties().get("State"))){
