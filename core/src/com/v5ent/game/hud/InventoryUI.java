@@ -137,7 +137,7 @@ public class InventoryUI extends Window{
 
         //layout
         for(int i = 1; i <= _numSlots; i++){
-            InventorySlot inventorySlot = new InventorySlot(this);
+            InventorySlot inventorySlot = new InventorySlot();
             inventorySlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
             dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
 

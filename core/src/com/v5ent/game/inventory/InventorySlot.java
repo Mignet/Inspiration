@@ -19,11 +19,10 @@ public class InventorySlot extends Stack {
     private Label numItemsLabel;
     private int numItemsVal = 0;
     private int _filterItemType;
-    InventoryUI inventoryUI;
+    InventoryUI inventoryUI = null;
 
     //empty slot
-    public InventorySlot(InventoryUI parent){
-        inventoryUI = parent;
+    public InventorySlot(){
         _filterItemType = 0; //filter nothing
         _defaultBackground = new Stack();
         _customBackgroundDecal = new Image();
@@ -43,7 +42,8 @@ public class InventorySlot extends Stack {
     }
 
     public InventorySlot(InventoryUI inventoryUI,int filterItemType, Image customBackgroundDecal){
-        this(inventoryUI);
+        this();
+        this.inventoryUI =  inventoryUI;
         _filterItemType = filterItemType;
         _customBackgroundDecal = customBackgroundDecal;
         _defaultBackground.add(_customBackgroundDecal);
@@ -56,7 +56,7 @@ public class InventorySlot extends Stack {
             _defaultBackground.add(_customBackgroundDecal);
         }
         checkVisibilityOfItemCount();
-        if( sendRemoveNotification ){
+        if( sendRemoveNotification && inventoryUI!=null){
 //            notify(this, InventorySlotObserver.SlotEvent.REMOVED_ITEM);
             inventoryUI.removedItem(this);
         }
@@ -69,7 +69,7 @@ public class InventorySlot extends Stack {
             _defaultBackground.getChildren().pop();
         }
         checkVisibilityOfItemCount();
-        if( sendAddNotification ){
+        if( sendAddNotification && inventoryUI!=null){
 //            notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
             inventoryUI.addedItem(this);
         }
