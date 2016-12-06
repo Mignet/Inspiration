@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class MapsManager {
     }
 
     public void loadMap(String mapId) {
-        AssetsManager.AssetTiledMap assetTiledMap = AssetsManager.instance.assetTiledMaps.get(mapId);
+        Assets.AssetTiledMap assetTiledMap = Assets.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
         this.cols = assetTiledMap.mapTileWidth;

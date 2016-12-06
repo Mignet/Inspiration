@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 /**
  * Created by Mignet on 2016/11/13.
@@ -16,7 +16,7 @@ public class Target extends Sprite {
     private TextureRegion currentFrame = null;
 
     public Target(int x,int y) {
-        this.touchPointAnimation = AssetsManager.instance.touch.touchPointAnimation;
+        this.touchPointAnimation = Assets.instance.touch.touchPointAnimation;
         currentFrame =touchPointAnimation.getKeyFrame(0);
         // Define sprite size to be 1m x 1m in game world
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

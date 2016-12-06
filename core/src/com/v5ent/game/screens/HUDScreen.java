@@ -21,7 +21,7 @@ import com.v5ent.game.hud.StatusUI;
 import com.v5ent.game.hud.StoreInventoryUI;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.inventory.InventoryItemLocation;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 import com.v5ent.game.utils.Constants;
 
 /**
@@ -51,7 +51,7 @@ public class HUDScreen implements Screen {
         viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,controller.hudCamera);
         stage = new Stage(viewport);
 
-        messageBoxUI = new Dialog("消息", AssetsManager.instance.STATUSUI_SKIN, "solidbackground"){
+        messageBoxUI = new Dialog("消息", Assets.instance.STATUSUI_SKIN, "solidbackground"){
             {
                 button("确定");
                 text("INVENTORY_FULL");
@@ -68,7 +68,7 @@ public class HUDScreen implements Screen {
         messageBoxUI.pack();
         messageBoxUI.setPosition(stage.getWidth() / 2 - messageBoxUI.getWidth() / 2, stage.getHeight() / 2 - messageBoxUI.getHeight() / 2);
 
-        statusUI = new StatusUI();
+        statusUI = new StatusUI(this);
         statusUI.setVisible(true);
         statusUI.setPosition(0,stage.getHeight()-statusUI.getHeight());
         buttonUI = new ButtonUI();
@@ -80,6 +80,7 @@ public class HUDScreen implements Screen {
         inventoryUI.setKeepWithinStage(false);
         inventoryUI.setMovable(false);
         inventoryUI.setVisible(false);
+        inventoryUI.setModal(true);
         inventoryUI.setPosition(100, 0);
 
         storeInventoryUI = new StoreInventoryUI(this);
@@ -181,7 +182,7 @@ public class HUDScreen implements Screen {
         statusUI.setGoldValue(2000);
 //        statusUI.setStatusForLevel(1);
     }
-/***************************************************SPEECH EVENT*************************************************************/
+/*************************************************** Conversation Command Event *************************************************************/
     public void executeCommandEvent(ConversationGraph graph, ConversationCommandEvent event){
         switch(event) {
             case LOAD_STORE_INVENTORY:
@@ -331,7 +332,7 @@ public class HUDScreen implements Screen {
         dialogUI.loadConversation(npc);
         dialogUI.setVisible(true);
     }
-/******************************************************* EVENT ************************************************************/
+/******************************************************* Inventory Event ************************************************************/
     /**
      * ITEM CONSUMED
      * @param type
@@ -346,12 +347,12 @@ public class HUDScreen implements Screen {
             statusUI.addMPValue(typeValue);
         }
     }
-
+/******************************************************* StoreInventory Event ************************************************************/
     /**
      * PLAYER_GP_TOTAL_UPDATED
      * @param gold
      */
-    public void updateGoldPoint(int gold){
+    public void updateTotalGoldPoint(int gold){
         statusUI.setGoldValue(gold);
 //        notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
     }
@@ -363,7 +364,50 @@ public class HUDScreen implements Screen {
     public void updateInventory(Array<InventoryItemLocation> items){
         InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), items, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
     }
-
+/******************************************************* Status Event *******************************************************************/
+    /**
+     * UPDATED_GP
+      * @param value
+     */
+    public void updateGP(int value){
+        storeInventoryUI.setPlayerGP(value);
+//        ProfileManager.getInstance().setProperty("currentPlayerGP", statusUI.getGoldValue());
+    }
+    /**
+     * UPDATED_HP
+      * @param value
+     */
+    public void updateHP(int value){
+//        ProfileManager.getInstance().setProperty("currentPlayerHP", statusUI.getHPValue());
+    }
+    /**
+     * UPDATED_MP
+      * @param value
+     */
+    public void updateMP(int value){
+//        ProfileManager.getInstance().setProperty("currentPlayerMP", statusUI.getMPValue());
+    }
+    /**
+     * UPDATED_XP
+      * @param value
+     */
+    public void updateXP(int value){
+//        ProfileManager.getInstance().setProperty("currentPlayerXP", statusUI.getXPValue());
+    }
+    /**
+     * UPDATED_LEVEL
+      * @param value
+     */
+    public void updateLevel(int value){
+//        ProfileManager.getInstance().setProperty("currentPlayerLevel", _statusUI.getLevelValue());
+    }
+    /**
+     * LEVELED_UP
+     */
+    public void levelUp(){
+//        notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
+    }
+/********************************************************************************************************************/
     @Override
     public void show() {
 

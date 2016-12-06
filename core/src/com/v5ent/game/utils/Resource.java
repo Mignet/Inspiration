@@ -9,7 +9,11 @@ import java.util.Map;
  */
 
 public class Resource {
-    public static final String TOUCH = "input/touch.png";
+    public static final String STATUSUI_TEXTURE_ATLAS_PATH = "skins/statusui.pack";
+    public static final String ITEMS_TEXTURE_ATLAS_PATH = "items/items.pack";
+    public static final String STATUSUI_SKIN_PATH = "skins/statusui.json";
+    //single
+    public static final String TOUCH = "tools/touch.png";
     public static final String SHADOW = "heros/shadow.png";
     public static final String SELECTED = "heros/selected.png";
     public Map<String,String> players = new HashMap<String,String>();
@@ -23,5 +27,6 @@ public class Resource {
         npcs.put("NPC-01","heros/NPC-01.png");
         npcs.put("ASL","heros/ASL.png");
         maps.put("yaka_port","maps/yaka_port.tmx");
+        maps.put("home_one","maps/home_one.tmx");
     }
 }

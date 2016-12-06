@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.v5ent.game.hud.InventoryUI;
 import com.v5ent.game.hud.StoreInventoryUI;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 public class InventorySlot extends Stack {
 
@@ -28,9 +28,9 @@ public class InventorySlot extends Stack {
         _filterItemType = 0; //filter nothing
         _defaultBackground = new Stack();
         _customBackgroundDecal = new Image();
-        Image image = new Image(AssetsManager.instance.STATUSUI_SKIN,"cell");
+        Image image = new Image(Assets.instance.STATUSUI_SKIN,"cell");
 
-        numItemsLabel = new Label(String.valueOf(numItemsVal), AssetsManager.instance.STATUSUI_SKIN);
+        numItemsLabel = new Label(String.valueOf(numItemsVal), Assets.instance.STATUSUI_SKIN);
         numItemsLabel.setAlignment(Align.bottomRight);
         numItemsLabel.setVisible(false);
 

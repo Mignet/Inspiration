@@ -1,7 +1,6 @@
 package com.v5ent.game.hud;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.inventory.InventoryItemFactory;
@@ -25,7 +23,7 @@ import com.v5ent.game.inventory.InventorySlotTarget;
 import com.v5ent.game.inventory.InventorySlotTooltip;
 import com.v5ent.game.inventory.InventorySlotTooltipListener;
 import com.v5ent.game.screens.HUDScreen;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 public class InventoryUI extends Window{
     public static final String TAG = InventoryUI.class.getName();
@@ -34,8 +32,8 @@ public class InventoryUI extends Window{
     private HUDScreen hudScreen;
     private final TextButton closeButton;
     //num of slots
-    public final static int _numSlots = 32;
-    private int slotRows = 8;
+    public final static int _numSlots = 36;
+    private int slotRows = 9;
     private Table inventorySlotTable;
     private Table playerSlotsTable;
     private Table equipSlots;
@@ -54,10 +52,9 @@ public class InventoryUI extends Window{
     private InventorySlotTooltip inventorySlotTooltip;
 
     public InventoryUI(HUDScreen parent){
-        super("Inventory", AssetsManager.instance.STATUSUI_SKIN, "solidbackground");
-        this.setModal(true);
+        super("Inventory", Assets.instance.STATUSUI_SKIN, "solidbackground");
         hudScreen = parent;
-        closeButton = new TextButton("X", AssetsManager.instance.STATUSUI_SKIN);
+        closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
         dragAndDrop = new DragAndDrop();
         inventoryActors = new Array<Actor>();
 
@@ -70,13 +67,13 @@ public class InventoryUI extends Window{
         equipSlots.setName("Equipment_Slot_Table");
 
         equipSlots.defaults().space(10);
-        inventorySlotTooltip = new InventorySlotTooltip(AssetsManager.instance.STATUSUI_SKIN);
+        inventorySlotTooltip = new InventorySlotTooltip(Assets.instance.STATUSUI_SKIN);
 
-        Label DPLabel = new Label("Defense: ", AssetsManager.instance.STATUSUI_SKIN);
-        DPValLabel = new Label(String.valueOf(DPVal), AssetsManager.instance.STATUSUI_SKIN);
+        Label DPLabel = new Label("Defense: ", Assets.instance.STATUSUI_SKIN);
+        DPValLabel = new Label(String.valueOf(DPVal), Assets.instance.STATUSUI_SKIN);
 
-        Label APLabel = new Label("Attack : ", AssetsManager.instance.STATUSUI_SKIN);
-        APValLabel = new Label(String.valueOf(APVal), AssetsManager.instance.STATUSUI_SKIN);
+        Label APLabel = new Label("Attack : ", Assets.instance.STATUSUI_SKIN);
+        APValLabel = new Label(String.valueOf(APVal), Assets.instance.STATUSUI_SKIN);
 
         Table labelTable = new Table();
         labelTable.add(DPLabel).align(Align.left);
@@ -88,7 +85,7 @@ public class InventoryUI extends Window{
 
         InventorySlot headSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.ARMOR_HELMET.getValue(),
-                new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_helmet")));
+                new Image(Assets.instance.ITEMS_TEXTUREATLAS.findRegion("inv_helmet")));
 
         InventorySlot leftArmSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.WEAPON_ONEHAND.getValue() |
@@ -96,7 +93,7 @@ public class InventoryUI extends Window{
                 InventoryItem.ItemUseType.ARMOR_SHIELD.getValue() |
                 InventoryItem.ItemUseType.WAND_ONEHAND.getValue() |
                 InventoryItem.ItemUseType.WAND_TWOHAND.getValue(),
-                new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_weapon"))
+                new Image(Assets.instance.ITEMS_TEXTUREATLAS.findRegion("inv_weapon"))
         );
 
         InventorySlot rightArmSlot = new InventorySlot(this,
@@ -105,16 +102,16 @@ public class InventoryUI extends Window{
                 InventoryItem.ItemUseType.ARMOR_SHIELD.getValue() |
                 InventoryItem.ItemUseType.WAND_ONEHAND.getValue() |
                 InventoryItem.ItemUseType.WAND_TWOHAND.getValue(),
-                new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_shield"))
+                new Image(Assets.instance.ITEMS_TEXTUREATLAS.findRegion("inv_shield"))
         );
 
         InventorySlot chestSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.ARMOR_CHEST.getValue(),
-                new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
+                new Image(Assets.instance.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
 
         InventorySlot legsSlot = new InventorySlot(this,
                 InventoryItem.ItemUseType.ARMOR_FEET.getValue(),
-                new Image(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion("inv_boot")));
+                new Image(Assets.instance.ITEMS_TEXTUREATLAS.findRegion("inv_boot")));
 
         headSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         leftArmSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
@@ -134,7 +131,7 @@ public class InventoryUI extends Window{
         dragAndDrop.addTarget(new InventorySlotTarget(rightArmSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(legsSlot));
 
-        playerSlotsTable.setBackground(new Image(AssetsManager.instance.STATUSUI_SKIN,"cell").getDrawable());
+        playerSlotsTable.setBackground(new Image(Assets.instance.STATUSUI_SKIN,"cell").getDrawable());
 
         //layout
         for(int i = 1; i <= _numSlots; i++){

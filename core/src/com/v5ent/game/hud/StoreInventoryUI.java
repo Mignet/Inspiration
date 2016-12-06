@@ -20,22 +20,22 @@ import com.v5ent.game.inventory.InventorySlotTarget;
 import com.v5ent.game.inventory.InventorySlotTooltip;
 import com.v5ent.game.inventory.InventorySlotTooltipListener;
 import com.v5ent.game.screens.HUDScreen;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 public class StoreInventoryUI extends Window{
     /** parent */
     private HUDScreen hudScreen;
-    private int _numStoreInventorySlots = 24;
-    private int _lengthSlotRow = 8;
-    private Table _inventorySlotTable;
+    private int _numStoreInventorySlots = 36;
+    private int _lengthSlotRow = 12;
+    private Table inventorySlotTable;
     private Table _playerInventorySlotTable;
-    private DragAndDrop _dragAndDrop;
-    private Array<Actor> _inventoryActors;
+    private DragAndDrop dragAndDrop;
+    private Array<Actor> inventoryActors;
 
-    private final int _slotWidth = 50;
-    private final int _slotHeight = 50;
+    private final int _slotWidth = 46;
+    private final int _slotHeight = 46;
 
-    private InventorySlotTooltip _inventorySlotTooltip;
+    private InventorySlotTooltip inventorySlotTooltip;
 
     private Label _sellTotalLabel;
     private Label _buyTotalLabel;
@@ -52,7 +52,7 @@ public class StoreInventoryUI extends Window{
     private Table _buttons;
     private Table _totalLabels;
 
-    private Json _json;
+    private Json json;
 
     private static String SELL = "卖出";
     private static String BUY = "买进";
@@ -60,36 +60,36 @@ public class StoreInventoryUI extends Window{
     private static String PLAYER_TOTAL = "玩家合计";
 
     public StoreInventoryUI(HUDScreen parent){
-        super("店铺存货", AssetsManager.instance.STATUSUI_SKIN, "solidbackground");
+        super("店铺存货", Assets.instance.STATUSUI_SKIN, "solidbackground");
         this.hudScreen = parent;
-        _json = new Json();
+        json = new Json();
 
         this.setFillParent(true);
 
         //create
-        _dragAndDrop = new DragAndDrop();
-        _inventoryActors = new Array<Actor>();
-        _inventorySlotTable = new Table();
-        _inventorySlotTable.setName(InventoryUI.STORE_INVENTORY);
+        dragAndDrop = new DragAndDrop();
+        inventoryActors = new Array<Actor>();
+        inventorySlotTable = new Table();
+        inventorySlotTable.setName(InventoryUI.STORE_INVENTORY);
 
         _playerInventorySlotTable = new Table();
         _playerInventorySlotTable.setName(InventoryUI.PLAYER_INVENTORY);
-        _inventorySlotTooltip = new InventorySlotTooltip(AssetsManager.instance.STATUSUI_SKIN);
+        inventorySlotTooltip = new InventorySlotTooltip(Assets.instance.STATUSUI_SKIN);
 
-        _sellButton = new TextButton(SELL, AssetsManager.instance.STATUSUI_SKIN, "inventory");
+        _sellButton = new TextButton(SELL, Assets.instance.STATUSUI_SKIN, "inventory");
         disableButton(_sellButton, true);
 
-        _sellTotalLabel = new Label(SELL + " : " + _tradeInVal + GP, AssetsManager.instance.STATUSUI_SKIN);
+        _sellTotalLabel = new Label(SELL + " : " + _tradeInVal + GP, Assets.instance.STATUSUI_SKIN);
         _sellTotalLabel.setAlignment(Align.center);
-        _buyTotalLabel = new Label(BUY + " : " + _fullValue + GP, AssetsManager.instance.STATUSUI_SKIN);
+        _buyTotalLabel = new Label(BUY + " : " + _fullValue + GP, Assets.instance.STATUSUI_SKIN);
         _buyTotalLabel.setAlignment(Align.center);
 
-        _playerTotalGP = new Label(PLAYER_TOTAL + " : " + _playerTotal +  GP, AssetsManager.instance.STATUSUI_SKIN);
+        _playerTotalGP = new Label(PLAYER_TOTAL + " : " + _playerTotal +  GP, Assets.instance.STATUSUI_SKIN);
 
-        _buyButton = new TextButton(BUY, AssetsManager.instance.STATUSUI_SKIN, "inventory");
+        _buyButton = new TextButton(BUY, Assets.instance.STATUSUI_SKIN, "inventory");
         disableButton(_buyButton, true);
 
-        _closeButton = new TextButton("X", AssetsManager.instance.STATUSUI_SKIN);
+        _closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
 
         _buttons = new Table();
         _buttons.defaults().expand().fill();
@@ -105,26 +105,26 @@ public class StoreInventoryUI extends Window{
         //layout
         for(int i = 1; i <= _numStoreInventorySlots; i++){
             InventorySlot inventorySlot = new InventorySlot(this);
-            inventorySlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
+            inventorySlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 //            inventorySlot.addObserver(this);
             inventorySlot.setName(InventoryUI.STORE_INVENTORY);
 
-            _dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
+            dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
 
-            _inventorySlotTable.add(inventorySlot).size(_slotWidth, _slotHeight);
+            inventorySlotTable.add(inventorySlot).size(_slotWidth, _slotHeight);
 
             if(i % _lengthSlotRow == 0){
-                _inventorySlotTable.row();
+                inventorySlotTable.row();
             }
         }
 
         for(int i = 1; i <= InventoryUI._numSlots; i++){
             InventorySlot inventorySlot = new InventorySlot(this);
-            inventorySlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
+            inventorySlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 //            inventorySlot.addObserver(this);
             inventorySlot.setName(InventoryUI.PLAYER_INVENTORY);
 
-            _dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
+            dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
 
             _playerInventorySlotTable.add(inventorySlot).size(_slotWidth, _slotHeight);
 
@@ -133,7 +133,7 @@ public class StoreInventoryUI extends Window{
             }
         }
 
-        _inventoryActors.add(_inventorySlotTooltip);
+        inventoryActors.add(inventorySlotTooltip);
 
         this.add();
         this.add(_closeButton);
@@ -141,7 +141,7 @@ public class StoreInventoryUI extends Window{
 
         //this.debugAll();
         this.defaults().expand().fill();
-        this.add(_inventorySlotTable).pad(10, 10, 10, 10).row();
+        this.add(inventorySlotTable).pad(10, 10, 10, 10).row();
         this.add(_buttons).row();
         this.add(_totalLabels).row();
         this.add(_playerInventorySlotTable).pad(10, 10, 10, 10).row();
@@ -155,7 +155,7 @@ public class StoreInventoryUI extends Window{
                                                    if( _fullValue > 0 && _playerTotal >= _fullValue) {
                                                        _playerTotal -= _fullValue;
 //                                                       StoreInventoryUI.this.notify(Integer.toString(_playerTotal), StoreInventoryEvent.PLAYER_GP_TOTAL_UPDATED);
-                                                       hudScreen.updateGoldPoint(_playerTotal);
+                                                       hudScreen.updateTotalGoldPoint(_playerTotal);
                                                        _fullValue = 0;
                                                        _buyTotalLabel.setText(BUY  + " : " +  _fullValue + GP);
 
@@ -175,14 +175,14 @@ public class StoreInventoryUI extends Window{
                                        if( _tradeInVal > 0 ) {
                                            _playerTotal += _tradeInVal;
 //                                           StoreInventoryUI.this.notify(Integer.toString(_playerTotal), StoreInventoryEvent.PLAYER_GP_TOTAL_UPDATED);
-                                           hudScreen.updateGoldPoint(_playerTotal);
+                                           hudScreen.updateTotalGoldPoint(_playerTotal);
                                            _tradeInVal = 0;
                                            _sellTotalLabel.setText(SELL  + " : " +  _tradeInVal + GP);
 
                                            checkButtonStates();
 
                                            //Remove sold items
-                                           Array<Cell> cells = _inventorySlotTable.getCells();
+                                           Array<Cell> cells = inventorySlotTable.getCells();
                                            for( int i = 0; i < cells.size; i++){
                                                InventorySlot inventorySlot = (InventorySlot)cells.get(i).getActor();
                                                if( inventorySlot == null ) continue;
@@ -203,32 +203,32 @@ public class StoreInventoryUI extends Window{
     }
 
     public Table getInventorySlotTable() {
-        return _inventorySlotTable;
+        return inventorySlotTable;
     }
 
     public Array<Actor> getInventoryActors(){
-        return _inventoryActors;
+        return inventoryActors;
     }
 
     public void loadPlayerInventory(Array<InventoryItemLocation> playerInventoryItems){
-        InventoryUI.populateInventory(_playerInventorySlotTable, playerInventoryItems, _dragAndDrop, InventoryUI.PLAYER_INVENTORY, true);
+        InventoryUI.populateInventory(_playerInventorySlotTable, playerInventoryItems, dragAndDrop, InventoryUI.PLAYER_INVENTORY, true);
     }
 
     public void loadStoreInventory(Array<InventoryItemLocation> storeInventoryItems){
-        InventoryUI.populateInventory(_inventorySlotTable, storeInventoryItems, _dragAndDrop, InventoryUI.STORE_INVENTORY, false);
+        InventoryUI.populateInventory(inventorySlotTable, storeInventoryItems, dragAndDrop, InventoryUI.STORE_INVENTORY, false);
     }
 
     public void savePlayerInventory(){
         Array<InventoryItemLocation> playerItemsInPlayerInventory = InventoryUI.getInventoryFiltered(_playerInventorySlotTable, InventoryUI.STORE_INVENTORY);
-        Array<InventoryItemLocation> playerItemsInStoreInventory = InventoryUI.getInventoryFiltered(_playerInventorySlotTable, _inventorySlotTable, InventoryUI.STORE_INVENTORY);
+        Array<InventoryItemLocation> playerItemsInStoreInventory = InventoryUI.getInventoryFiltered(_playerInventorySlotTable, inventorySlotTable, InventoryUI.STORE_INVENTORY);
         playerItemsInPlayerInventory.addAll(playerItemsInStoreInventory);
-//        StoreInventoryUI.this.notify(_json.toJson(playerItemsInPlayerInventory), StoreInventoryEvent.PLAYER_INVENTORY_UPDATED);
+//        StoreInventoryUI.this.notify(json.toJson(playerItemsInPlayerInventory), StoreInventoryEvent.PLAYER_INVENTORY_UPDATED);
         hudScreen.updateInventory(playerItemsInPlayerInventory);
     }
 
     public void cleanupStoreInventory(){
         InventoryUI.removeInventoryItems(InventoryUI.STORE_INVENTORY, _playerInventorySlotTable);
-        InventoryUI.removeInventoryItems(InventoryUI.PLAYER_INVENTORY, _inventorySlotTable);
+        InventoryUI.removeInventoryItems(InventoryUI.PLAYER_INVENTORY, inventorySlotTable);
     }
 
     public void removedItem(InventorySlot slot) {

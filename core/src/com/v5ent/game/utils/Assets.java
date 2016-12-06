@@ -19,13 +19,16 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.v5ent.game.entities.Role;
 
-public class AssetsManager implements Disposable, AssetErrorListener {
+import static com.v5ent.game.utils.Resource.ITEMS_TEXTURE_ATLAS_PATH;
+import static com.v5ent.game.utils.Resource.STATUSUI_SKIN_PATH;
+import static com.v5ent.game.utils.Resource.STATUSUI_TEXTURE_ATLAS_PATH;
 
-	public static final String TAG = AssetsManager.class.getName();
+public class Assets implements Disposable, AssetErrorListener {
 
-	public static final AssetsManager instance = new AssetsManager();
+	public static final String TAG = Assets.class.getName();
+
+	public static final Assets instance = new Assets();
 	/** libGDX 's asset manager*/
 	private AssetManager assetManager;
 	/** load all characters */
@@ -35,15 +38,12 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 	public AssetTouch touch;
 	public Texture shadow;
 	public Texture selected;
-	private final static String STATUSUI_TEXTURE_ATLAS_PATH = "skins/statusui.pack";
-	private final static String ITEMS_TEXTURE_ATLAS_PATH = "skins/items.atlas";
-	private final static String STATUSUI_SKIN_PATH = "skins/statusui.json";
 
 	public TextureAtlas STATUSUI_TEXTUREATLAS ;
 	public TextureAtlas ITEMS_TEXTUREATLAS ;
 	public Skin STATUSUI_SKIN ;
 	// singleton: prevent instantiation from other classes
-	private AssetsManager() {
+	private Assets() {
 	}
 
 	public class AssetRole {
@@ -180,8 +180,8 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		assetManager.load(Resource.SHADOW,Texture.class);
 		assetManager.load(Resource.SELECTED,Texture.class);
 
-		assetManager.load(STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
-		assetManager.load(ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
+		assetManager.load(Resource.STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
+		assetManager.load(Resource.ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		// start loading assets and wait until finished
 		assetManager.finishLoading();
 
@@ -216,7 +216,7 @@ public class AssetsManager implements Disposable, AssetErrorListener {
 		selected = assetManager.get(Resource.SELECTED,Texture.class);
 		STATUSUI_TEXTUREATLAS = assetManager.get(STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		ITEMS_TEXTUREATLAS = assetManager.get(ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
-		STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
+		STATUSUI_SKIN = new Skin(Gdx.files.internal(Resource.STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
 	}
 
 	@Override

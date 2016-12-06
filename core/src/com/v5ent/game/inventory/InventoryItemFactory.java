@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Scaling;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class InventoryItemFactory {
 
     public InventoryItem getInventoryItem(InventoryItem.ItemTypeID inventoryItemType){
         InventoryItem item = new InventoryItem(_inventoryItemList.get(inventoryItemType));
-        item.setDrawable(new TextureRegionDrawable(AssetsManager.instance.ITEMS_TEXTUREATLAS.findRegion(item.getItemTypeID().toString())));
+        item.setDrawable(new TextureRegionDrawable(Assets.instance.ITEMS_TEXTUREATLAS.findRegion(item.getItemTypeID().toString())));
         item.setScaling(Scaling.none);
         return item;
     }

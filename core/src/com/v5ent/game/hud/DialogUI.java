@@ -17,7 +17,7 @@ import com.v5ent.game.dialog.ConversationChoice;
 import com.v5ent.game.dialog.ConversationGraph;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.screens.HUDScreen;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 public class DialogUI extends Window {
     private static final String TAG = DialogUI.class.getSimpleName();
@@ -31,18 +31,18 @@ public class DialogUI extends Window {
     private Json _json;
 
     public DialogUI(HUDScreen parent) {
-        super("对话", AssetsManager.instance.STATUSUI_SKIN, "solidbackground");
+        super("对话", Assets.instance.STATUSUI_SKIN, "solidbackground");
         hudScreen = parent;
         _json = new Json();
         _graph = new ConversationGraph();
 
         //create
-        talkText = new Label("没有谈话", AssetsManager.instance.STATUSUI_SKIN);
+        talkText = new Label("没有谈话", Assets.instance.STATUSUI_SKIN);
         talkText.setWrap(true);
         talkText.setAlignment(Align.center);
-        items = new List<ConversationChoice>(AssetsManager.instance.STATUSUI_SKIN);
+        items = new List<ConversationChoice>(Assets.instance.STATUSUI_SKIN);
 
-        closeButton = new TextButton("X", AssetsManager.instance.STATUSUI_SKIN);
+        closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
 
         ScrollPane scrollPane = new ScrollPane(items);
         scrollPane.setOverscroll(false, false);

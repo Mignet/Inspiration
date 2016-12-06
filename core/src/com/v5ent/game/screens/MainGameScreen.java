@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.v5ent.game.Inspiration;
 import com.v5ent.game.core.WorldController;
 import com.v5ent.game.core.WorldRenderer;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.utils.Assets;
 
 public class MainGameScreen implements Screen{
 
@@ -60,7 +60,7 @@ public class MainGameScreen implements Screen{
 
 		@Override
 		public void resume () {
-			AssetsManager.instance.init(new AssetManager());
+			Assets.instance.init(new AssetManager());
 			paused = false;
 		}
 

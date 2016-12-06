@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
+ <properties>
+  <property name="mapName" value="Home1"/>
+ </properties>
+ <tileset firstgid="1" name="tile06" tilewidth="32" tileheight="32" tilecount="400" columns="20">
+  <image source="tiles/tile06.png" width="640" height="640"/>
+  <tile id="300">
+   <animation>
+    <frame tileid="261" duration="160"/>
+    <frame tileid="301" duration="160"/>
+   </animation>
+  </tile>
+  <tile id="320">
+   <animation>
+    <frame tileid="281" duration="160"/>
+    <frame tileid="321" duration="160"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="401" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
+  <image source="TOOLS.png" width="288" height="32"/>
+ </tileset>
+ <layer name="buchong" width="18" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF2IAsIwQPdiBLJXM8qGTOcACDMd7bSRQn1kxy9QMAjw8C3A==
+  </data>
+ </layer>
+ <layer name="ground" width="18" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzLZmBgyMaDzxOQh+F6AvgxEWpAeDIB/J0INSCsCcTBUBob5mZkYJDFg08zQHAqEKfhMWc3A35zYBiXfkrNMUHjn6eSOY/JNMcDjf+dyHgnFD6g+CI23vHhSUT46zQR5iyjUrwTa047AwQj620fQAwAX0VVrw==
+  </data>
+ </layer>
+ <layer name="floor" width="18" height="15">
+  <data encoding="base64" compression="zlib">
+   eJyV0b0OAUEQB/A5IUelIkSpptFLVHoJFS/gI+EFhIRoFTyAj1dAiBeg8AgSiQKlRKXx31jZyVn2bpJfbmfudu725knfcdTUTBG2iJ6O2t2RT2AKa9iw+hZmUtL67pVCblsqX8ASTnCQtZO0koj1EhHHNQcJ1mcHe3hAHRpyzXNivdxEB7qavAwVsCEIIUOfEYw1eRNakKD3eXVRcKEHffn840efmgs+EL/GDwHIsP1pwxlLpOYehQjEIA55Q5/PvItQJTV30zt5ZEnNW2iTmvvQQx9ddOg997nHfVlHLuYuznmWbuzeldUvbP0PD7534PE7X5eAR7A=
+  </data>
+ </layer>
+ <layer name="block" width="18" height="15">
+  <data encoding="base64" compression="zlib">
+   eJybxMhANTCJEYJxyZFjFkwfMp9YTMg8XHK47CPF3fj4uPSRAvD5kxxAC3PICTdK44IUdxObdsixh1iziAl3UsKFnDxBDgAAVSgzrw==
+  </data>
+ </layer>
+ <layer name="ceiling" width="18" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBieIAiKR8EoGAngOY3VowMAy14Ccw==
+  </data>
+ </layer>
+</map>

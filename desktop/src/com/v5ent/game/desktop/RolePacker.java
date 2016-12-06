@@ -14,12 +14,11 @@ import javax.imageio.ImageIO;
 
 public class RolePacker {
     public static void main(String[] args) throws IOException {
-        splitImage("F:\\backend\\Inspiration\\android\\assets\\heros",4,3);
+//        splitImage("F:\\backend\\Inspiration\\android\\assets\\heros",4,3);
+        splitImage("F:\\backend\\Inspiration\\android\\assets\\items\\items.png",5,9);
     }
 
-    private static void splitImage(String src,int rows,int cols) throws IOException {
-
-        String originalImg = src+"\\ASL.png";
+    private static void splitImage(String originalImg,int rows,int cols) throws IOException {
 
         File file = new File(originalImg);
         FileInputStream fis = new FileInputStream(file);
@@ -47,9 +46,13 @@ public class RolePacker {
                 gr.dispose();
             }
         }
-
+        String out = file.getParent()+"\\temp";
+        File dir = new File(out);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
         for (int i = 0; i < imgs.length; i++) {
-            ImageIO.write(imgs[i], "png", new File(src+"\\001\\" + i + ".png"));
+            ImageIO.write(imgs[i], "png", new File(out+"\\" + i + ".png"));
         }
 
         System.out.println("Completed!");

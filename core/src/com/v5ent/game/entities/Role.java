@@ -9,12 +9,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.pfa.MyNode;
-import com.v5ent.game.utils.AssetsManager;
-
-import java.util.ArrayList;
+import com.v5ent.game.utils.Assets;
 
 /***
  * Role contains:Character and NPC
@@ -104,7 +101,7 @@ public class Role extends Sprite{
 		this.entityId = entityId;
 		this.nextPosition = new Vector2();
 		this.movingTarget = new Vector2();
-		AssetsManager.AssetRole assetRole = AssetsManager.instance.assetRoles.get(entityId);
+		Assets.AssetRole assetRole = Assets.instance.assetRoles.get(entityId);
 		this.idleLeftAnimation = assetRole.idleLeftAnimation;
 		this.idleRightAnimation = assetRole.idleRightAnimation;
 		this.idleUpAnimation = assetRole.idleUpAnimation;
@@ -204,9 +201,9 @@ public class Role extends Sprite{
 	public void draw(Batch batch) {
 		if(isSelected){
 			//Draw selected
-			batch.draw(AssetsManager.instance.selected,getX(),getY()-2);
+			batch.draw(Assets.instance.selected,getX(),getY()-2);
 		}else{
-			batch.draw(AssetsManager.instance.shadow,getX(),getY()-2);
+			batch.draw(Assets.instance.shadow,getX(),getY()-2);
 		}
 		// Draw image
 		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),

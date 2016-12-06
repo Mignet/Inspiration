@@ -4,16 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.battle.LevelTable;
-import com.v5ent.game.utils.AssetsManager;
+import com.v5ent.game.screens.HUDScreen;
+import com.v5ent.game.utils.Assets;
 
 public class StatusUI extends Table {
+    public static final String TAG = StatusUI.class.getName();
+    private HUDScreen hudScreen;
+
     private Image hpBar;
     private Image mpBar;
     private Image xpBar;
@@ -40,8 +43,9 @@ public class StatusUI extends Table {
 
     private float _barHeight = 0;
 
-    public StatusUI(){
-        super(AssetsManager.instance.STATUSUI_SKIN);
+    public StatusUI(HUDScreen parent){
+        super(Assets.instance.STATUSUI_SKIN);
+        hudScreen = parent;
 //        this.setBackground("status");
         levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
 
@@ -62,16 +66,16 @@ public class StatusUI extends Table {
 
         _barHeight = hpBar.getHeight();
         //labels
-        Label hpLabel = new Label(" 血量: ", AssetsManager.instance.STATUSUI_SKIN);
-        hpValLabel = new Label(String.valueOf(hpVal), AssetsManager.instance.STATUSUI_SKIN);
-        Label mpLabel = new Label(" 魔力: ", AssetsManager.instance.STATUSUI_SKIN);
-        mpValLabel = new Label(String.valueOf(mpVal), AssetsManager.instance.STATUSUI_SKIN);
-        Label xpLabel = new Label(" 经验: ", AssetsManager.instance.STATUSUI_SKIN);
-        xpValLabel = new Label(String.valueOf(xpVal), AssetsManager.instance.STATUSUI_SKIN);
-        Label levelLabel = new Label("Level:", AssetsManager.instance.STATUSUI_SKIN);
-        levelValLabel = new Label(String.valueOf(levelVal), AssetsManager.instance.STATUSUI_SKIN);
-        Label goldLabel = new Label(" 金币: ", AssetsManager.instance.STATUSUI_SKIN);
-        goldValLabel = new Label(String.valueOf(goldVal), AssetsManager.instance.STATUSUI_SKIN);
+        Label hpLabel = new Label(" 血量: ", Assets.instance.STATUSUI_SKIN);
+        hpValLabel = new Label(String.valueOf(hpVal), Assets.instance.STATUSUI_SKIN);
+        Label mpLabel = new Label(" 魔力: ", Assets.instance.STATUSUI_SKIN);
+        mpValLabel = new Label(String.valueOf(mpVal), Assets.instance.STATUSUI_SKIN);
+        Label xpLabel = new Label(" 经验: ", Assets.instance.STATUSUI_SKIN);
+        xpValLabel = new Label(String.valueOf(xpVal), Assets.instance.STATUSUI_SKIN);
+        Label levelLabel = new Label("Level:", Assets.instance.STATUSUI_SKIN);
+        levelValLabel = new Label(String.valueOf(levelVal), Assets.instance.STATUSUI_SKIN);
+        Label goldLabel = new Label(" 金币: ", Assets.instance.STATUSUI_SKIN);
+        goldValLabel = new Label(String.valueOf(goldVal), Assets.instance.STATUSUI_SKIN);
 
 
         //Align images
@@ -121,7 +125,7 @@ public class StatusUI extends Table {
         this.add(leftTable);
         this.add(rightTable);
 
-        this.debug();
+//        this.debug();
         this.pack();
     }
 
@@ -131,6 +135,7 @@ public class StatusUI extends Table {
     public void setLevelValue(int levelValue){
         this.levelVal = levelValue;
         levelValLabel.setText(String.valueOf(levelVal));
+        hudScreen.updateLevel(levelValue);
 //        notify(levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
     }
 
@@ -140,12 +145,14 @@ public class StatusUI extends Table {
     public void setGoldValue(int goldValue){
         this.goldVal = goldValue;
         goldValLabel.setText(String.valueOf(goldVal));
+        hudScreen.updateGP(goldValue);
 //        notify(goldVal, StatusObserver.StatusEvent.UPDATED_GP);
     }
 
     public void addGoldValue(int goldValue){
         this.goldVal += goldValue;
         goldValLabel.setText(String.valueOf(goldVal));
+        hudScreen.updateGP(goldValue);
 //        notify(goldVal, StatusObserver.StatusEvent.UPDATED_GP);
     }
 
@@ -155,29 +162,23 @@ public class StatusUI extends Table {
 
     public void addXPValue(int xpValue){
         this.xpVal += xpValue;
-
         if( xpVal > xpCurrentMax ){
             updateToNewLevel();
         }
-
         xpValLabel.setText(String.valueOf(xpVal));
-
         updateBar(xpBar, xpVal, xpCurrentMax);
-
+        hudScreen.updateXP(xpVal);
 //        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
 
     public void setXPValue(int xpValue){
         this.xpVal = xpValue;
-
         if( xpVal > xpCurrentMax ){
             updateToNewLevel();
         }
-
         xpValLabel.setText(String.valueOf(xpVal));
-
         updateBar(xpBar, xpVal, xpCurrentMax);
-
+        hudScreen.updateXP(xpVal);
 //        notify(xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
 
@@ -218,6 +219,7 @@ public class StatusUI extends Table {
                 setMPValue(table.getMpMax());
 
                 setLevelValue(Integer.parseInt(table.getLevelID()));
+                hudScreen.levelUp();
 //                notify(levelVal, StatusObserver.StatusEvent.LEVELED_UP);
                 return;
             }
@@ -236,27 +238,24 @@ public class StatusUI extends Table {
     public void removeHPValue(int hpValue){
         hpVal = MathUtils.clamp(hpVal - hpValue, 0, hpCurrentMax);
         hpValLabel.setText(String.valueOf(hpVal));
-
         updateBar(hpBar, hpVal, hpCurrentMax);
-
+        hudScreen.updateHP(hpVal);
 //        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public void addHPValue(int hpValue){
         hpVal = MathUtils.clamp(hpVal + hpValue, 0, hpCurrentMax);
         hpValLabel.setText(String.valueOf(hpVal));
-
         updateBar(hpBar, hpVal, hpCurrentMax);
-
+        hudScreen.updateHP(hpVal);
 //        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public void setHPValue(int hpValue){
         this.hpVal = hpValue;
         hpValLabel.setText(String.valueOf(hpVal));
-
         updateBar(hpBar, hpVal, hpCurrentMax);
-
+        hudScreen.updateHP(hpVal);
 //        notify(hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
@@ -276,27 +275,24 @@ public class StatusUI extends Table {
     public void removeMPValue(int mpValue){
         mpVal = MathUtils.clamp(mpVal - mpValue, 0, mpCurrentMax);
         mpValLabel.setText(String.valueOf(mpVal));
-
         updateBar(mpBar, mpVal, mpCurrentMax);
-
+        hudScreen.updateMP(mpVal);
 //        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void addMPValue(int mpValue){
         mpVal = MathUtils.clamp(mpVal + mpValue, 0, mpCurrentMax);
         mpValLabel.setText(String.valueOf(mpVal));
-
         updateBar(mpBar, mpVal, mpCurrentMax);
-
+        hudScreen.updateMP(mpVal);
 //        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public void setMPValue(int mpValue){
         this.mpVal = mpValue;
         mpValLabel.setText(String.valueOf(mpVal));
-
         updateBar(mpBar, mpVal, mpCurrentMax);
-
+        hudScreen.updateMP(mpVal);
 //        notify(mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
