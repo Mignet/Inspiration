@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.pfa.MyNode;
 import com.v5ent.game.utils.AssetsManager;
+
+import java.util.ArrayList;
 
 /***
  * Role contains:Character and NPC
@@ -18,7 +22,7 @@ import com.v5ent.game.utils.AssetsManager;
  */
 public class Role extends Sprite{
 	private static final String TAG = Role.class.getSimpleName();
-	
+	private static Json json = new Json();
 //	private Vector2 velocity;
 	private float speed = 4*32f;
 	private String entityId;
@@ -49,7 +53,7 @@ public class Role extends Sprite{
 	private String currentQuestID;
 	private String itemTypeID = "NONE";
 	// role inventory
-	private Array<InventoryItem.ItemTypeID> inventory = new Array<InventoryItem.ItemTypeID>();;
+	private Array<InventoryItem.ItemTypeID> inventory = new Array<InventoryItem.ItemTypeID>();
 	
 
 	public Animation getAnimation(State animationType) {
@@ -115,22 +119,22 @@ public class Role extends Sprite{
 		// Set origin to sprite's center
 		this.setOrigin(this.getWidth() / 2.0f, 0);
 		//inventory
-		inventory.add(InventoryItem.ItemTypeID.ARMOR04);
-		inventory.add(InventoryItem.ItemTypeID.BOOTS03);
-		inventory.add(InventoryItem.ItemTypeID.HELMET05);
-		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
-		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
-		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
-		inventory.add(InventoryItem.ItemTypeID.POTIONS01);
-		inventory.add(InventoryItem.ItemTypeID.SCROLL01);
-		inventory.add(InventoryItem.ItemTypeID.SCROLL01);
-		inventory.add(InventoryItem.ItemTypeID.SCROLL01);
-		inventory.add(InventoryItem.ItemTypeID.SHIELD02);
-		inventory.add(InventoryItem.ItemTypeID.WANDS02);
-		inventory.add(InventoryItem.ItemTypeID.WEAPON01);
+		initInventory("items/"+entityId+".json");
 		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
+	/**
+	 * load from json config
+	 */
+	public void initInventory(String itemsPath){
+		if(Gdx.files.internal(itemsPath).exists()) {
+			Array<InventoryItem.ItemTypeID> list = json.fromJson(Array.class, Gdx.files.internal(itemsPath));
+			//inventory
+			for (int i = 0; i < list.size; i++) {
+				inventory.add(list.get(i));
+			}
+		}
+	}
 	/**
 	 * if walking,just move to center
 	 * @param delta

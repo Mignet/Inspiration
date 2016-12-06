@@ -1,0 +1,40 @@
+[{
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: ARMOR04
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: BOOTS03
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: HELMET05
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: POTIONS01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: POTIONS01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: POTIONS01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: POTIONS01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: SCROLL01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: SCROLL01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: SCROLL01
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: SHIELD02
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: WANDS02
+}, {
+    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+    value: WEAPON01
+}]

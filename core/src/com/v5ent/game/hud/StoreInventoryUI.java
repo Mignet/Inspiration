@@ -119,7 +119,7 @@ public class StoreInventoryUI extends Window{
         }
 
         for(int i = 1; i <= InventoryUI._numSlots; i++){
-            InventorySlot inventorySlot = new InventorySlot();
+            InventorySlot inventorySlot = new InventorySlot(this);
             inventorySlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
 //            inventorySlot.addObserver(this);
             inventorySlot.setName(InventoryUI.PLAYER_INVENTORY);
