@@ -33,8 +33,10 @@ public class MapsManager {
     private String mapName;
     private TiledMap map;
     public List<Npc> npcs = new ArrayList<Npc>();
+
     /**START POINT*/
     public static final Vector2 START_POINT = new Vector2(14,15);
+    public static final String START_MAP = "yaka_port";
 
     public TiledMap getCurrentMap() {
         return map;
@@ -44,8 +46,9 @@ public class MapsManager {
         return (TiledMapTileLayer)this.map.getLayers().get(BLOCK_LAYER);
     }
 
-    public MapsManager() {
-        loadMap("yaka_port");
+    public MapsManager(Role player) {
+        loadMap(START_MAP);
+        player.setPosInMap(START_POINT);
     }
 
     public void loadMap(String mapId) {

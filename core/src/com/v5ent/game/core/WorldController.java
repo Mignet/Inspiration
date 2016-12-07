@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
-import com.v5ent.game.entities.Target;
+import com.v5ent.game.entities.TouchPoint;
 import com.v5ent.game.screens.HUDScreen;
 import com.v5ent.game.pfa.GraphGenerator;
 import com.v5ent.game.pfa.ManhattanDistance;
@@ -46,7 +46,7 @@ public class WorldController extends InputAdapter {
     public Role player;
     //A path
     private Array<MyNode> path = new Array<MyNode>(true, 10);
-    public Target target;
+    public TouchPoint touchPoint;
 
     public WorldController() {
         init();
@@ -58,9 +58,9 @@ public class WorldController extends InputAdapter {
         camera.position.set(0, 0, 0);
         camera.update();
 
-        mapMgr = new MapsManager();
         player = new Role("lante");
-        player.setPosInMap(MapsManager.START_POINT);
+        mapMgr = new MapsManager(player);
+
 
         hudCamera = new OrthographicCamera();
         hudCamera.setToOrtho(false, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
@@ -73,13 +73,22 @@ public class WorldController extends InputAdapter {
         Gdx.input.setInputProcessor(multiplexer);
 //        Gdx.input.setInputProcessor(this);
     }
+    /******************************************** Triggle Event*************************************/
+    public void Transfer(String mapName,Vector2 pos){
+        mapMgr.loadMap(mapName);
+        player.setPosInMap(pos);
+    }
 
+    public void OpenBox(){
+
+    }
+    /*******************************************************************************************/
     public void update(float deltaTime) {
         if (player.isArrived()) {
-            target = null;
+            touchPoint = null;
         }
-        if (target != null) {
-            target.update(deltaTime);
+        if (touchPoint != null) {
+            touchPoint.update(deltaTime);
         }
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
@@ -198,7 +207,7 @@ public class WorldController extends InputAdapter {
         int x = MathUtils.floor(input.x / 32);
         int y = MathUtils.floor(input.y / 32);
         Gdx.app.debug(TAG, "clicked # (x:" + x + ",y:" + y + " )");
-        //we click npc or block,set target
+        //we click npc or block,set touchPoint
         if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)) {
             //A* path finding
             path.clear();
@@ -225,22 +234,25 @@ public class WorldController extends InputAdapter {
             if (searchResult) {
                 player.followPath(path);
 //                Gdx.app.debug(TAG, "======================Follow Path==================");
-                target = new Target(x, y);
+                touchPoint = new TouchPoint(x, y);
             }
         } else {
-            target = null;
+            touchPoint = null;
         }
         return true;
     }
 
     public void closeSpeechWithNpc() {
-        for (Npc npc : this.mapMgr.npcs) {
-            if (npc.isSelected()) {
-                npc.setSelected(false);
-                npc.setCurrentDir(npc.getDefaultDir());
-                npc.setState(npc.getDefaultState());
-            }
+        Npc npc = getCurrentSelectedNpc();
+        if(npc!=null){
+            npc.setSelected(false);
+            npc.setCurrentDir(npc.getDefaultDir());
+            npc.setState(npc.getDefaultState());
         }
+    }
+
+    public boolean isCollisionWithTriggle(int x, int y) {
+        return false;
     }
 
     private boolean isCollisionWithNpc(int x, int y) {

@@ -10,12 +10,12 @@ import com.v5ent.game.utils.Assets;
  * Created by Mignet on 2016/11/13.
  */
 
-public class Target extends Sprite {
+public class TouchPoint extends Sprite {
     private float frameTime = 0f;
     private Animation touchPointAnimation;
     private TextureRegion currentFrame = null;
 
-    public Target(int x,int y) {
+    public TouchPoint(int x, int y) {
         this.touchPointAnimation = Assets.instance.touch.touchPointAnimation;
         currentFrame =touchPointAnimation.getKeyFrame(0);
         // Define sprite size to be 1m x 1m in game world

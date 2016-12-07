@@ -43,7 +43,7 @@ public class Role extends Sprite{
 	/**just for draw */
 	protected TextureRegion currentFrame = null;
 	public Array<MyNode> path = new Array<MyNode>(true,10);
-	// move to target
+	// move to touchPoint
 	private Vector2 movingTarget;
 	//InventoryItem
 	private String questConfigPath;
