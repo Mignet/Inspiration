@@ -7,7 +7,7 @@ Chapter 2: The Secret of Map
 
 Chapter 3: Players and NPCs
 
-Chapter 4: Dialog
+Chapter 4: Have a Talk
 
 Chapter 5: Equipment
 
@@ -23,4 +23,4 @@ Chapter 10: Foil atmosphere
 
 Chapter 11: Miscellaneous
 
-Chapter 12: Release your Game
+Chapter 12: Publish your Game
