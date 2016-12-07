@@ -14,8 +14,8 @@ public class Resource {
     public static final String STATUSUI_SKIN_PATH = "skins/statusui.json";
     //single
     public static final String TOUCH = "tools/touch.png";
-    public static final String SHADOW = "heros/shadow.png";
-    public static final String SELECTED = "heros/selected.png";
+    public static final String SHADOW = "tools/shadow.png";
+    public static final String SELECTED = "tools/selected.png";
     public Map<String,String> players = new HashMap<String,String>();
     public Map<String,String> npcs = new HashMap<String,String>();
     public Map<String,String> maps = new HashMap<String,String>();

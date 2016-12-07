@@ -4,13 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.v5ent.game.entities.EventObject;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.utils.Assets;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class MapsManager {
     private String mapName;
     private TiledMap map;
     public List<Npc> npcs = new ArrayList<Npc>();
+    public List<EventObject> events = new ArrayList<EventObject>();
 
     /**START POINT*/
     public static final Vector2 START_POINT = new Vector2(14,15);
@@ -95,6 +99,18 @@ public class MapsManager {
                         }
                         this.npcs.add(n);
                     }
+                }
+            }
+        }
+        MapLayer eventLayer = this.map.getLayers().get("event");
+        if(eventLayer!=null) {
+            for (MapObject o : eventLayer.getObjects()) {
+                if(o instanceof TextureMapObject){
+                    TextureMapObject event = (TextureMapObject)o;
+                    EventObject eo = new EventObject(event.getName(),event.getTextureRegion(),event.getX(),event.getY());
+                    eo.setCommand(event.getProperties().get("CMD",String.class));
+                    this.events.add(eo);
+                    Gdx.app.debug(TAG,"load map event:"+eo);
                 }
             }
         }

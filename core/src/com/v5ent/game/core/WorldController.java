@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.v5ent.game.entities.EventObject;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.entities.TouchPoint;
@@ -73,16 +74,7 @@ public class WorldController extends InputAdapter {
         Gdx.input.setInputProcessor(multiplexer);
 //        Gdx.input.setInputProcessor(this);
     }
-    /******************************************** Triggle Event*************************************/
-    public void Transfer(String mapName,Vector2 pos){
-        mapMgr.loadMap(mapName);
-        player.setPosInMap(pos);
-    }
 
-    public void OpenBox(){
-
-    }
-    /*******************************************************************************************/
     public void update(float deltaTime) {
         if (player.isArrived()) {
             touchPoint = null;
@@ -208,7 +200,7 @@ public class WorldController extends InputAdapter {
         int y = MathUtils.floor(input.y / 32);
         Gdx.app.debug(TAG, "clicked # (x:" + x + ",y:" + y + " )");
         //we click npc or block,set touchPoint
-        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)) {
+        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y) && !isCollisionWithEvent(x,y)) {
             //A* path finding
             path.clear();
             Vector2 start = new Vector2(MathUtils.round(player.getX() / 32), MathUtils.round(player.getY() / 32));
@@ -303,6 +295,33 @@ public class WorldController extends InputAdapter {
         return false;
     }
 
+    public boolean isCollisionWithEvent(int x, int y) {
+        for (EventObject eo : this.mapMgr.events) {
+            int eoX = MathUtils.floor(eo.getX() / 32);
+            int eoY = MathUtils.floor(eo.getY() / 32);
+            if (eoX == x && eoY == y) {
+                int x0 = MathUtils.floor(player.getX() / 32);
+                int y0 = MathUtils.floor(player.getY() / 32);
+                float distance = (x - x0) * (x - x0) + (y - y0) * (y - y0);
+                //I click you
+                if (distance <= 1f) {
+                    if(!eo.isToggled()){
+                        executeCommand(eo.getCommand());
+                        setToggleOnGroup(eo.getName());
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private void setToggleOnGroup(String name){
+        for (EventObject eo : this.mapMgr.events) {
+            if(name.equals(eo.getName())){
+                eo.setToggled(true);
+            }
+        }
+    }
     public boolean isCollisionWithBlock(int x, int y) {
         TiledMapTileLayer mapCollisionLayer = mapMgr.getBlockLayer();
 
@@ -344,4 +363,27 @@ public class WorldController extends InputAdapter {
         }
         return null;
     }
+
+ /********************************************* COMMAND ********************************************************/
+    public void executeCommand(String cmd){
+        Gdx.app.debug(TAG,"preform cmd:"+cmd);
+        String[] list = cmd.split(",");
+        if("MapTo".equals(list[0])){
+            Transfer(list[1],new Vector2(Integer.valueOf(list[2]),Integer.valueOf(list[3])));
+        }
+        if("openBox".equals(list[0])){
+            OpenBox();
+        }
+    }
+
+    /******************************************** Triggle Event*************************************/
+    public void Transfer(String mapName,Vector2 pos){
+        mapMgr.loadMap(mapName);
+        player.setPosInMap(pos);
+    }
+
+    public void OpenBox(){
+        //add money
+    }
+    /*******************************************************************************************/
 }

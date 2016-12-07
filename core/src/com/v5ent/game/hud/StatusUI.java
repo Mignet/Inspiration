@@ -3,10 +3,12 @@ package com.v5ent.game.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.battle.LevelTable;
@@ -46,7 +48,6 @@ public class StatusUI extends Table {
     public StatusUI(HUDScreen parent){
         super(Assets.instance.STATUSUI_SKIN);
         hudScreen = parent;
-//        this.setBackground("status");
         levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
 
         //groups
@@ -62,7 +63,9 @@ public class StatusUI extends Table {
         xpBar = new Image(new Texture(Gdx.files.internal("hud/xp_bar.png")));
         Image bar3 = new Image(new Texture(Gdx.files.internal("hud/bar.png")));
 
-        Image header = new Image(new Texture(Gdx.files.internal("heros/header1.png")));
+        Image border = new Image(new Texture(Gdx.files.internal("hud/border.png")));
+        Image header = new Image(new Texture(Gdx.files.internal("hud/lante.png")));
+        header.setPosition(3,3);
 
         _barHeight = hpBar.getHeight();
         //labels
@@ -72,7 +75,7 @@ public class StatusUI extends Table {
         mpValLabel = new Label(String.valueOf(mpVal), Assets.instance.STATUSUI_SKIN);
         Label xpLabel = new Label(" 经验: ", Assets.instance.STATUSUI_SKIN);
         xpValLabel = new Label(String.valueOf(xpVal), Assets.instance.STATUSUI_SKIN);
-        Label levelLabel = new Label("Level:", Assets.instance.STATUSUI_SKIN);
+        Label levelLabel = new Label("等级:", Assets.instance.STATUSUI_SKIN);
         levelValLabel = new Label(String.valueOf(levelVal), Assets.instance.STATUSUI_SKIN);
         Label goldLabel = new Label(" 金币: ", Assets.instance.STATUSUI_SKIN);
         goldValLabel = new Label(String.valueOf(goldVal), Assets.instance.STATUSUI_SKIN);
@@ -95,8 +98,11 @@ public class StatusUI extends Table {
         defaults().expand().fill();
 
         //top layout
+        WidgetGroup headGroup = new WidgetGroup();
+        headGroup.addActor(header);
+        headGroup.addActor(border);
         Table leftTable = new Table();
-        leftTable.add(header).size(header.getWidth(), header.getHeight()).pad(2,2,2,2);
+        leftTable.add(headGroup).size(border.getWidth(), border.getHeight());
         leftTable.row();
 
 
@@ -127,6 +133,11 @@ public class StatusUI extends Table {
 
 //        this.debug();
         this.pack();
+        headGroup.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                //nothing to do ,only catch the click
+            }
+        });
     }
 
     public int getLevelValue(){

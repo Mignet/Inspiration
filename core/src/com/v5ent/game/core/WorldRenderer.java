@@ -2,6 +2,7 @@ package com.v5ent.game.core;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -40,8 +41,8 @@ public class WorldRenderer implements Disposable {
 
 	private void renderMap(){
 
-		//mapRenderer.getBatch().enableBlending();
-		//mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+//		mapRenderer.getBatch().enableBlending();
+//		mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		mapRenderer.setView(worldController.camera);
 		mapRenderer.render();
@@ -71,6 +72,7 @@ public class WorldRenderer implements Disposable {
 		List<Sprite> temp =new ArrayList<Sprite>();
 		temp.add(worldController.player);
 		temp.addAll(worldController.mapMgr.npcs);
+		temp.addAll(worldController.mapMgr.events);
 		Collections.sort(temp, new Comparator<Sprite>() {
 			@Override
 			public int compare(Sprite lhs, Sprite rhs) {

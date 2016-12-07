@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="3">
  <properties>
   <property name="mapName" value="Home1"/>
  </properties>
@@ -38,7 +38,7 @@
  </layer>
  <layer name="block" width="18" height="15">
   <data encoding="base64" compression="zlib">
-   eJybxMhANTCJEYJxyZFjFkwfMp9YTMg8XHK47CPF3fj4uPSRAvD5kxxAC3PICTdK44IUdxObdsixh1iziAl3UsKFnDxBDgAAVSgzrw==
+   eJybxMhANTCJEYJxyZFjFkwfMp9YTMg8XHK47CPF3fj4uPSRAvD5kxxAC3PICTdK44IUdxObdsixh1iziAl3UsKFlDxBCQAAEo4yiQ==
   </data>
  </layer>
  <layer name="ceiling" width="18" height="15">
@@ -46,4 +46,17 @@
    eJxjYBieIAiKR8EoGAngOY3VowMAy14Ccw==
   </data>
  </layer>
+ <objectgroup name="npc"/>
+ <objectgroup name="event">
+  <object id="1" name="door" gid="408" x="96" y="480" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,yaka_port,8,20"/>
+   </properties>
+  </object>
+  <object id="2" name="door" gid="408" x="128" y="480" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,yaka_port,8,20"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

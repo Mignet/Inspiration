@@ -81,7 +81,7 @@ public class HUDScreen implements Screen {
         inventoryUI.setMovable(false);
         inventoryUI.setVisible(false);
         inventoryUI.setModal(true);
-        inventoryUI.setPosition(100, 0);
+        inventoryUI.setPosition(76, 0);
 
         storeInventoryUI = new StoreInventoryUI(this);
         storeInventoryUI.setMovable(false);
