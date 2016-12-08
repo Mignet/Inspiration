@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="96" tilewidth="32" tileheight="32" nextobjectid="18">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="96" tilewidth="32" tileheight="32" nextobjectid="20">
  <properties>
   <property name="mapName" value="Yaka Port"/>
  </properties>
@@ -157,7 +157,7 @@
   <image source="tiles/tile05.png" width="640" height="800"/>
  </tileset>
  <tileset firstgid="1201" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
-  <image source="TOOLS.png" width="288" height="32"/>
+  <image source="tiles/TOOLS.png" width="288" height="32"/>
  </tileset>
  <tileset firstgid="1210" name="box" tilewidth="32" tileheight="32" tilecount="2" columns="2">
   <image source="../items/box.png" width="68" height="34"/>
@@ -174,7 +174,7 @@
  </layer>
  <layer name="block" width="48" height="96">
   <data encoding="base64" compression="zlib">
-   eJztmEmOxCAMRWvR9z9Mn7DVi5JQhOfvAZQvRSFJYR5gG6jPh9bvz75crSkcWfrv0/PS/i77oji4Z0ufEONitaHhj+rZTqQPO9vcM0LcnKJtV/nuaf6PEMVxek59+Xt1M3+0P1x91FhZx3/aHN3qP571pEMcv6ZOt6zjz9Xp0I55LVftUz2i9rbf8voO7f+I+NrxVwkVX538mvjS2NmVLfU8QsVXt/9E42tSLvTo5e/Vy9+rCfza/z2m78VWSSw382vmzntV8WtsWDms/Fz/J/FT8fu9S9+pd93j/71b84+WX+PT2flB4kfGbDV/ZlsRG9SYVPBzsei1+SxzeUKTyyf4jybutT7vWb8i/CdpMr81f0fnOMtHtO1Z2p8yVxP8B50/J8izpk/j13ybzG/Zcz7LKIZo3V1O8fBnzg23JzrV/7V6+XuF4Leew5BC8Ud+073+3sQvnWOi9qW2n9+0Y6s5n2WLWkcm56UJ+bPb/zs1kd8SO9P4KQZNbHbzS+1L+bGT35KrqecJ4++ZA+pbh6g+cO935W6h8o92b5xxdrbGgzQ/WjsIcX5Ove/gj/bb4z8ZHF5Je/Qu/9fKe8aYkquk84ulPlqI/FMl1Nm1iwPR3hSftugG/vU/g/We1ZaUgz3fM7lXfm896ewSse/hsLSl4a9YQzP5K3QDv7deJT9l+xR+iSPjquI/Wdl7VWo+UPPaNc+IvW3ETle7nfyI+N7tuU5T1d7wDyx/D6M=
+   eJztmFmuwyAMRfvR/S+mK3x6H5GiCM/XAyhXikoG4AC2Mf18aP2+63K1pnBk6X9Mz0v7XfZFcXD3ljEh5sXahoY/qmc/kTGs2ubuEeLWFN12le3uZv8IURy7x9SXv1cn80fHw9VHzZV1/qet0an249lPOsTxa+p0yzr/XJ0OrZjv5ao81SMqt73K92do+0f414q/Sij/6uTX+JemnVXZUs8jlH9120/UvybFQo9e/l69/L2awK/932N6LnaXxHIyv2btvFcVv6YNK4eVnxv/JH7Kf69f6T31rHv+r19r/NHya2w6Oz5I/EifrebP7CvSBjUnFfycL3rbfJa5OKGJ5RPsR+P3Wpv37F8R/p00md8av6NrnGUj2v4s/U9Zqwn2g46fE+TZ06fxa95N5rfknM8yiiFadxVTPPyZa8PlRLvav1Yvf68Q/NZzGFIo/sg33fvvSfzSOSbavtT38512bjXns2xR+8jkuDQhfnbbf6cm8lt8Zxo/xaDxzW5+qX8pPnbyW2I1dT9h/j1rQL3rEDUG7vmq3C1U/NHmxhlnZ6s/SOujbQchzs6p5x380XF77CeDwyspR6fy+I78eCXvGWNKrJLOL5b6aCHiT5VQZ9cuDkR/U2zaohP47/8ZVPQlxWDP+yp+bz1pX4q07+Gw9GXZVzOVyV+hE/i99Sr5qbZ34Zc4Mq4q/p2VnatS64Fa1651RuS2kXa6+u3kR/j3KufaTVW54R/uCw2B
   </data>
  </layer>
  <objectgroup name="npc">
@@ -190,29 +190,39 @@
     <property name="State" value="FIXED"/>
    </properties>
   </object>
-  <object id="8" name="NPC-01" x="96" y="2432" width="32" height="32">
+  <object id="8" name="NPC-01" x="160" y="1376" width="32" height="32">
    <properties>
     <property name="Dir" value="DOWN"/>
    </properties>
   </object>
   <object id="9" name="ASL" x="480" y="2464" width="32" height="32">
    <properties>
-    <property name="Dir" value="LEFT"/>
+    <property name="Dir" value="DOWN"/>
     <property name="State" value="FIXED"/>
+   </properties>
+  </object>
+  <object id="18" name="NPC-G02" x="1088" y="2240" width="32" height="32">
+   <properties>
+    <property name="Dir" value="LEFT"/>
+   </properties>
+  </object>
+  <object id="19" name="kelisid" x="672" y="2048" width="32" height="32">
+   <properties>
+    <property name="Dir" value="DOWN"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="event">
   <object id="12" name="door1" gid="969" x="288" y="2400" width="32" height="32">
    <properties>
-    <property name="CMD" value="MapTo,home_one,3,2"/>
+    <property name="CMD" value="MapTo,home_one,4,1,UP"/>
    </properties>
   </object>
   <object id="13" name="door1" gid="949" x="288" y="2368" width="32" height="32"/>
   <object id="14" name="door1" gid="948" x="256" y="2368" width="32" height="32"/>
   <object id="15" name="door1" gid="968" x="256" y="2400" width="32" height="32">
    <properties>
-    <property name="CMD" value="MapTo,home_one,3,2"/>
+    <property name="CMD" value="MapTo,home_one,3,1,UP"/>
    </properties>
   </object>
   <object id="17" name="box" gid="1211" x="96" y="2624" width="32" height="32">

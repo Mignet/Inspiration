@@ -24,22 +24,22 @@ public class DialogUI extends Window {
 
     private Label talkText;
     private List items;
-    private ConversationGraph _graph;
+    private ConversationGraph graph;
     private HUDScreen hudScreen;
     private TextButton closeButton;
 
-    private Json _json;
+    private Json json;
 
     public DialogUI(HUDScreen parent) {
         super("对话", Assets.instance.STATUSUI_SKIN, "solidbackground");
         hudScreen = parent;
-        _json = new Json();
-        _graph = new ConversationGraph();
+        json = new Json();
+        graph = new ConversationGraph();
 
         //create
-        talkText = new Label("没有谈话", Assets.instance.STATUSUI_SKIN);
+        talkText = new Label("", Assets.instance.STATUSUI_SKIN);
         talkText.setWrap(true);
-        talkText.setAlignment(Align.center);
+        talkText.setAlignment(Align.left);
         items = new List<ConversationChoice>(Assets.instance.STATUSUI_SKIN);
 
         closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
@@ -71,8 +71,8 @@ public class DialogUI extends Window {
                 ConversationChoice choice = (ConversationChoice)items.getSelected();
                 if( choice == null ) return;
                 //TODO: pickup,sleep event etc
-//                _graph.notify(_graph, choice.getConversationCommandEvent());
-                hudScreen.executeCommandEvent(_graph, choice.getConversationCommandEvent());
+//                graph.notify(graph, choice.getConversationCommandEvent());
+                hudScreen.executeCommandEvent(graph, choice.getConversationCommandEvent());
                 populateConversationDialog(choice.getDestinationId());
             }
         });
@@ -95,27 +95,27 @@ public class DialogUI extends Window {
 
         this.setName(role.getEntityId());
 
-        ConversationGraph graph = _json.fromJson(ConversationGraph.class, Gdx.files.internal(fullFilenamePath));
+        ConversationGraph graph = json.fromJson(ConversationGraph.class, Gdx.files.internal(fullFilenamePath));
         setConversationGraph(graph);
     }
 
     public void setConversationGraph(ConversationGraph graph){
-        this._graph = graph;
-        populateConversationDialog(_graph.getCurrentConversationID());
+        this.graph = graph;
+        populateConversationDialog(graph.getCurrentConversationID());
     }
 
     public ConversationGraph getCurrentConversationGraph(){
-        return this._graph;
+        return this.graph;
     }
 
     private void populateConversationDialog(String conversationID){
         clearDialog();
 
-        Conversation conversation = _graph.getConversationByID(conversationID);
+        Conversation conversation = graph.getConversationByID(conversationID);
         if( conversation == null ) return;
-        _graph.setCurrentConversation(conversationID);
+        graph.setCurrentConversation(conversationID);
         talkText.setText(conversation.getDialog());
-        ArrayList<ConversationChoice> choices =  _graph.getCurrentChoices();
+        ArrayList<ConversationChoice> choices =  graph.getCurrentChoices();
         if( choices == null ) {
             this.setHeight(160);
             return;
@@ -126,7 +126,7 @@ public class DialogUI extends Window {
     }
 
     private void clearDialog(){
-        talkText.setText("");
+        talkText.setText("...");
         items.clearItems();
     }
 

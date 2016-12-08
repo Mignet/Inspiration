@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="15" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="6">
  <properties>
   <property name="mapName" value="Home1"/>
  </properties>
@@ -19,44 +19,56 @@
   </tile>
  </tileset>
  <tileset firstgid="401" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
-  <image source="TOOLS.png" width="288" height="32"/>
+  <image source="tiles/TOOLS.png" width="288" height="32"/>
  </tileset>
- <layer name="buchong" width="18" height="15">
+ <layer name="ground" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF2IAsIwQPdiBLJXM8qGTOcACDMd7bSRQn1kxy9QMAjw8C3A==
+   eJzLZmBgyMaDzxOQR8bLgLieAH5MhBoYBpk3mQD+ToQaGAaZpwnEwVAaG+ZmZGCQJRKDzEsF4jQ85u1mIM08XOZQyzxZNP55Cs3zQOM/prJ530lML4TCDxS/pKYXfHgSleN32QCb1w7FyGa0DyIMAHgSYa4=
   </data>
  </layer>
- <layer name="ground" width="18" height="15">
+ <layer name="floor" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJzLZmBgyMaDzxOQh+F6AvgxEWpAeDIB/J0INSCsCcTBUBob5mZkYJDFg08zQHAqEKfhMWc3A35zYBiXfkrNMUHjn6eSOY/JNMcDjf+dyHgnFD6g+CI23vHhSUT46zQR5iyjUrwTa047AwQj620fQAwAX0VVrw==
+   eJz7zYAJ7mERIxbwMzIw/EYT+4TGXwjEi4B4JxDvQhLfA8SLoRgGlBkxzdQF8tkZEfytQLwNiB8C8Tmo2EMo3g7FD7GYCQKSQNoRiKWRzDsJxKeA+CsQ5wBxLpSNzkcGyowMRIEGIG7Ew48B4lggZgdiDiDmJGDeFCCeiodfAMSFQCzNAAkDEyxmBBGJQaAFiFuh7K84zMsmEoMAExCDgo4FiFmB2BjJHD1cnoaCMAbM9CIGxKJALAHEkkDsTsA8WDoJBeIsBsz0QsgNyMCOAZFOQLiOATO9TCDBPGyggQE1vSwhUb8dGh+UXpDzxhMofoUk9hJJ/AUSmxiMDJDNaCfR3TAAALLyTkk=
   </data>
  </layer>
- <layer name="floor" width="18" height="15">
+ <layer name="block" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJyV0b0OAUEQB/A5IUelIkSpptFLVHoJFS/gI+EFhIRoFTyAj1dAiBeg8AgSiQKlRKXx31jZyVn2bpJfbmfudu725knfcdTUTBG2iJ6O2t2RT2AKa9iw+hZmUtL67pVCblsqX8ASTnCQtZO0koj1EhHHNQcJ1mcHe3hAHRpyzXNivdxEB7qavAwVsCEIIUOfEYw1eRNakKD3eXVRcKEHffn840efmgs+EL/GDwHIsP1pwxlLpOYehQjEIA55Q5/PvItQJTV30zt5ZEnNW2iTmvvQQx9ddOg997nHfVlHLuYuznmWbuzeldUvbP0PD7534PE7X5eAR7A=
+   eJybxMhAdTCJEYJxyVFiJkw/Mp8YjMt+bOZikyPFDmL8gY2Pz52ExAmpxeVOcs3DJUZN80gNf2LintQ4I9U/1EgfxNhBinpC5hNKJ7QMM2zm4ws7AIdHPpg=
   </data>
  </layer>
- <layer name="block" width="18" height="15">
-  <data encoding="base64" compression="zlib">
-   eJybxMhANTCJEYJxyZFjFkwfMp9YTMg8XHK47CPF3fj4uPSRAvD5kxxAC3PICTdK44IUdxObdsixh1iziAl3UsKFnDxBDgAAVSgzrw==
-  </data>
- </layer>
- <layer name="ceiling" width="18" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBieIAiKR8EoGAngOY3VowMAy14Ccw==
-  </data>
- </layer>
- <objectgroup name="npc"/>
- <objectgroup name="event">
-  <object id="1" name="door" gid="408" x="96" y="480" width="32" height="32">
+ <objectgroup name="npc">
+  <object id="3" name="mother" x="32" y="256" width="32" height="32">
    <properties>
-    <property name="CMD" value="MapTo,yaka_port,8,20"/>
-   </properties>
-  </object>
-  <object id="2" name="door" gid="408" x="128" y="480" width="32" height="32">
-   <properties>
-    <property name="CMD" value="MapTo,yaka_port,8,20"/>
+    <property name="Dir" value="RIGHT"/>
+    <property name="State" value="FIXED"/>
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="event">
+  <object id="1" name="door101" gid="408" x="96" y="480" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,yaka_port,8,20,DOWN"/>
+   </properties>
+  </object>
+  <object id="2" name="door101" gid="408" x="128" y="480" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,yaka_port,9,20,DOWN"/>
+   </properties>
+  </object>
+  <object id="4" name="door102" gid="408" x="0" y="96" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,home_two,4,12,RIGHT"/>
+   </properties>
+  </object>
+  <object id="5" name="door102" gid="408" x="0" y="64" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,home_two,4,12,RIGHT"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="ceiling" width="20" height="15" opacity="0.7">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhZIAiK6QV2k6mPHYg5gJiTSubhA0FEYmJBNpEYBhgpc/6AgklUNm8Zlc2jNngOxO0kYGR9uAAp5gEAYsoYNg==
+  </data>
+ </layer>
 </map>

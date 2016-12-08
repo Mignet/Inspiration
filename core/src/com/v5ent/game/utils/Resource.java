@@ -24,9 +24,14 @@ public class Resource {
         players.put("lante","heros/lante.png");
         players.put("hafei","heros/hafei.png");
         npcs.put("knight","heros/knight.png");
+        npcs.put("kelisid","heros/kelisid.png");
         npcs.put("NPC-01","heros/NPC-01.png");
+        npcs.put("mother","heros/mother.png");
+        npcs.put("moon","heros/moon.png");
         npcs.put("ASL","heros/ASL.png");
+        npcs.put("NPC-G02","heros/NPC-G02.png");
         maps.put("yaka_port","maps/yaka_port.tmx");
         maps.put("home_one","maps/home_one.tmx");
+        maps.put("home_two","maps/home_two.tmx");
     }
 }

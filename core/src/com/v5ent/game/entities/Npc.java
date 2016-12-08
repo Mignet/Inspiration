@@ -1,5 +1,6 @@
 package com.v5ent.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.v5ent.game.core.WorldController;
@@ -43,8 +44,9 @@ public class Npc extends Role {
         int x = MathUtils.floor(getX()/32);
         int y = MathUtils.floor(getY()/32);
         if(this.getState()==State.IDLE){
-            Random r = new Random(System.currentTimeMillis());
-            int randInt = r.nextInt(64);
+            Random r = new Random();
+            int randInt = r.nextInt(128);
+            Gdx.app.debug(TAG,"randInt:"+randInt);
             if(randInt<4){
                 switch (randInt){
                     case 0:

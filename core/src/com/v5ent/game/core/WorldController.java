@@ -10,15 +10,16 @@ import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.v5ent.game.entities.EventObject;
+import com.v5ent.game.entities.Aim;
+import com.v5ent.game.entities.Trap;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
-import com.v5ent.game.entities.TouchPoint;
 import com.v5ent.game.screens.HUDScreen;
 import com.v5ent.game.pfa.GraphGenerator;
 import com.v5ent.game.pfa.ManhattanDistance;
@@ -27,6 +28,9 @@ import com.v5ent.game.pfa.MyNode;
 import com.v5ent.game.pfa.MyPathSmoother;
 import com.v5ent.game.pfa.MyRaycastCollisionDetector;
 import com.v5ent.game.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorldController extends InputAdapter {
 
@@ -47,7 +51,7 @@ public class WorldController extends InputAdapter {
     public Role player;
     //A path
     private Array<MyNode> path = new Array<MyNode>(true, 10);
-    public TouchPoint touchPoint;
+    public Aim aim;
 
     public WorldController() {
         init();
@@ -73,15 +77,15 @@ public class WorldController extends InputAdapter {
 
     public void update(float deltaTime) {
         if (player.isArrived()) {
-            touchPoint = null;
+            aim = null;
         }
-        if (touchPoint != null) {
-            touchPoint.update(deltaTime);
+        if (aim != null) {
+            aim.update(deltaTime);
         }
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
             npc.update(deltaTime);
-            npc.randomMove(this);
+//            npc.randomMove(this);
         }
         handleDebugInput(deltaTime);
         //follow the Player
@@ -140,6 +144,10 @@ public class WorldController extends InputAdapter {
         if (player.getState() == Role.State.IDLE) {
             int x = MathUtils.floor(player.getX() / 32);
             int y = MathUtils.floor(player.getY() / 32);
+            //triggle
+            if(isCollisionWithEvent(x,y)){
+                return;
+            }
             //Keyboard input
             if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT)) {
                 //Gdx.app.debug(TAG, "LEFT key");
@@ -193,8 +201,8 @@ public class WorldController extends InputAdapter {
         int x = MathUtils.floor(input.x / 32);
         int y = MathUtils.floor(input.y / 32);
         Gdx.app.debug(TAG, "clicked # (x:" + x + ",y:" + y + " )");
-        //we click not npc or block,set touchPoint to move
-        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)) {
+        //we click not npc or block,set aim to move
+        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)&&!isCollisionWithEvent(x,y)) {
             //A* path finding
             path.clear();
             Vector2 start = new Vector2(MathUtils.round(player.getX() / 32), MathUtils.round(player.getY() / 32));
@@ -205,7 +213,10 @@ public class WorldController extends InputAdapter {
             Gdx.app.debug(TAG, "From:" + start + " to " + end + "|numCols:" + numCols + "|numRows:" + numRows);
             int s = (int) start.x + ((int) start.y) * numCols;
             int t = (int) end.x + ((int) (end.y)) * numCols;
-            final MyGraph graph = GraphGenerator.generateGraph(mapMgr.getBlockLayer(), mapMgr.npcs, numCols, numRows, 32, 32, start);
+            List<Sprite> temp =new ArrayList<Sprite>();
+            temp.addAll(mapMgr.npcs);
+            temp.addAll(mapMgr.events);
+            final MyGraph graph = GraphGenerator.generateGraph(mapMgr.getBlockLayer(),temp, numCols, numRows, 32, 32, start);
             final IndexedAStarPathFinder<MyNode> pathfinder = new IndexedAStarPathFinder<MyNode>(graph);
             final GraphPath<MyNode> outPath = new DefaultGraphPath<MyNode>();
             final boolean searchResult = pathfinder.searchNodePath(graph.getNodes().get(s), graph.getNodes().get(t), new ManhattanDistance(), outPath);
@@ -213,19 +224,16 @@ public class WorldController extends InputAdapter {
             pathSmoother.smoothPath(outPath);
             StringBuilder sb = new StringBuilder();
             for (int i = outPath.getCount() - 1; i >= 0; i--) {
-                sb.append(outPath.get(i).getX() + "," + outPath.get(i).getY() + "|");
+                sb.append("("+outPath.get(i).getX() + "," + outPath.get(i).getY() + ")|");
                 path.add(outPath.get(i));
             }
             if (searchResult) {
                 Gdx.app.debug(TAG, "Start Follow Path:" + sb.toString());
                 player.followPath(path);
-                touchPoint = new TouchPoint(x, y);
+                aim = new Aim(x, y);
             }
         } else {
-            touchPoint = null;
-            if(isCollisionWithEvent(x,y)){
-                Gdx.app.debug(TAG, "Event happen" );
-            }
+            aim = null;
         }
         return true;
     }
@@ -237,10 +245,6 @@ public class WorldController extends InputAdapter {
             npc.setCurrentDir(npc.getDefaultDir());
             npc.setState(npc.getDefaultState());
         }
-    }
-
-    public boolean isCollisionWithTriggle(int x, int y) {
-        return false;
     }
 
     private boolean isCollisionWithNpc(int x, int y) {
@@ -260,10 +264,6 @@ public class WorldController extends InputAdapter {
                 //I click you
                 if (distance < 10f) {
                     Gdx.app.debug(TAG, "distance:" + distance + " you clicked " + npc.getEntityId());
-                    //talk with npc,npc must fixed when talk
-                    npc.setSelected(true);
-                    npc.setState(Role.State.FIXED);
-                    hudScreen.loadSpeech(npc);
                     //1.face to face
                     int gapX = x0 - npcX;
                     int gapY = y0 - npcY;
@@ -284,6 +284,11 @@ public class WorldController extends InputAdapter {
                             npc.setCurrentDir(Role.Direction.RIGHT);
                         }
                     }
+                    //2.talk with npc,npc must be fixed when talk
+                    npc.setSelected(true);
+                    npc.setState(Role.State.FIXED);
+                    //3. show talk dialog
+                    hudScreen.loadSpeech(npc);
                 }
                 return true;
             }
@@ -292,7 +297,7 @@ public class WorldController extends InputAdapter {
     }
 
     public boolean isCollisionWithEvent(int x, int y) {
-        for (EventObject eo : this.mapMgr.events) {
+        for (Trap eo : this.mapMgr.events) {
             int eoX = MathUtils.floor(eo.getX() / 32);
             int eoY = MathUtils.floor(eo.getY() / 32);
             if (eoX == x && eoY == y) {
@@ -301,18 +306,41 @@ public class WorldController extends InputAdapter {
                 float distance = (x - x0) * (x - x0) + (y - y0) * (y - y0);
                 //I click you
                 if (distance <= 1f) {
+                    Gdx.app.debug(TAG,"trigger event:"+eo.getName()+"|toggle:"+eo.isToggled());
                     if(!eo.isToggled()){
+                        //1.face to item
+                        int gapX = x0 - eoX;
+                        int gapY = y0 - eoY;
+                        if (Math.abs(gapX) < Math.abs(gapY)) {
+                            if (gapY < 0) {
+                                player.setCurrentDir(Role.Direction.UP);
+                            } else {
+                                player.setCurrentDir(Role.Direction.DOWN);
+                            }
+                        } else {
+                            if (gapX < 0) {
+                                player.setCurrentDir(Role.Direction.RIGHT);
+                            } else {
+                                player.setCurrentDir(Role.Direction.LEFT);
+                            }
+                        }
+                        //2.start to execute
                         executeCommand(eo.getCommand());
                         setToggleOnGroup(eo.getName());
                     }
-                    return true;
                 }
+                return true;
             }
         }
         return false;
     }
+
+    /**
+     * toggle all the same name tiles
+     * @param name
+     */
     private void setToggleOnGroup(String name){
-        for (EventObject eo : this.mapMgr.events) {
+        for (Trap eo : this.mapMgr.events) {
             if(name.equals(eo.getName())){
                 eo.setToggled(true);
             }
@@ -366,6 +394,7 @@ public class WorldController extends InputAdapter {
         String[] list = cmd.split(",");
         if("MapTo".equals(list[0])){
             Transfer(list[1],new Vector2(Integer.valueOf(list[2]),Integer.valueOf(list[3])));
+            player.setCurrentDir(Role.Direction.valueOf(list[4]));
         }
         if("openBox".equals(list[0])){
             OpenBox();

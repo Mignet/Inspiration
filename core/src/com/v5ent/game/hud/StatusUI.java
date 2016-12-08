@@ -107,23 +107,23 @@ public class StatusUI extends Table {
 
 
         Table rightTable = new Table();
-        rightTable.add(levelLabel);
+        rightTable.add(levelLabel).align(Align.left);
         rightTable.add(levelValLabel).align(Align.left);
 //        rightTable.add(goldLabel);
 //        rightTable.add(goldValLabel).align(Align.left);
         rightTable.row();
 
-        rightTable.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10).colspan(2);
+        rightTable.add(group).size(bar.getWidth(), bar.getHeight()).colspan(2);
 //        rightTable.add(hpLabel);
 //        rightTable.add(hpValLabel).align(Align.left);
         rightTable.row();
 
-        rightTable.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10).colspan(2);
+        rightTable.add(group2).size(bar2.getWidth(), bar2.getHeight()).colspan(2);
 //        rightTable.add(mpLabel);
 //        rightTable.add(mpValLabel).align(Align.left);
         rightTable.row();
 
-        rightTable.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10).colspan(2);
+        rightTable.add(group3).size(bar3.getWidth(), bar3.getHeight()).colspan(2);
 //        rightTable.add(xpLabel);
 //        rightTable.add(xpValLabel).align(Align.left).padRight(20);
         rightTable.row();

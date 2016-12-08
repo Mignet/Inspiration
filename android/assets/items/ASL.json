@@ -1,25 +1,77 @@
-[{
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: POTIONS01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: POTIONS01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: POTIONS01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: POTIONS01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: SCROLL01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: SCROLL01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: SCROLL01
-}, {
-    class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
-    value: SCROLL01
-}]
+[
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: SHIELD01
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: SHIELD02
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: SHIELD03
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: SHIELD04
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: SHIELD05
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: ARMOR01
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: ARMOR02
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: ARMOR03
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: ARMOR04
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: ARMOR05
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: BOOTS01
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: BOOTS02
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: BOOTS03
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: BOOTS04
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: BOOTS05
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: HELMET01
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: HELMET02
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: HELMET03
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: HELMET04
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: HELMET05
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: WEAPON01
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: WEAPON02
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: WEAPON03
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: WEAPON04
+    },
+    {class: com.v5ent.game.inventory.InventoryItem$ItemTypeID,
+        value: WEAPON05
+    },
+]

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="6">
+ <properties>
+  <property name="mapName" value="Home2"/>
+ </properties>
+ <tileset firstgid="1" name="floor2" tilewidth="32" tileheight="32" tilecount="300" columns="20">
+  <image source="tiles/floor2.png" width="640" height="480"/>
+ </tileset>
+ <tileset firstgid="301" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
+  <image source="tiles/TOOLS.png" width="288" height="32"/>
+ </tileset>
+ <layer name="ground" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJytzDVsFWAUgNFXrG64FW0n3GXBHbrgLgvusuAuC06gyIKTogtaHBbcZcFdFtx7hrfxh4nkntzkJvfLikQiWRSkEIUpQixxxJNAIkkkk0IqadHfkFKUpgxlKUd5MqhARSpRmSpUJfMfvWpUpwY1qUVt6lCXetSnAQ1pRGOa0DTQa0ZzWtCSVrSmDW1pR3s60JFOdKYL2YFeV7rRnR70pBe96UNf+tGfAQxkEIMZEugNZRjDGcFIRjGaMYxlHOOZwEQmMZkpgd5UpjGdGcxkFrOZw1zmMZ8FLGQRi1kS6C1lGctZwUpWsZo10b2WdeSwng1sZFOgt5ktbGUb29nBTnZFe7nsZg972cd+DgR6BznEYY5wlGPkcZwTnOQUpznDWc5xPtC7wEUucZkrXOUa17nBTW5xmzvc5R73A70HPOQRj3nCU57xnBe85BWvecNb3vE+0PvARz7xmS985Rvf+cFPfvGbP0RiDAVi/u7FusURTwKJJJFMCqmkkU5RilGcEpQM9P6XfM4ncw4=
+  </data>
+ </layer>
+ <layer name="block" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAAPUYIpgaAmUOKefjUIssRayax5sH4xGBy7CJXDz77yXUjPrXY5PCZia4GmzpcbselDpv51BIjFlDqD3x6yDGP1HAmJc2QAyjVTwkAAI03ELY=
+  </data>
+ </layer>
+ <objectgroup name="npc">
+  <object id="2" name="moon" x="128" y="288" width="32" height="32">
+   <properties>
+    <property name="Dir" value="RIGHT"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="event">
+  <object id="4" name="door201" gid="308" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,home_one,1,12,RIGHT"/>
+   </properties>
+  </object>
+  <object id="5" name="door201" gid="308" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="CMD" value="MapTo,home_one,1,12,RIGHT"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="ceiling" width="20" height="15" opacity="0.8">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhaQBeI9YBYH03cGIhNgNgUiM2A2JwIsxyA2BGInYDYGYhdkOTcgdgDiD2B2AuIvYkwLwSIQ4E4DIjDgTgCSS4aiGOAOBaI44A4ngjz0EEOEjsfiAuAuBCIi4C4mAzzRhrYg0XsIAXmXcAidpUC855gEXtJgXnDEQAALHYPWg==
+  </data>
+ </layer>
+</map>

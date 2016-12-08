@@ -2,7 +2,6 @@ package com.v5ent.game.core;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -64,9 +63,9 @@ public class WorldRenderer implements Disposable {
 		mapRenderer.getBatch().end();
 
 		mapRenderer.getBatch().begin();
-		//touchPoint
-		if(worldController.touchPoint !=null){
-			worldController.touchPoint.draw(mapRenderer.getBatch());
+		//aim
+		if(worldController.aim !=null){
+			worldController.aim.draw(mapRenderer.getBatch());
 		}
 		//show roles order by Y-axis
 		List<Sprite> temp =new ArrayList<Sprite>();

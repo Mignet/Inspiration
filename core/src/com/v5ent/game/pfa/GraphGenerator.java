@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.pfa.DefaultConnection;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -82,7 +83,7 @@ public class GraphGenerator {
 		return new MyGraph(indexedNodes);
 	}
 	
-	public static MyGraph generateGraph(TiledMapTileLayer mapCollisionLayer, List<Npc> entities, int numCols, int numRows, int tileW, int tileH, Vector2 startPoint) {
+	public static MyGraph generateGraph(TiledMapTileLayer mapCollisionLayer, List<Sprite> entities, int numCols, int numRows, int tileW, int tileH, Vector2 startPoint) {
 		final MyNode[][] nodes = new MyNode[numCols][numRows];
 		final Array<MyNode> indexedNodes = new Array<MyNode>(numCols * numRows);
 		//init maps
@@ -96,7 +97,7 @@ public class GraphGenerator {
 			}
 		}
 		if (entities != null && !entities.isEmpty()) {
-			for (Npc e : entities) {
+			for (Sprite e : entities) {
 				int x = MathUtils.floor(e.getX()/32);
 				int y = MathUtils.floor(e.getY()/32);
 				if(x<numCols && y < numRows && x >=0 && y >= 0){

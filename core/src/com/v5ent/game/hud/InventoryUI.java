@@ -52,7 +52,7 @@ public class InventoryUI extends Window{
     private InventorySlotTooltip inventorySlotTooltip;
 
     public InventoryUI(HUDScreen parent){
-        super("Inventory", Assets.instance.STATUSUI_SKIN, "solidbackground");
+        super("道具", Assets.instance.STATUSUI_SKIN, "solidbackground");
         hudScreen = parent;
         closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
         dragAndDrop = new DragAndDrop();

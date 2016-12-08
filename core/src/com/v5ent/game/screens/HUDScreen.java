@@ -70,7 +70,7 @@ public class HUDScreen implements Screen {
 
         statusUI = new StatusUI(this);
         statusUI.setVisible(true);
-        statusUI.setPosition(0,stage.getHeight()-statusUI.getHeight());
+        statusUI.setPosition(stage.getWidth()-statusUI.getWidth(),stage.getHeight()-statusUI.getHeight());
         buttonUI = new ButtonUI();
         buttonUI.setVisible(true);
         buttonUI.setPosition(20,0);

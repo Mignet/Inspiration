@@ -8,12 +8,11 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.v5ent.game.entities.EventObject;
+import com.v5ent.game.entities.Trap;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.utils.Assets;
 
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class MapsManager {
     private String mapName;
     private TiledMap map;
     public List<Npc> npcs ;
-    public List<EventObject> events;
+    public List<Trap> events;
 
     /**START POINT*/
     public static final Vector2 START_POINT = new Vector2(14,15);
@@ -57,7 +56,7 @@ public class MapsManager {
 
     public void loadMap(String mapId) {
         npcs = new ArrayList<Npc>();
-        events = new ArrayList<EventObject>();
+        events = new ArrayList<Trap>();
         Assets.AssetTiledMap assetTiledMap = Assets.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
@@ -75,24 +74,11 @@ public class MapsManager {
                     if (n != null) {
                         Gdx.app.debug(TAG,"NPC:"+r.getRectangle().x/32+","+r.getRectangle().y/32+"|"+r.getRectangle()+"|"+r.getProperties().get("Dir")+"|"+r.getProperties().get("State"));
                         n.setPosInMap(new Vector2(r.getRectangle().x/32,r.getRectangle().y/32));
-                        if("DOWN".equals(r.getProperties().get("Dir"))){
-                            n.setCurrentDir(Role.Direction.DOWN);
-                            n.setDefaultDir(Role.Direction.DOWN);
-                        }
-                        if("UP".equals(r.getProperties().get("Dir"))){
-                            n.setCurrentDir(Role.Direction.UP);
-                            n.setDefaultDir(Role.Direction.UP);
-                        }
-                        if("LEFT".equals(r.getProperties().get("Dir"))){
-                            n.setCurrentDir(Role.Direction.LEFT);
-                            n.setDefaultDir(Role.Direction.LEFT);
-                        }
-                        if("RIGHT".equals(r.getProperties().get("Dir"))){
-                            n.setCurrentDir(Role.Direction.RIGHT);
-                            n.setDefaultDir(Role.Direction.RIGHT);
-                        }
+                        n.setCurrentDir(Role.Direction.valueOf(r.getProperties().get("Dir",String.class)));
+                        //npc needs a default
+                        n.setDefaultDir(Role.Direction.valueOf(r.getProperties().get("Dir",String.class)));
                         //Npc state
-                        if("FIXED".equals(r.getProperties().get("State"))){
+                        if("FIXED".equals(r.getProperties().get("State",String.class))){
                             n.setState(Role.State.FIXED);
                             n.setDefaultState(Role.State.FIXED);
                         }else{
@@ -109,10 +95,10 @@ public class MapsManager {
             for (MapObject o : eventLayer.getObjects()) {
                 if(o instanceof TextureMapObject){
                     TextureMapObject event = (TextureMapObject)o;
-                    EventObject eo = new EventObject(event.getName(),event.getTextureRegion(),event.getX(),event.getY());
+                    Trap eo = new Trap(event.getName(),event.getTextureRegion(),event.getX(),event.getY());
                     eo.setCommand(event.getProperties().get("CMD",String.class));
                     this.events.add(eo);
-                    Gdx.app.debug(TAG,"load map event:"+eo);
+                    Gdx.app.debug(TAG,"load map event:"+eo.getName()+"|"+eo.getCommand());
                 }
             }
         }
