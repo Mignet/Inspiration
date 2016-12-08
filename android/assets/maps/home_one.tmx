@@ -38,7 +38,7 @@
  </layer>
  <layer name="block" width="18" height="15">
   <data encoding="base64" compression="zlib">
-   eJybxMhANTCJEYJxyZFjFkwfMp9YTMg8XHK47CPF3fj4uPSRAvD5kxxAC3PICTdK44IUdxObdsixh1iziAl3UsKFlDxBCQAAEo4yiQ==
+   eJybxMhANTCJEYJxyZFjFkwfMp9YTMg8XHK47CPF3fj4uPSRAvD5kxxAC3PICTdK44IUdxObdsixh1iziAl3UsKFnDxBDgAAVSgzrw==
   </data>
  </layer>
  <layer name="ceiling" width="18" height="15">

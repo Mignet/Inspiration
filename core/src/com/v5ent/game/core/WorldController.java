@@ -55,24 +55,20 @@ public class WorldController extends InputAdapter {
 
     private void init() {
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-//        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(0, 0, 0);
         camera.update();
 
         player = new Role("lante");
         mapMgr = new MapsManager(player);
 
-
         hudCamera = new OrthographicCamera();
         hudCamera.setToOrtho(false, Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);//physical world
-//        hudCamera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());//physical world
         hudCamera.update();
         hudScreen = new HUDScreen(this, player);
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(hudScreen.getStage());
         multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
-//        Gdx.input.setInputProcessor(this);
     }
 
     public void update(float deltaTime) {
@@ -93,8 +89,6 @@ public class WorldController extends InputAdapter {
         float y = player.getY();
         camera.position.set(x, y, 0f);
         //make sure camera in map
-//        x = MathUtils.clamp(x, Constants.VIEWPORT_WIDTH / 2, mapMgr.width - Constants.VIEWPORT_WIDTH / 2);
-//        y = MathUtils.clamp(y, Constants.VIEWPORT_HEIGHT / 2, mapMgr.height - Constants.VIEWPORT_HEIGHT / 2);
         offsetCamera(mapMgr.width, mapMgr.height, camera);
         camera.update();
     }
@@ -199,8 +193,8 @@ public class WorldController extends InputAdapter {
         int x = MathUtils.floor(input.x / 32);
         int y = MathUtils.floor(input.y / 32);
         Gdx.app.debug(TAG, "clicked # (x:" + x + ",y:" + y + " )");
-        //we click npc or block,set touchPoint
-        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y) && !isCollisionWithEvent(x,y)) {
+        //we click not npc or block,set touchPoint to move
+        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)) {
             //A* path finding
             path.clear();
             Vector2 start = new Vector2(MathUtils.round(player.getX() / 32), MathUtils.round(player.getY() / 32));
@@ -222,14 +216,16 @@ public class WorldController extends InputAdapter {
                 sb.append(outPath.get(i).getX() + "," + outPath.get(i).getY() + "|");
                 path.add(outPath.get(i));
             }
-            Gdx.app.debug(TAG, "path:" + sb.toString());
             if (searchResult) {
+                Gdx.app.debug(TAG, "Start Follow Path:" + sb.toString());
                 player.followPath(path);
-//                Gdx.app.debug(TAG, "======================Follow Path==================");
                 touchPoint = new TouchPoint(x, y);
             }
         } else {
             touchPoint = null;
+            if(isCollisionWithEvent(x,y)){
+                Gdx.app.debug(TAG, "Event happen" );
+            }
         }
         return true;
     }

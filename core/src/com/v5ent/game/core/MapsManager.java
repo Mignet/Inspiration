@@ -35,8 +35,8 @@ public class MapsManager {
 
     private String mapName;
     private TiledMap map;
-    public List<Npc> npcs = new ArrayList<Npc>();
-    public List<EventObject> events = new ArrayList<EventObject>();
+    public List<Npc> npcs ;
+    public List<EventObject> events;
 
     /**START POINT*/
     public static final Vector2 START_POINT = new Vector2(14,15);
@@ -56,6 +56,8 @@ public class MapsManager {
     }
 
     public void loadMap(String mapId) {
+        npcs = new ArrayList<Npc>();
+        events = new ArrayList<EventObject>();
         Assets.AssetTiledMap assetTiledMap = Assets.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
