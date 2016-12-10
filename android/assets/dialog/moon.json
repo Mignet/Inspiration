@@ -1,0 +1,107 @@
+{
+conversations: {
+        1: {
+                id: 1
+                dialog: Can you help me?
+        }
+        2: {
+                id: 2
+                dialog: TaskList Test? 
+        }
+        3: {
+                id: 3
+                dialog: The merchant's ghost
+        }
+        4: {
+                id: 4
+                dialog: White Dragon
+        }
+        5: {
+                id: 5
+                dialog: Secret of Xuanzang
+        }
+        6: {
+                id: 6
+                dialog: Flowsand River
+        }
+}
+associatedChoices: {
+        1: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 1
+                        destinationId: 2
+                        choicePhrase: 可以
+						conversationCommandEvent: NONE
+                }
+        ]
+        2: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 3
+                        choicePhrase: Accept
+						conversationCommandEvent: NONE
+                }
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 4
+                        choicePhrase: Accept
+						conversationCommandEvent: NONE
+                }
+				{
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 5
+                        choicePhrase: Accept
+						conversationCommandEvent: NONE
+                }
+				{
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 2
+                        destinationId: 6
+                        choicePhrase: Accept
+						conversationCommandEvent: NONE
+                }
+        ]
+        3: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 3
+                        destinationId: 2
+                        choicePhrase: Test Again!
+						conversationCommandEvent: NONE
+                }
+        ]
+		4: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 4
+                        destinationId: 2
+                        choicePhrase: Test Again!
+						conversationCommandEvent: NONE
+                }
+        ]
+		5: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 5
+                        destinationId: 2
+                        choicePhrase: Test Again!
+						conversationCommandEvent: NONE
+                }
+        ]
+		6: [
+                {
+                        class: com.v5ent.game.dialog.ConversationChoice
+                        sourceId: 6
+                        destinationId: 2
+                        choicePhrase: Test Again!
+						conversationCommandEvent: NONE
+                }
+        ]
+		
+}
+currentConversationID: 1
+}
