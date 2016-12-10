@@ -32,7 +32,7 @@ public class QuestUI extends Window {
     private Label _tasksLabel;
 
     public QuestUI() {
-        super("任务列表", Assets.instance.STATUSUI_SKIN, "solidbackground");
+        super("任务列表", Assets.instance.STATUSUI_SKIN);
 
         _json = new Json();
         _quests = new Array<QuestGraph>();
@@ -43,14 +43,14 @@ public class QuestUI extends Window {
 
         _listQuests = new List<QuestGraph>(Assets.instance.STATUSUI_SKIN);
 
-        ScrollPane scrollPane = new ScrollPane(_listQuests, Assets.instance.STATUSUI_SKIN, "inventoryPane");
+        ScrollPane scrollPane = new ScrollPane(_listQuests);
         scrollPane.setOverscroll(false, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setForceScroll(true, false);
 
         _listTasks = new List<QuestTask>(Assets.instance.STATUSUI_SKIN);
 
-        ScrollPane scrollPaneTasks = new ScrollPane(_listTasks, Assets.instance.STATUSUI_SKIN, "inventoryPane");
+        ScrollPane scrollPaneTasks = new ScrollPane(_listTasks);
         scrollPaneTasks.setOverscroll(false, false);
         scrollPaneTasks.setFadeScrollBars(false);
         scrollPaneTasks.setForceScroll(true, false);

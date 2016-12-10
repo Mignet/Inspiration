@@ -17,10 +17,12 @@ import com.v5ent.game.entities.Role;
 import com.v5ent.game.hud.ButtonUI;
 import com.v5ent.game.hud.DialogUI;
 import com.v5ent.game.hud.InventoryUI;
+import com.v5ent.game.hud.QuestUI;
 import com.v5ent.game.hud.StatusUI;
 import com.v5ent.game.hud.StoreInventoryUI;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.inventory.InventoryItemLocation;
+import com.v5ent.game.quest.QuestGraph;
 import com.v5ent.game.utils.Assets;
 import com.v5ent.game.utils.Constants;
 
@@ -36,6 +38,8 @@ public class HUDScreen implements Screen {
     private DialogUI dialogUI;
     private InventoryUI inventoryUI;
     private StoreInventoryUI storeInventoryUI;
+    private QuestUI _questUI;
+    /** message box */
     private Dialog messageBoxUI;
     //buttons
     private final ImageButton inventoryButton;
@@ -89,6 +93,14 @@ public class HUDScreen implements Screen {
         storeInventoryUI.setModal(true);
         storeInventoryUI.setPosition(0, 0);
 
+        _questUI = new QuestUI();
+        _questUI.setMovable(false);
+        _questUI.setVisible(false);
+        _questUI.setKeepWithinStage(false);
+        _questUI.setPosition(0, stage.getHeight() / 2);
+        _questUI.setWidth(stage.getWidth());
+        _questUI.setHeight(stage.getHeight() / 2);
+
         dialogUI = new DialogUI(this);
         dialogUI.setMovable(false);
         dialogUI.setModal(true);
@@ -98,6 +110,7 @@ public class HUDScreen implements Screen {
         dialogUI.setHeight(160);
 
         stage.addActor(statusUI);
+        stage.addActor(_questUI);
         stage.addActor(buttonUI);
         stage.addActor(inventoryUI);
         stage.addActor(storeInventoryUI);
@@ -109,6 +122,7 @@ public class HUDScreen implements Screen {
         dialogUI.validate();
         inventoryUI.validate();
         storeInventoryUI.validate();
+        _questUI.validate();
         messageBoxUI.validate();
 
         //add tooltips to the stage
@@ -132,7 +146,7 @@ public class HUDScreen implements Screen {
         questButton = buttonUI.getQuestButton();
         questButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-               /* _questUI.setVisible(_questUI.isVisible() ? false : true);*/
+                _questUI.setVisible(_questUI.isVisible() ? false : true);
             }
         });
         inventoryUI.getCloseButton().addListener(new ClickListener() {
@@ -167,7 +181,7 @@ public class HUDScreen implements Screen {
         InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
         inventoryUI.resetEquipSlots();
 
-//        questUI.setQuests(new Array<QuestGraph>());
+        _questUI.setQuests(new Array<QuestGraph>());
 
         //add default items if first time
         Array<InventoryItem.ItemTypeID> items = player.getInventory();
