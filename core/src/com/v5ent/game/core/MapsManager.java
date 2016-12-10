@@ -32,10 +32,14 @@ public class MapsManager {
     public int width;
     public int height;
 
+    public String getMapName() {
+        return mapName;
+    }
+
     private String mapName;
     private TiledMap map;
     public List<Npc> npcs ;
-    public List<Trap> events;
+    public List<Trap> traps;
 
     /**START POINT*/
     public static final Vector2 START_POINT = new Vector2(14,15);
@@ -56,7 +60,7 @@ public class MapsManager {
 
     public void loadMap(String mapId) {
         npcs = new ArrayList<Npc>();
-        events = new ArrayList<Trap>();
+        traps = new ArrayList<Trap>();
         Assets.AssetTiledMap assetTiledMap = Assets.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
         this.map = assetTiledMap.tiledMap;
@@ -97,7 +101,7 @@ public class MapsManager {
                     TextureMapObject event = (TextureMapObject)o;
                     Trap eo = new Trap(event.getName(),event.getTextureRegion(),event.getX(),event.getY());
                     eo.setCommand(event.getProperties().get("CMD",String.class));
-                    this.events.add(eo);
+                    this.traps.add(eo);
                     Gdx.app.debug(TAG,"load map event:"+eo.getName()+"|"+eo.getCommand());
                 }
             }

@@ -32,6 +32,8 @@ import com.v5ent.game.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.badlogic.gdx.Gdx.input;
+
 public class WorldController extends InputAdapter {
 
     private static final String TAG = WorldController.class.getName();
@@ -72,7 +74,7 @@ public class WorldController extends InputAdapter {
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(hudScreen.getStage());
         multiplexer.addProcessor(this);
-        Gdx.input.setInputProcessor(multiplexer);
+        input.setInputProcessor(multiplexer);
     }
 
     public void update(float deltaTime) {
@@ -82,12 +84,19 @@ public class WorldController extends InputAdapter {
         if (aim != null) {
             aim.update(deltaTime);
         }
+        int cx = MathUtils.floor(player.getX() / 32);
+        int cy = MathUtils.floor(player.getY() / 32);
+        if(isCollisionWithEvent(cx,cy)){
+            //
+            Gdx.app.debug(TAG,"Trap");
+        }
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
             npc.update(deltaTime);
 //            npc.randomMove(this);
         }
-        handleDebugInput(deltaTime);
+        //forbidden keyboard
+//        handleDebugInput(deltaTime);
         //follow the Player
         float x = player.getX();
         float y = player.getY();
@@ -149,7 +158,7 @@ public class WorldController extends InputAdapter {
                 return;
             }
             //Keyboard input
-            if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT)) {
+            if (input.isKeyPressed(Keys.A) || input.isKeyPressed(Keys.LEFT)) {
                 //Gdx.app.debug(TAG, "LEFT key");
                 //Collision Test
                 if (!isCollisionWithBlock(x - 1, y)) {
@@ -157,28 +166,28 @@ public class WorldController extends InputAdapter {
                 } else {
                     player.setCurrentDir(Role.Direction.LEFT);
                 }
-            } else if (Gdx.input.isKeyPressed(Keys.D) || Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            } else if (input.isKeyPressed(Keys.D) || input.isKeyPressed(Keys.RIGHT)) {
                 //Gdx.app.debug(TAG, "RIGHT key");
                 if (!isCollisionWithBlock(x + 1, y)) {
                     player.moveTo(x + 1, y);
                 } else {
                     player.setCurrentDir(Role.Direction.RIGHT);
                 }
-            } else if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isKeyPressed(Keys.UP)) {
+            } else if (input.isKeyPressed(Keys.W) || input.isKeyPressed(Keys.UP)) {
                 //Gdx.app.debug(TAG, "UP key");
                 if (!isCollisionWithBlock(x, y + 1)) {
                     player.moveTo(x, y + 1);
                 } else {
                     player.setCurrentDir(Role.Direction.UP);
                 }
-            } else if (Gdx.input.isKeyPressed(Keys.S) || Gdx.input.isKeyPressed(Keys.DOWN)) {
+            } else if (input.isKeyPressed(Keys.S) || input.isKeyPressed(Keys.DOWN)) {
                 //Gdx.app.debug(TAG, "DOWN key");
                 if (!isCollisionWithBlock(x, y - 1)) {
                     player.moveTo(x, y - 1);
                 } else {
                     player.setCurrentDir(Role.Direction.DOWN);
                 }
-            } else if (Gdx.input.isKeyPressed(Keys.Q)) {
+            } else if (input.isKeyPressed(Keys.Q)) {
                 Gdx.app.exit();
             }
         }
@@ -202,7 +211,7 @@ public class WorldController extends InputAdapter {
         int y = MathUtils.floor(input.y / 32);
         Gdx.app.debug(TAG, "clicked # (x:" + x + ",y:" + y + " )");
         //we click not npc or block,set aim to move
-        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)&&!isCollisionWithEvent(x,y)) {
+        if (!isCollisionWithNpc(x, y) && !isCollisionWithBlock(x, y)) {
             //A* path finding
             path.clear();
             Vector2 start = new Vector2(MathUtils.round(player.getX() / 32), MathUtils.round(player.getY() / 32));
@@ -215,7 +224,7 @@ public class WorldController extends InputAdapter {
             int t = (int) end.x + ((int) (end.y)) * numCols;
             List<Sprite> temp =new ArrayList<Sprite>();
             temp.addAll(mapMgr.npcs);
-            temp.addAll(mapMgr.events);
+//            temp.addAll(mapMgr.events);
             final MyGraph graph = GraphGenerator.generateGraph(mapMgr.getBlockLayer(),temp, numCols, numRows, 32, 32, start);
             final IndexedAStarPathFinder<MyNode> pathfinder = new IndexedAStarPathFinder<MyNode>(graph);
             final GraphPath<MyNode> outPath = new DefaultGraphPath<MyNode>();
@@ -297,15 +306,15 @@ public class WorldController extends InputAdapter {
     }
 
     public boolean isCollisionWithEvent(int x, int y) {
-        for (Trap eo : this.mapMgr.events) {
+        for (Trap eo : this.mapMgr.traps) {
             int eoX = MathUtils.floor(eo.getX() / 32);
             int eoY = MathUtils.floor(eo.getY() / 32);
             if (eoX == x && eoY == y) {
                 int x0 = MathUtils.floor(player.getX() / 32);
                 int y0 = MathUtils.floor(player.getY() / 32);
                 float distance = (x - x0) * (x - x0) + (y - y0) * (y - y0);
-                //I click you
-                if (distance <= 1f) {
+                //I trap you
+                if (distance <= 0f) {
                     Gdx.app.debug(TAG,"trigger event:"+eo.getName()+"|toggle:"+eo.isToggled());
                     if(!eo.isToggled()){
                         //1.face to item
@@ -324,6 +333,8 @@ public class WorldController extends InputAdapter {
                                 player.setCurrentDir(Role.Direction.LEFT);
                             }
                         }
+                        //stop walk
+                        player.clearPathAndStop();
                         //2.start to execute
                         executeCommand(eo.getCommand());
                         setToggleOnGroup(eo.getName());
@@ -340,7 +351,7 @@ public class WorldController extends InputAdapter {
      * @param name
      */
     private void setToggleOnGroup(String name){
-        for (Trap eo : this.mapMgr.events) {
+        for (Trap eo : this.mapMgr.traps) {
             if(name.equals(eo.getName())){
                 eo.setToggled(true);
             }

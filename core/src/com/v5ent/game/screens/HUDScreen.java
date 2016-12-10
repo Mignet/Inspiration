@@ -54,7 +54,7 @@ public class HUDScreen implements Screen {
         messageBoxUI = new Dialog("消息", Assets.instance.STATUSUI_SKIN, "solidbackground"){
             {
                 button("确定");
-                text("INVENTORY_FULL");
+                text("包裹已满！");
             }
             @Override
             protected void result(final Object object){
@@ -322,6 +322,8 @@ public class HUDScreen implements Screen {
         //health++,money--
         statusUI.setHPValue(statusUI.getHPValueMax());
         statusUI.setGoldValue(statusUI.getGoldValue()-10);
+//        messageBoxUI.text("You HP is resrmed,and cost 10 GoldPoint!").setWidth(stage.getWidth());
+//        messageBoxUI.setVisible(true);
     }
 
     /**

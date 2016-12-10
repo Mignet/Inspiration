@@ -71,7 +71,7 @@ public class WorldRenderer implements Disposable {
 		List<Sprite> temp =new ArrayList<Sprite>();
 		temp.add(worldController.player);
 		temp.addAll(worldController.mapMgr.npcs);
-		temp.addAll(worldController.mapMgr.events);
+		temp.addAll(worldController.mapMgr.traps);
 		Collections.sort(temp, new Comparator<Sprite>() {
 			@Override
 			public int compare(Sprite lhs, Sprite rhs) {

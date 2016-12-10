@@ -9,14 +9,17 @@
  <tileset firstgid="301" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
   <image source="tiles/TOOLS.png" width="288" height="32"/>
  </tileset>
+ <tileset firstgid="310" name="tile06" tilewidth="32" tileheight="32" tilecount="400" columns="20">
+  <image source="tiles/tile06.png" width="640" height="640"/>
+ </tileset>
  <layer name="ground" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJytzDVsFWAUgNFXrG64FW0n3GXBHbrgLgvusuAuC06gyIKTogtaHBbcZcFdFtx7hrfxh4nkntzkJvfLikQiWRSkEIUpQixxxJNAIkkkk0IqadHfkFKUpgxlKUd5MqhARSpRmSpUJfMfvWpUpwY1qUVt6lCXetSnAQ1pRGOa0DTQa0ZzWtCSVrSmDW1pR3s60JFOdKYL2YFeV7rRnR70pBe96UNf+tGfAQxkEIMZEugNZRjDGcFIRjGaMYxlHOOZwEQmMZkpgd5UpjGdGcxkFrOZw1zmMZ8FLGQRi1kS6C1lGctZwUpWsZo10b2WdeSwng1sZFOgt5ktbGUb29nBTnZFe7nsZg972cd+DgR6BznEYY5wlGPkcZwTnOQUpznDWc5xPtC7wEUucZkrXOUa17nBTW5xmzvc5R73A70HPOQRj3nCU57xnBe85BWvecNb3vE+0PvARz7xmS985Rvf+cFPfvGbP0RiDAVi/u7FusURTwKJJJFMCqmkkU5RilGcEpQM9P6XfM4ncw4=
+   eJytzDVsFWAUgNHXInXB3dsJCK4LLgXaBSsuC+6y4C4L2gZfcIIvuMuCuyy4y4I7Z3gbf5ia3JOb3OR+mZFIJJNCFKYIRYkjngQSSSKZFFJJIz36G1KGspSjPBWoSCUqU4WqVKM6Ncj4T68mtagdVYe61KM+DWhIIxrThKY0o3mg14KWtKI1bWhLO9rTgY5k0YnOdCGbnECvK93oTg96kksvetOHvvSjPwMYyCAGB3pDGMowhjOCkYxiNGMYyzjGM4GJTGJyoDeFqUxjOjOYySxmM4e5zGM+C1jIIhYHektYyjKWs4KV5JEf3atYzRrWso71bAj0NrKJzWxhK9vYzo5obye72M0e9rKP/YHeAQ5yiMMc4SjHOM4JTnKK05zhLOc4H+hd4CKXuMwVrnKN69zgJre4zR3uco/7gd4DHvKIxzzhKc94zgte8orXvOEt73gf6H3gI5/4zBe+8o3v/OAnv/jNHyIxhtiYf3txbvEkkEgSyaSQShrpFKM4JShJKUoHegXlL8orcw0=
   </data>
  </layer>
  <layer name="block" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAAPUYIpgaAmUOKefjUIssRayax5sH4xGBy7CJXDz77yXUjPrXY5PCZia4GmzpcbselDpv51BIjFlDqD3x6yDGP1HAmJc2QAyjVTwkAAI03ELY=
+   eJxjYEAAPUYIpgaAmUOKmfjUocsRYyap5hGDybGLXD347CfXjfjUYpPDZya6GmzqcLkdlzps5lNLjFhAqT/w6SHHPFLDmZQ0Qw6gVD8lAABWfRDl
   </data>
  </layer>
  <objectgroup name="npc">
@@ -32,15 +35,10 @@
     <property name="CMD" value="MapTo,home_one,1,12,RIGHT"/>
    </properties>
   </object>
-  <object id="5" name="door201" gid="308" x="96" y="128" width="32" height="32">
-   <properties>
-    <property name="CMD" value="MapTo,home_one,1,12,RIGHT"/>
-   </properties>
-  </object>
  </objectgroup>
  <layer name="ceiling" width="20" height="15" opacity="0.8">
   <data encoding="base64" compression="zlib">
-   eJxjYBhaQBeI9YBYH03cGIhNgNgUiM2A2JwIsxyA2BGInYDYGYhdkOTcgdgDiD2B2AuIvYkwLwSIQ4E4DIjDgTgCSS4aiGOAOBaI44A4ngjz0EEOEjsfiAuAuBCIi4C4mAzzRhrYg0XsIAXmXcAidpUC855gEXtJgXnDEQAALHYPWg==
+   eJxjYBg6oJ0RE8OAMRCbALEpEJsBsTkR5jkAsSMQOwGxMxC7IMm5A7EHEHsCsRcQexNhXggQhwJxGBCHA3EEklw0EMcAcSwQxwFxPBHmoYMcJHY+EBcAcSEQFwFxMRnmjTSwB4vYQQrMu4BF7CoF5j3BIvaSAvOGIwAAnHkReA==
   </data>
  </layer>
 </map>

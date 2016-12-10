@@ -137,7 +137,6 @@ public class Role extends Sprite{
 	 * @param delta
      */
 	public void update(float delta) {
-		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
 		if(this.currentState==State.WALKING){
 			calcNextPosition(delta);
 			if(Math.abs(this.nextPosition.x-this.movingTarget.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.movingTarget.y*32f)<speed*delta){
@@ -151,6 +150,7 @@ public class Role extends Sprite{
 				}
 			}
 		}
+		frameTime = (frameTime + delta) % 4; // Want to avoid overflow
 		updateCurrentFrame();
 	}
 
@@ -228,7 +228,9 @@ public class Role extends Sprite{
 		speed *=(1 / deltaTime);
 		setPosition(nextPosition.x, nextPosition.y);
 	}
-
+	public  Vector2 getPosInMap(){
+		return new Vector2(MathUtils.floor(getX() / 32),MathUtils.floor(getY() / 32));
+	}
 	public void setPosInMap(Vector2 point){
 		this.setPosition(point.x*32f,point.y*32f);
 		movingTarget = point.cpy();
@@ -289,6 +291,14 @@ public class Role extends Sprite{
 		this.currentState = State.WALKING;
 		movingTarget = new Vector2(x,y);
 		isArrived = false;
+	}
+	public void clearPathAndStop(){
+//		this.setPosInMap(new Vector2(x,y));
+		if(path!=null&&path.size>0){
+			path.clear();
+		}
+		isArrived = true;
+		this.currentState= State.IDLE;
 	}
 	public void followPath(Array<MyNode> newPath){
 		if(this.path.size<=0){
