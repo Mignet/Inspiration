@@ -223,7 +223,7 @@ public class QuestGraph {
                 case FETCH:
                     String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE.toString());
                     if( taskConfig == null || "".equals(taskConfig.trim()) ) break;
-                    //获取这个人的任务道具
+                    //获取这个人的任务道具,如果当前任务的任务道具收集够了，任务完成
 //                    EntityConfig config = Entity.getEntityConfig(taskConfig);
 
 //                    Array<Vector2> questItemPositions = ProfileManager.getInstance().getProperty(config.getEntityID(), Array.class);

@@ -16,18 +16,21 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.v5ent.game.entities.Aim;
-import com.v5ent.game.entities.Trap;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
-import com.v5ent.game.screens.HUDScreen;
+import com.v5ent.game.entities.Trap;
 import com.v5ent.game.pfa.GraphGenerator;
 import com.v5ent.game.pfa.ManhattanDistance;
 import com.v5ent.game.pfa.MyGraph;
 import com.v5ent.game.pfa.MyNode;
 import com.v5ent.game.pfa.MyPathSmoother;
 import com.v5ent.game.pfa.MyRaycastCollisionDetector;
+import com.v5ent.game.screens.HUDScreen;
+import com.v5ent.game.skill.Skill;
 import com.v5ent.game.utils.Constants;
+import com.v5ent.game.utils.Trace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class WorldController extends InputAdapter {
 
     public OrthographicCamera hudCamera = null;
     private InputMultiplexer multiplexer;
+    public Skill skill;
     /**
      * head-up-display
      */
@@ -86,7 +90,7 @@ public class WorldController extends InputAdapter {
         }
         int cx = MathUtils.floor(player.getX() / 32);
         int cy = MathUtils.floor(player.getY() / 32);
-        if(isCollisionWithEvent(cx,cy)){
+        if(isCollisionWithTrap(cx,cy)){
             //
             Gdx.app.debug(TAG,"Trap");
         }
@@ -95,6 +99,8 @@ public class WorldController extends InputAdapter {
             npc.update(deltaTime);
 //            npc.randomMove(this);
         }
+        if(skill!=null)skill.update(deltaTime);
+        if(skill!=null&&skill.isEnded())skill = null;
         //forbidden keyboard
 //        handleDebugInput(deltaTime);
         //follow the Player
@@ -154,7 +160,7 @@ public class WorldController extends InputAdapter {
             int x = MathUtils.floor(player.getX() / 32);
             int y = MathUtils.floor(player.getY() / 32);
             //triggle
-            if(isCollisionWithEvent(x,y)){
+            if(isCollisionWithTrap(x,y)){
                 return;
             }
             //Keyboard input
@@ -203,8 +209,54 @@ public class WorldController extends InputAdapter {
         return false;
     }
 
+    /**轨迹点*/
+    List<Vector2> points = new ArrayList<Vector2>();
+    Vector2 startPoint = new Vector2(),endPoint = new Vector2();
+
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(int screenX,int screenY, int pointer, int button) {
+        Vector3 input = new Vector3(screenX, screenY, 0);
+        camera.unproject(input);
+        float x = input.x;
+        float y = input.y;
+        Gdx.app.debug(TAG, "pointer END:"+pointer+"=>("+x+","+y+")");
+        endPoint.set(x,y);
+        //如果起点和终点一样，我们认为是点击
+        if(MathUtils.floor(startPoint.x/32)==MathUtils.floor(endPoint.x/32)&&
+                MathUtils.floor(startPoint.y/32)==MathUtils.floor(endPoint.y/32)){
+                //移动到该位置
+            touchToMove(screenX,screenY);
+            points.clear();
+            return false;
+        }
+        //判断是否施法成功
+        if(!Trace.symbol(this,points,player)){
+            //TODO:自动物理攻击
+        };
+        points.clear();
+        return false;
+    }
+    @Override
+    public boolean touchDragged(int screenX,int screenY, int pointer) {
+        Vector3 input = new Vector3(screenX, screenY, 0);
+        camera.unproject(input);
+        float x = input.x;
+        float y = input.y;
+//		Gdx.app.debug(TAG, "pointer:"+pointer+"=>("+x+","+y+")=>Cursor:("+cursor.getX()+","+cursor.getY()+")");
+        points.add(new Vector2(x,y));
+        return false;
+    }
+    @Override
+    public boolean touchDown(int screenX,int screenY, int pointer, int button) {
+        Vector3 input = new Vector3(screenX, screenY, 0);
+        camera.unproject(input);
+        float x = input.x;
+        float y = input.y;
+        startPoint.set(x, y);
+        Gdx.app.debug(TAG, "pointer START:"+pointer+"=>("+x+","+y+")");
+        return false;
+    }
+    public void touchToMove(int screenX,int screenY){
         Vector3 input = new Vector3(screenX, screenY, 0);
         camera.unproject(input);
         int x = MathUtils.floor(input.x / 32);
@@ -244,7 +296,6 @@ public class WorldController extends InputAdapter {
         } else {
             aim = null;
         }
-        return true;
     }
 
     public void closeSpeechWithNpc() {
@@ -305,7 +356,7 @@ public class WorldController extends InputAdapter {
         return false;
     }
 
-    public boolean isCollisionWithEvent(int x, int y) {
+    public boolean isCollisionWithTrap(int x, int y) {
         for (Trap eo : this.mapMgr.traps) {
             int eoX = MathUtils.floor(eo.getX() / 32);
             int eoY = MathUtils.floor(eo.getY() / 32);
@@ -404,8 +455,8 @@ public class WorldController extends InputAdapter {
         Gdx.app.debug(TAG,"preform cmd:"+cmd);
         String[] list = cmd.split(",");
         if("MapTo".equals(list[0])){
-            Transfer(list[1],new Vector2(Integer.valueOf(list[2]),Integer.valueOf(list[3])));
-            player.setCurrentDir(Role.Direction.valueOf(list[4]));
+            Transfer(list[1],new Vector2(Integer.valueOf(list[2]),Integer.valueOf(list[3])),Role.Direction.valueOf(list[4]));
+
         }
         if("openBox".equals(list[0])){
             OpenBox();
@@ -413,9 +464,18 @@ public class WorldController extends InputAdapter {
     }
 
     /******************************************** Triggle Event*************************************/
-    public void Transfer(String mapName,Vector2 pos){
-        mapMgr.loadMap(mapName);
-        player.setPosInMap(pos);
+    public void Transfer(final String mapName,final Vector2 pos,final Role.Direction dir){
+        float delay = 0.1000f; // seconds
+        player.setVisible(false);
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                mapMgr.loadMap(mapName);
+                player.setCurrentDir(dir);
+                player.setPosInMap(pos);
+                player.setVisible(true);
+            }
+        }, delay);
     }
 
     public void OpenBox(){

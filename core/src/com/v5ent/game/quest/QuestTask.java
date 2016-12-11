@@ -14,6 +14,13 @@ public class QuestTask {
         DISCOVER
     }
 
+    /***
+     * Property :
+     * IS_TASK_COMPLETE:the task status
+     * TARGET_TYPE:FETCH,KILL,DELIVERY,GUARD,ESCORT,[DISCOVER,RETURN]
+     * TARGET_NUM:how many items need to collect
+     * TARGET_LOCATION:MapName
+     */
     public static enum QuestTaskPropertyType{
         IS_TASK_COMPLETE,
         TARGET_TYPE,

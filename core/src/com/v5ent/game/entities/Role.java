@@ -26,6 +26,7 @@ public class Role extends Sprite{
 	/** path is arrived **/
 	private boolean isArrived = false;
 	private boolean isSelected = false;
+	private boolean isVisible = true;
 
 	private Animation idleLeftAnimation;
 	private Animation idleRightAnimation;
@@ -199,6 +200,9 @@ public class Role extends Sprite{
 
 	@Override
 	public void draw(Batch batch) {
+		if(!isVisible){
+			return;
+		}
 		if(isSelected){
 			//Draw selected
 			batch.draw(Assets.instance.selected,getX(),getY()-2);
@@ -266,6 +270,13 @@ public class Role extends Sprite{
 
 	public void setSelected(boolean selected) {
 		isSelected = selected;
+	}
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	public void setVisible(boolean visible) {
+		isVisible = visible;
 	}
 	/**
 	* move Role to x,y

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -21,65 +22,69 @@ import com.v5ent.game.utils.Assets;
 public class QuestUI extends Window {
     private static final String TAG = QuestUI.class.getSimpleName();
 
-    public static final String RETURN_QUEST = "conversations/return_quest.json";
-    public static final String FINISHED_QUEST = "conversations/quest_finished.json";
+    public static final String RETURN_QUEST = "quests/quest_return.json";
+    public static final String FINISHED_QUEST = "quests/quest_finished.json";
 
-    private List _listQuests;
-    private List _listTasks;
-    private Json _json;
-    private Array<QuestGraph> _quests;
-    private Label _questLabel;
-    private Label _tasksLabel;
+    private List listQuests;
+    private List listTasks;
+    private Json json;
+    private Array<QuestGraph> quests;
+    private Label questLabel;
+    private Label tasksLabel;
+    public TextButton closeButton;
 
     public QuestUI() {
         super("任务列表", Assets.instance.STATUSUI_SKIN);
 
-        _json = new Json();
-        _quests = new Array<QuestGraph>();
-
+        json = new Json();
+        quests = new Array<QuestGraph>();
+        closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
         //create
-        _questLabel = new Label("任务:", Assets.instance.STATUSUI_SKIN);
-        _tasksLabel = new Label("步骤:", Assets.instance.STATUSUI_SKIN);
+        questLabel = new Label("任务:", Assets.instance.STATUSUI_SKIN);
+        tasksLabel = new Label("步骤:", Assets.instance.STATUSUI_SKIN);
 
-        _listQuests = new List<QuestGraph>(Assets.instance.STATUSUI_SKIN);
+        listQuests = new List<QuestGraph>(Assets.instance.STATUSUI_SKIN);
 
-        ScrollPane scrollPane = new ScrollPane(_listQuests);
+        ScrollPane scrollPane = new ScrollPane (listQuests);
         scrollPane.setOverscroll(false, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setForceScroll(true, false);
 
-        _listTasks = new List<QuestTask>(Assets.instance.STATUSUI_SKIN);
+        listTasks = new List<QuestTask>(Assets.instance.STATUSUI_SKIN);
 
-        ScrollPane scrollPaneTasks = new ScrollPane(_listTasks);
+        ScrollPane scrollPaneTasks = new ScrollPane (listTasks);
         scrollPaneTasks.setOverscroll(false, false);
         scrollPaneTasks.setFadeScrollBars(false);
         scrollPaneTasks.setForceScroll(true, false);
 
         //layout
-        this.add(_questLabel).align(Align.left);
-        this.add(_tasksLabel).align(Align.left);
+        this.add (questLabel).align(Align.left);
+        this.add (tasksLabel).align(Align.left);
+        this.add(closeButton).align(Align.right);
         this.row();
         this.defaults().expand().fill();
         this.add(scrollPane).padRight(15);
-        this.add(scrollPaneTasks).padLeft(5);
+        this.add(scrollPaneTasks).padLeft(5).colspan(2);
 
         //this.debug();
         this.pack();
 
         //Listeners
-        _listQuests.addListener(new ClickListener() {
+        listQuests.addListener(new ClickListener() {
                                    @Override
                                    public void clicked(InputEvent event, float x, float y) {
-                                       QuestGraph quest = (QuestGraph) _listQuests.getSelected();
+                                       QuestGraph quest = (QuestGraph) listQuests.getSelected();
                                        if (quest == null) return;
                                        populateQuestTaskDialog(quest);
                                    }
                                }
         );
     }
-
+    public TextButton getCloseButton(){
+        return closeButton;
+    }
     public void questTaskComplete(String questID, String questTaskID){
-        for( QuestGraph questGraph: _quests ){
+        for( QuestGraph questGraph: quests ){
             if( questGraph.getQuestID().equalsIgnoreCase(questID)){
                 if( questGraph.isQuestTaskAvailable(questTaskID) ){
                     questGraph.setQuestTaskComplete(questTaskID);
@@ -96,13 +101,13 @@ public class QuestUI extends Window {
             return null;
         }
 
-        QuestGraph graph = _json.fromJson(QuestGraph.class, Gdx.files.internal(questConfigPath));
+        QuestGraph graph = json.fromJson(QuestGraph.class, Gdx.files.internal(questConfigPath));
         if( doesQuestExist(graph.getQuestID()) ){
             return null;
         }
 
         clearDialog();
-        _quests.add(graph);
+        quests.add(graph);
         updateQuestItemList();
         return graph;
     }
@@ -127,7 +132,7 @@ public class QuestUI extends Window {
     }
 
     public QuestGraph getQuestByID(String questGraphID){
-        for( QuestGraph questGraph: _quests ){
+        for( QuestGraph questGraph: quests ){
             if( questGraph.getQuestID().equalsIgnoreCase(questGraphID)){
                 return questGraph;
             }
@@ -136,7 +141,7 @@ public class QuestUI extends Window {
     }
 
     public boolean doesQuestExist(String questGraphID){
-        for( QuestGraph questGraph: _quests ){
+        for( QuestGraph questGraph: quests ){
             if( questGraph.getQuestID().equalsIgnoreCase(questGraphID)){
                 return true;
             }
@@ -146,55 +151,55 @@ public class QuestUI extends Window {
 
 
     public Array<QuestGraph> getQuests() {
-        return _quests;
+        return quests;
     }
 
     public void setQuests(Array<QuestGraph> quests) {
-        this._quests = quests;
+        this.quests = quests;
         updateQuestItemList();
     }
 
     public void updateQuestItemList(){
         clearDialog();
 
-        _listQuests.setItems(_quests);
-        _listQuests.setSelectedIndex(-1);
+        listQuests.setItems (quests);
+        listQuests.setSelectedIndex(-1);
     }
 
     private void clearDialog(){
-        _listQuests.clearItems();
-        _listTasks.clearItems();
+        listQuests.clearItems();
+        listTasks.clearItems();
     }
 
     private void populateQuestTaskDialog(QuestGraph graph){
-        _listTasks.clearItems();
+        listTasks.clearItems();
 
         ArrayList<QuestTask> tasks =  graph.getAllQuestTasks();
         if( tasks == null ) return;
 
-        _listTasks.setItems(tasks.toArray());
-        _listTasks.setSelectedIndex(-1);
+        listTasks.setItems(tasks.toArray());
+        listTasks.setSelectedIndex(-1);
     }
 
     public void initQuests(MapsManager mapMgr){
 //        mapMgr.clearAllMapQuestEntities();
 
         //populate items if quests have them
-        for( QuestGraph quest : _quests ){
+        for( QuestGraph quest : quests ){
             if( !quest.isQuestComplete() ){
                 quest.init(mapMgr);
             }
         }
-//        ProfileManager.getInstance().setProperty("playerQuests", _quests);
+//        ProfileManager.getInstance().setProperty("playerQuests", quests);
     }
 
     public void updateQuests(MapsManager mapMgr){
-        for( QuestGraph quest : _quests ){
+        for( QuestGraph quest : quests ){
             if( !quest.isQuestComplete() ){
                 quest.update(mapMgr);
             }
         }
-//        ProfileManager.getInstance().setProperty("playerQuests", _quests);
+//        ProfileManager.getInstance().setProperty("playerQuests", quests);
     }
 
 }

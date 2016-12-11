@@ -38,7 +38,7 @@ public class HUDScreen implements Screen {
     private DialogUI dialogUI;
     private InventoryUI inventoryUI;
     private StoreInventoryUI storeInventoryUI;
-    private QuestUI _questUI;
+    private QuestUI questUI;
     /** message box */
     private Dialog messageBoxUI;
     //buttons
@@ -93,13 +93,14 @@ public class HUDScreen implements Screen {
         storeInventoryUI.setModal(true);
         storeInventoryUI.setPosition(0, 0);
 
-        _questUI = new QuestUI();
-        _questUI.setMovable(false);
-        _questUI.setVisible(false);
-        _questUI.setKeepWithinStage(false);
-        _questUI.setPosition(0, stage.getHeight() / 2);
-        _questUI.setWidth(stage.getWidth());
-        _questUI.setHeight(stage.getHeight() / 2);
+        questUI = new QuestUI();
+        questUI.setMovable(false);
+        questUI.setModal(true);
+        questUI.setVisible(false);
+        questUI.setKeepWithinStage(false);
+        questUI.setPosition(0, 0);
+        questUI.setWidth(stage.getWidth());
+        questUI.setHeight(stage.getHeight());
 
         dialogUI = new DialogUI(this);
         dialogUI.setMovable(false);
@@ -110,7 +111,7 @@ public class HUDScreen implements Screen {
         dialogUI.setHeight(160);
 
         stage.addActor(statusUI);
-        stage.addActor(_questUI);
+        stage.addActor(questUI);
         stage.addActor(buttonUI);
         stage.addActor(inventoryUI);
         stage.addActor(storeInventoryUI);
@@ -122,7 +123,7 @@ public class HUDScreen implements Screen {
         dialogUI.validate();
         inventoryUI.validate();
         storeInventoryUI.validate();
-        _questUI.validate();
+        questUI.validate();
         messageBoxUI.validate();
 
         //add tooltips to the stage
@@ -146,7 +147,7 @@ public class HUDScreen implements Screen {
         questButton = buttonUI.getQuestButton();
         questButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                _questUI.setVisible(_questUI.isVisible() ? false : true);
+                questUI.setVisible(questUI.isVisible() ? false : true);
             }
         });
         inventoryUI.getCloseButton().addListener(new ClickListener() {
@@ -173,6 +174,14 @@ public class HUDScreen implements Screen {
                                                            }
                                                        }
         );
+        questUI.getCloseButton().addListener(new ClickListener() {
+                                                           @Override
+                                                           public void clicked(InputEvent event, float x, float y) {
+                                                               questUI.setVisible(false);
+                                                               questButton.setChecked(false);
+                                                           }
+                                                       }
+        );
         initPlayerDatas(player);
     }
 
@@ -181,7 +190,7 @@ public class HUDScreen implements Screen {
         InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
         inventoryUI.resetEquipSlots();
 
-        _questUI.setQuests(new Array<QuestGraph>());
+        questUI.setQuests(new Array<QuestGraph>());
 
         //add default items if first time
         Array<InventoryItem.ItemTypeID> items = player.getInventory();
@@ -286,9 +295,9 @@ public class HUDScreen implements Screen {
 
        /* String questID = configReturnProperty.getCurrentQuestID();
 
-        if( _questUI.isQuestReadyForReturn(questID) ){
+        if( questUI.isQuestReadyForReturn(questID) ){
             notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
-            QuestGraph quest = _questUI.getQuestByID(questID);
+            QuestGraph quest = questUI.getQuestByID(questID);
             _statusUI.addXPValue(quest.getXpReward());
             _statusUI.addGoldValue(quest.getGoldReward());
             notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
@@ -315,7 +324,7 @@ public class HUDScreen implements Screen {
             dialogUI.setVisible(false);
 //            entity.unregisterObservers();
 //            worldController.removeMapQuestEntity(entity);
-//            _questUI.updateQuests(_mapMgr);
+//            questUI.updateQuests(_mapMgr);
         }else{
             closeSpeech();
             messageBoxUI.setVisible(true);

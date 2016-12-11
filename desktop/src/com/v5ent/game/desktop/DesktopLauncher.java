@@ -23,7 +23,7 @@ public class DesktopLauncher {
 		cfg.addIcon("icon.png", Files.FileType.Internal);
 		Gdx.app  = new LwjglApplication(new Inspiration(), cfg);
 		//Gdx.app.setLogLevel(Application.LOG_INFO);
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+//		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		//Gdx.app.setLogLevel(Application.LOG_ERROR);
 		//Gdx.app.setLogLevel(Application.LOG_NONE);
 	}

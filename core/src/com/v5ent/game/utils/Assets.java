@@ -39,6 +39,11 @@ public class Assets implements Disposable, AssetErrorListener {
 	public Texture shadow;
 	public Texture selected;
 
+	public static TextureRegion[] water;
+	public static TextureRegion[] earth;
+	public static TextureRegion[] fire;
+	public static TextureRegion[] thunder;
+
 	public TextureAtlas STATUSUI_TEXTUREATLAS ;
 	public TextureAtlas ITEMS_TEXTUREATLAS ;
 	public Skin STATUSUI_SKIN ;
@@ -152,6 +157,28 @@ public class Assets implements Disposable, AssetErrorListener {
 			touchPointAnimation = new Animation(0.25f, touchPointFrames, Animation.PlayMode.LOOP);
 		}
 	}
+	private static TextureRegion[] loads(String pre, String tail, int mnt,
+										 int width, int height) {
+		TextureRegion[] res = new TextureRegion[mnt];
+		for(int i=0;i<mnt;i++){
+			res[i] = load(pre+(i+1)+tail,width,height);
+		}
+		return res;
+	}
+	/**
+	 * 从文件加载Texture
+	 *
+	 * @param name
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static TextureRegion load (String name, int width, int height) {
+		Texture texture = new Texture(Gdx.files.internal(name));
+		TextureRegion region = new TextureRegion(texture, 0, 0, width, height);
+//		region.flip(false, true);
+		return region;
+	}
 
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
@@ -159,7 +186,11 @@ public class Assets implements Disposable, AssetErrorListener {
 		this.assetManager.setErrorListener(this);
 		this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		// load texture atlas
-		//TODO:load all hero's pack
+		water = loads("skill/storm/storm (",").png",35, 495, 331);
+		earth = loads("skill/sand/sand (",").png",26, 428, 369);
+		fire = loads("skill/fire/fir (",").png",28, 464, 273);
+		thunder = loads("skill/thunder/benlei (",").png",35, 450, 450);
+		//load all hero's pack
 		for (Map.Entry<String, String> entry : Resource.instance.players.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue().toString();

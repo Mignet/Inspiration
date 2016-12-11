@@ -25,32 +25,32 @@ import com.v5ent.game.utils.Assets;
 public class StoreInventoryUI extends Window{
     /** parent */
     private HUDScreen hudScreen;
-    private int _numStoreInventorySlots = 36;
-    private int _lengthSlotRow = 12;
+    private int numStoreInventorySlots = 36;
+    private int lengthSlotRow = 12;
     private Table inventorySlotTable;
-    private Table _playerInventorySlotTable;
+    private Table playerInventorySlotTable;
     private DragAndDrop dragAndDrop;
     private Array<Actor> inventoryActors;
 
-    private final int _slotWidth = 46;
-    private final int _slotHeight = 46;
+    private final int slotWidth = 46;
+    private final int slotHeight = 46;
 
     private InventorySlotTooltip inventorySlotTooltip;
 
-    private Label _sellTotalLabel;
-    private Label _buyTotalLabel;
-    private Label _playerTotalGP;
+    private Label sellTotalLabel;
+    private Label buyTotalLabel;
+    private Label playerTotalGP;
 
-    private int _tradeInVal = 0;
-    private int _fullValue = 0;
-    private int _playerTotal = 0;
+    private int tradeInVal = 0;
+    private int fullValue = 0;
+    private int playerTotal = 0;
 
-    private Button _sellButton;
-    private Button _buyButton;
-    public TextButton _closeButton;
+    private Button sellButton;
+    private Button buyButton;
+    public TextButton closeButton;
 
-    private Table _buttons;
-    private Table _totalLabels;
+    private Table buttons;
+    private Table totalLabels;
 
     private Json json;
 
@@ -72,38 +72,38 @@ public class StoreInventoryUI extends Window{
         inventorySlotTable = new Table();
         inventorySlotTable.setName(InventoryUI.STORE_INVENTORY);
 
-        _playerInventorySlotTable = new Table();
-        _playerInventorySlotTable.setName(InventoryUI.PLAYER_INVENTORY);
+        playerInventorySlotTable = new Table();
+        playerInventorySlotTable.setName(InventoryUI.PLAYER_INVENTORY);
         inventorySlotTooltip = new InventorySlotTooltip(Assets.instance.STATUSUI_SKIN);
 
-        _sellButton = new TextButton(SELL, Assets.instance.STATUSUI_SKIN, "inventory");
-        disableButton(_sellButton, true);
+        sellButton = new TextButton(SELL, Assets.instance.STATUSUI_SKIN, "inventory");
+        disableButton (sellButton, true);
 
-        _sellTotalLabel = new Label(SELL + " : " + _tradeInVal + GP, Assets.instance.STATUSUI_SKIN);
-        _sellTotalLabel.setAlignment(Align.center);
-        _buyTotalLabel = new Label(BUY + " : " + _fullValue + GP, Assets.instance.STATUSUI_SKIN);
-        _buyTotalLabel.setAlignment(Align.center);
+        sellTotalLabel = new Label(SELL + " : " + tradeInVal + GP, Assets.instance.STATUSUI_SKIN);
+        sellTotalLabel.setAlignment(Align.center);
+        buyTotalLabel = new Label(BUY + " : " + fullValue + GP, Assets.instance.STATUSUI_SKIN);
+        buyTotalLabel.setAlignment(Align.center);
 
-        _playerTotalGP = new Label(PLAYER_TOTAL + " : " + _playerTotal +  GP, Assets.instance.STATUSUI_SKIN);
+        playerTotalGP = new Label(PLAYER_TOTAL + " : " + playerTotal +  GP, Assets.instance.STATUSUI_SKIN);
 
-        _buyButton = new TextButton(BUY, Assets.instance.STATUSUI_SKIN, "inventory");
-        disableButton(_buyButton, true);
+        buyButton = new TextButton(BUY, Assets.instance.STATUSUI_SKIN, "inventory");
+        disableButton (buyButton, true);
 
-        _closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
+        closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
 
-        _buttons = new Table();
-        _buttons.defaults().expand().fill();
-        _buttons.add(_sellButton).padLeft(10).padRight(10);
-        _buttons.add(_buyButton).padLeft(10).padRight(10);
+        buttons = new Table();
+        buttons.defaults().expand().fill();
+        buttons.add (sellButton).padLeft(10).padRight(10);
+        buttons.add (buyButton).padLeft(10).padRight(10);
 
-        _totalLabels = new Table();
-        _totalLabels.defaults().expand().fill();
-        _totalLabels.add(_sellTotalLabel).padLeft(40);
-        _totalLabels.add();
-        _totalLabels.add(_buyTotalLabel).padRight(40);
+        totalLabels = new Table();
+        totalLabels.defaults().expand().fill();
+        totalLabels.add (sellTotalLabel).padLeft(40);
+        totalLabels.add();
+        totalLabels.add (buyTotalLabel).padRight(40);
 
         //layout
-        for(int i = 1; i <= _numStoreInventorySlots; i++){
+        for(int i = 1; i <= numStoreInventorySlots; i++){
             InventorySlot inventorySlot = new InventorySlot(this);
             inventorySlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 //            inventorySlot.addObserver(this);
@@ -111,9 +111,9 @@ public class StoreInventoryUI extends Window{
 
             dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
 
-            inventorySlotTable.add(inventorySlot).size(_slotWidth, _slotHeight);
+            inventorySlotTable.add(inventorySlot).size (slotWidth, slotHeight);
 
-            if(i % _lengthSlotRow == 0){
+            if(i % lengthSlotRow == 0){
                 inventorySlotTable.row();
             }
         }
@@ -126,58 +126,58 @@ public class StoreInventoryUI extends Window{
 
             dragAndDrop.addTarget(new InventorySlotTarget(inventorySlot));
 
-            _playerInventorySlotTable.add(inventorySlot).size(_slotWidth, _slotHeight);
+            playerInventorySlotTable.add(inventorySlot).size (slotWidth, slotHeight);
 
-            if(i % _lengthSlotRow == 0){
-                _playerInventorySlotTable.row();
+            if(i % lengthSlotRow == 0){
+                playerInventorySlotTable.row();
             }
         }
 
         inventoryActors.add(inventorySlotTooltip);
 
         this.add();
-        this.add(_closeButton);
+        this.add (closeButton);
         this.row();
 
         //this.debugAll();
         this.defaults().expand().fill();
         this.add(inventorySlotTable).pad(10, 10, 10, 10).row();
-        this.add(_buttons).row();
-        this.add(_totalLabels).row();
-        this.add(_playerInventorySlotTable).pad(10, 10, 10, 10).row();
-        this.add(_playerTotalGP);
+        this.add (buttons).row();
+        this.add (totalLabels).row();
+        this.add (playerInventorySlotTable).pad(10, 10, 10, 10).row();
+        this.add (playerTotalGP);
         this.pack();
 
         //Listeners
-        _buyButton.addListener(new ClickListener() {
+        buyButton.addListener(new ClickListener() {
                                                @Override
                                                public void clicked(InputEvent event, float x, float y) {
-                                                   if( _fullValue > 0 && _playerTotal >= _fullValue) {
-                                                       _playerTotal -= _fullValue;
-//                                                       StoreInventoryUI.this.notify(Integer.toString(_playerTotal), StoreInventoryEvent.PLAYER_GP_TOTAL_UPDATED);
-                                                       hudScreen.updateTotalGoldPoint(_playerTotal);
-                                                       _fullValue = 0;
-                                                       _buyTotalLabel.setText(BUY  + " : " +  _fullValue + GP);
+                                                   if( fullValue > 0 && playerTotal >= fullValue) {
+                                                       playerTotal -= fullValue;
+//                                                       StoreInventoryUI.this.notify(Integer.toString (playerTotal), StoreInventoryEvent.PLAYER_GP_TOTAL_UPDATED);
+                                                       hudScreen.updateTotalGoldPoint (playerTotal);
+                                                       fullValue = 0;
+                                                       buyTotalLabel.setText(BUY  + " : " +  fullValue + GP);
 
                                                        checkButtonStates();
 
                                                        //Make sure we update the owner of the items
-                                                       InventoryUI.setInventoryItemNames(_playerInventorySlotTable, InventoryUI.PLAYER_INVENTORY);
+                                                       InventoryUI.setInventoryItemNames (playerInventorySlotTable, InventoryUI.PLAYER_INVENTORY);
                                                        savePlayerInventory();
                                                    }
                                                }
                                            }
         );
 
-        _sellButton.addListener(new ClickListener() {
+        sellButton.addListener(new ClickListener() {
                                    @Override
                                    public void clicked(InputEvent event, float x, float y) {
-                                       if( _tradeInVal > 0 ) {
-                                           _playerTotal += _tradeInVal;
-//                                           StoreInventoryUI.this.notify(Integer.toString(_playerTotal), StoreInventoryEvent.PLAYER_GP_TOTAL_UPDATED);
-                                           hudScreen.updateTotalGoldPoint(_playerTotal);
-                                           _tradeInVal = 0;
-                                           _sellTotalLabel.setText(SELL  + " : " +  _tradeInVal + GP);
+                                       if( tradeInVal > 0 ) {
+                                           playerTotal += tradeInVal;
+//                                           StoreInventoryUI.this.notify(Integer.toString (playerTotal), StoreInventoryEvent.PLAYER_GP_TOTAL_UPDATED);
+                                           hudScreen.updateTotalGoldPoint (playerTotal);
+                                           tradeInVal = 0;
+                                           sellTotalLabel.setText(SELL  + " : " +  tradeInVal + GP);
 
                                            checkButtonStates();
 
@@ -199,7 +199,7 @@ public class StoreInventoryUI extends Window{
     }
 
     public TextButton getCloseButton(){
-        return _closeButton;
+        return closeButton;
     }
 
     public Table getInventorySlotTable() {
@@ -211,7 +211,7 @@ public class StoreInventoryUI extends Window{
     }
 
     public void loadPlayerInventory(Array<InventoryItemLocation> playerInventoryItems){
-        InventoryUI.populateInventory(_playerInventorySlotTable, playerInventoryItems, dragAndDrop, InventoryUI.PLAYER_INVENTORY, true);
+        InventoryUI.populateInventory (playerInventorySlotTable, playerInventoryItems, dragAndDrop, InventoryUI.PLAYER_INVENTORY, true);
     }
 
     public void loadStoreInventory(Array<InventoryItemLocation> storeInventoryItems){
@@ -219,28 +219,28 @@ public class StoreInventoryUI extends Window{
     }
 
     public void savePlayerInventory(){
-        Array<InventoryItemLocation> playerItemsInPlayerInventory = InventoryUI.getInventoryFiltered(_playerInventorySlotTable, InventoryUI.STORE_INVENTORY);
-        Array<InventoryItemLocation> playerItemsInStoreInventory = InventoryUI.getInventoryFiltered(_playerInventorySlotTable, inventorySlotTable, InventoryUI.STORE_INVENTORY);
+        Array<InventoryItemLocation> playerItemsInPlayerInventory = InventoryUI.getInventoryFiltered (playerInventorySlotTable, InventoryUI.STORE_INVENTORY);
+        Array<InventoryItemLocation> playerItemsInStoreInventory = InventoryUI.getInventoryFiltered (playerInventorySlotTable, inventorySlotTable, InventoryUI.STORE_INVENTORY);
         playerItemsInPlayerInventory.addAll(playerItemsInStoreInventory);
 //        StoreInventoryUI.this.notify(json.toJson(playerItemsInPlayerInventory), StoreInventoryEvent.PLAYER_INVENTORY_UPDATED);
         hudScreen.updateInventory(playerItemsInPlayerInventory);
     }
 
     public void cleanupStoreInventory(){
-        InventoryUI.removeInventoryItems(InventoryUI.STORE_INVENTORY, _playerInventorySlotTable);
+        InventoryUI.removeInventoryItems(InventoryUI.STORE_INVENTORY, playerInventorySlotTable);
         InventoryUI.removeInventoryItems(InventoryUI.PLAYER_INVENTORY, inventorySlotTable);
     }
 
     public void removedItem(InventorySlot slot) {
         if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) &&
                 slot.getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) ) {
-            _tradeInVal -= slot.getTopInventoryItem().getTradeValue();
-            _sellTotalLabel.setText(SELL + " : " + _tradeInVal + GP);
+            tradeInVal -= slot.getTopInventoryItem().getTradeValue();
+            sellTotalLabel.setText(SELL + " : " + tradeInVal + GP);
         }
         if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) &&
                 slot.getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) ) {
-            _fullValue -= slot.getTopInventoryItem().getItemValue();
-            _buyTotalLabel.setText(BUY + " : " + _fullValue + GP);
+            fullValue -= slot.getTopInventoryItem().getItemValue();
+            buyTotalLabel.setText(BUY + " : " + fullValue + GP);
         }
         checkButtonStates();
     }
@@ -249,14 +249,14 @@ public class StoreInventoryUI extends Window{
         //moving from player inventory to store inventory to sell
         if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) &&
                 slot.getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) ) {
-            _tradeInVal += slot.getTopInventoryItem().getTradeValue();
-            _sellTotalLabel.setText(SELL + " : " + _tradeInVal + GP);
+            tradeInVal += slot.getTopInventoryItem().getTradeValue();
+            sellTotalLabel.setText(SELL + " : " + tradeInVal + GP);
         }
         //moving from store inventory to player inventory to buy
         if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) &&
                 slot.getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) ) {
-            _fullValue += slot.getTopInventoryItem().getItemValue();
-            _buyTotalLabel.setText(BUY + " : " +  _fullValue + GP);
+            fullValue += slot.getTopInventoryItem().getItemValue();
+            buyTotalLabel.setText(BUY + " : " +  fullValue + GP);
         }
         checkButtonStates();
     }
@@ -269,26 +269,26 @@ public class StoreInventoryUI extends Window{
                 //moving from player inventory to store inventory to sell
                 if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) &&
                         slot.getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) ) {
-                    _tradeInVal += slot.getTopInventoryItem().getTradeValue();
-                    _sellTotalLabel.setText(SELL + " : " + _tradeInVal + GP);
+                    tradeInVal += slot.getTopInventoryItem().getTradeValue();
+                    sellTotalLabel.setText(SELL + " : " + tradeInVal + GP);
                 }
                 //moving from store inventory to player inventory to buy
                 if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) &&
                         slot.getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) ) {
-                    _fullValue += slot.getTopInventoryItem().getItemValue();
-                    _buyTotalLabel.setText(BUY + " : " +  _fullValue + GP);
+                    fullValue += slot.getTopInventoryItem().getItemValue();
+                    buyTotalLabel.setText(BUY + " : " +  fullValue + GP);
                 }
                 break;
             case REMOVED_ITEM:
                 if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) &&
                         slot.getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) ) {
-                    _tradeInVal -= slot.getTopInventoryItem().getTradeValue();
-                    _sellTotalLabel.setText(SELL + " : " + _tradeInVal + GP);
+                    tradeInVal -= slot.getTopInventoryItem().getTradeValue();
+                    sellTotalLabel.setText(SELL + " : " + tradeInVal + GP);
                 }
                 if( slot.getTopInventoryItem().getName().equalsIgnoreCase(InventoryUI.STORE_INVENTORY) &&
                         slot.getName().equalsIgnoreCase(InventoryUI.PLAYER_INVENTORY) ) {
-                    _fullValue -= slot.getTopInventoryItem().getItemValue();
-                    _buyTotalLabel.setText(BUY + " : " + _fullValue + GP);
+                    fullValue -= slot.getTopInventoryItem().getItemValue();
+                    buyTotalLabel.setText(BUY + " : " + fullValue + GP);
                 }
                 break;
         }
@@ -296,22 +296,22 @@ public class StoreInventoryUI extends Window{
     }*/
 
     public void checkButtonStates(){
-        if( _tradeInVal <= 0 ) {
-            disableButton(_sellButton, true);
+        if( tradeInVal <= 0 ) {
+            disableButton (sellButton, true);
         }else{
-            disableButton(_sellButton, false);
+            disableButton (sellButton, false);
         }
 
-        if( _fullValue <= 0 || _playerTotal < _fullValue) {
-            disableButton(_buyButton, true);
+        if( fullValue <= 0 || playerTotal < fullValue) {
+            disableButton (buyButton, true);
         }else{
-            disableButton(_buyButton, false);
+            disableButton (buyButton, false);
         }
     }
 
     public void setPlayerGP(int value){
-        _playerTotal = value;
-        _playerTotalGP.setText(PLAYER_TOTAL + " : " + _playerTotal +  GP);
+        playerTotal = value;
+        playerTotalGP.setText(PLAYER_TOTAL + " : " + playerTotal +  GP);
     }
 
     private void disableButton(Button button, boolean disable){

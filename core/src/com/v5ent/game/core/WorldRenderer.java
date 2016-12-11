@@ -2,11 +2,14 @@ package com.v5ent.game.core;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.utils.Disposable;
 import com.v5ent.game.utils.Constants;
+import com.v5ent.game.utils.DebugMarker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,8 +37,17 @@ public class WorldRenderer implements Disposable {
 		Gdx.app.debug(TAG, "UnitScale value is: " + mapRenderer.getUnitScale());
 	}
 
-	public void render () {
+	public void render (float delta) {
+		// Sets the clear screen color to: BLACK
+		Gdx.gl.glClearColor(0x00 / 255.0f, 0x00 / 255.0f, 0x00 / 255.0f, 0xff / 255.0f);
+		// Clears the screen
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		renderMap();
+		//HUD
+		worldController.hudScreen.render(delta);
+		if(!worldController.points.isEmpty()){
+			DebugMarker.drawTrace(worldController.points, worldController.camera.combined);
+		}
 	}
 
 	private void renderMap(){
@@ -44,7 +56,8 @@ public class WorldRenderer implements Disposable {
 //		mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		mapRenderer.setView(worldController.camera);
-		mapRenderer.render();
+//		mapRenderer.render();
+		AnimatedTiledMapTile.updateAnimationBaseTime();
 		mapRenderer.getBatch().begin();
 		//地面
 		TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.GROUND_LAYER);
@@ -82,11 +95,13 @@ public class WorldRenderer implements Disposable {
 		for (Sprite sprite : temp) {
 			sprite.draw(mapRenderer.getBatch());
 		}
-
+		//ceil layer
 		TiledMapTileLayer ceilMapLayer = (TiledMapTileLayer)worldController.mapMgr.getCurrentMap().getLayers().get(MapsManager.CEILING_LAYER);
 		if( ceilMapLayer != null){
 			mapRenderer.renderTileLayer(ceilMapLayer);
 		}
+		if(worldController.skill!=null)worldController.skill.draw(mapRenderer.getBatch());
+		//TODO Sky Layer
 
 		mapRenderer.getBatch().end();
 	}

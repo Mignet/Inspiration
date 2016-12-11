@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="22" height="15" tilewidth="32" tileheight="32" nextobjectid="8">
  <properties>
   <property name="mapName" value="Home1"/>
  </properties>
@@ -21,19 +21,19 @@
  <tileset firstgid="401" name="TOOLS" tilewidth="32" tileheight="32" tilecount="9" columns="9">
   <image source="tiles/TOOLS.png" width="288" height="32"/>
  </tileset>
- <layer name="ground" width="20" height="15">
+ <layer name="ground" width="22" height="15">
   <data encoding="base64" compression="zlib">
-   eJzLZmBgyMaDzxOQR8bLgLieAH5MhBoYBpk3mQD+ToQaGAaZpwnEwVAaG+ZmZGCQJRKDzEsF4jQ85u1mIM08XOZQyzxZNP55Cs3zQOM/prJ530lML4TCDxS/pKYXfHgSleN32QCb1w7FyGa0DyIMAHgSYa4=
+   eJzLZmBgyMaDzxOQx4aXAXE9AfyYCDXoGGTuZAL4OxFq0DHIXE0gDobS2DA3IwODLIkYZG4qEKfhMXc3A3nm4jKP2ubKovHPU8lcDzT+YxqZ+53MdEYofEHpgdx0hg9PolF6WDbIzG2HYmSz2gcxBgCmV2rI
   </data>
  </layer>
- <layer name="floor" width="20" height="15">
+ <layer name="floor" width="22" height="15">
   <data encoding="base64" compression="zlib">
-   eJz7zYAJ7mERIxbwMzIw/EYT+4TGXwjEi4B4JxDvQhLfA8SLoRgGlBkxzdQF8tkZEfytQLwNiB8C8Tmo2EMo3g7FD7GYCQKSQNoRiKWRzDsJxKeA+CsQ5wBxLpSNzkcGyowMRIEGIG7Ew48B4lggZgdiDiDmJGDeFCCeiodfAMSFQCzNAAkDEyxmBBGJQaAFiFuh7K84zMsmEoMAExCDgo4FiFmB2BjJHD1cnoaCMAbM9CIGxKJALAHEkkDsTsA8WDoJBeIsBsz0QsgNyMCOAZFOQLiOATO9TCDBPGyggQE1vSwhUb8dGh+UXpDzxhMofoUk9hJJ/AUSmxiMDJDNaCfR3TAAALLyTkk=
+   eJyV0r2OAVEUB/AzYoNKZUOUahpqiWr7Tah4AR8JLyAkRKuwD7DWKyDEC1B4BMkkCpSSqabxv9k7cVx3mPtPfpl7TiZnPnJces5B0zNN3CJyld5VqX9hCitYs/4G/iQ1Get5dhZ1xLrXc1iADXvZs6WlZDPqbJEUriVIs7lb2IEDTWjJs652NO8dJD3ov6i9VKEGEYhC7M3cCfy8qL20oQNp+v83Bc0934ZEBjCUZ8dnbsOQSAjErw3DB+TZvJzmGTwV8t+zT0hAElLw9Waut0tlqNPjnpWlIO/EU6THfeqS/56NDebq0iP9ns0M5xSVWuyZrbnvKF1Y78z6J3YO6uTzDNEfGX6HmhuW1FfP
   </data>
  </layer>
- <layer name="block" width="20" height="15">
+ <layer name="block" width="22" height="15">
   <data encoding="base64" compression="zlib">
-   eJybxMhAdTCJEYJxyVFiJkw/Mp8YjMt+bOZikyPFDmL8gY2Pz52ExAmpxeVOcs3DJUZN80gNf2LintQ4I9U/1EgfxNhBinpC5hNKJ7QMM2zm4ws7AIdHPpg=
+   eJybxMhAMzCJEYJxyVHDbJg5yHxiMCH3YDMfmxwlduLzFy4+NrfgModUgMuP1DQXlxgtzCU3ngjFH7lxS6o/qZm2CKkhNl8QkifWDGLClRAgtwwhJzwBENdCnQ==
   </data>
  </layer>
  <objectgroup name="npc">
@@ -66,9 +66,9 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="ceiling" width="20" height="15" opacity="0.7">
+ <layer name="ceiling" width="22" height="15" opacity="0.7">
   <data encoding="base64" compression="zlib">
-   eJxjYBhZIAiK6QV2k6mPHYg5gJiTSubhA0FEYmJBNpEYBhgpc/6AgklUNm8Zlc2jNngOxO0kYGR9uAAp5gEAYsoYNg==
+   eJxjYBgFIBAExfQGuynUzw7EHEDMSWVz8YEgEjGxIJtEDAOM5Htl0IFJNDJ3GY3MpRV4DsTtJGJ0/bgAOeYCAO23Gr4=
   </data>
  </layer>
 </map>
