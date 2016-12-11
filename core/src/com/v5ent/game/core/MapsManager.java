@@ -26,6 +26,8 @@ public class MapsManager {
     public static final String GROUND_LAYER = "ground";
     public static final String FLOOR_LAYER = "floor";
     public static final String CEILING_LAYER = "ceiling";
+    public final static String ENEMY_LAYER = "enemy";
+    protected MapLayer enemySpawnLayer = null;
     public static final float CELL_UNIT = 32.0f;
     public int rows;
     public int cols;
@@ -106,7 +108,14 @@ public class MapsManager {
                 }
             }
         }
+        enemySpawnLayer = this.map.getLayers().get(ENEMY_LAYER);
+        if( enemySpawnLayer == null ){
+            Gdx.app.debug(TAG, "No enemy layer found!");
+        }
         Gdx.app.debug(TAG,"load map:"+mapName);
 
+    }
+    public MapLayer getEnemySpawnLayer() {
+        return enemySpawnLayer;
     }
 }

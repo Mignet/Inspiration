@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="96" tilewidth="32" tileheight="32" nextobjectid="20">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="96" tilewidth="32" tileheight="32" nextobjectid="21">
  <properties>
   <property name="mapName" value="Yaka Port"/>
  </properties>
@@ -231,4 +231,7 @@
    eJztmk9LVUEYxs9VyVqpucq9uUnIhaYG5TZNr6nLzNRslUpqZe1L+2MQfQMh+gwRQV9AJHDbFxGCntADl+k9c2bmzJl3zr3vDx4uetD7zIF5Z95nJkkEQRCEGOjpSJLLUG+H3TNf1NuTZBa6B81Bw9AIdAMahcag8fbsv++Ht6vQAOFR98wXq/D2CFqDHkN3oEloCroLTUMzGv9j8DYO3SQ86p754gW87UIvoVfQIvQAWoIeQsvQisb/NLzNQHXCo+6ZL97D2wfoAPoIPYW2oG1oB3oGPdf4X4a3FWiV8Kh7Vhav4fUNtAftQ2+hdxr/XPyshf9O29qQ8oPwenL+u1v4vJ2hCc9jtK0NKb8IH58Z3r9tbUj5RHj9yuDftjakfCG8fmfwn9aGf9jUhm+E12MD/+ra7IKP+XXk+K7VtblqqGtz1VDX5lbjD0ONEJoTH7WYk1aqxVMRzvusWjxc+18jys/Njm6PYqq8vUwZ8zf1PQfNF9RCzlhaaf7GSDPupXrauB2YI+svL7bz93ftTFyo303NX9M8i8qvOPI3FdM8i8qvTiLwb5pnUfkVR/6mYppnUflV6PyNqp+mWTeVX4XO34rUTyq/MsnffBLj/scmz49x/+Oa5zfi8/zBdo9ik+eH2P/YzjGbPD/E/sd2jtmc9YWYv2XOMep/d1do/19lXM9NYyGvzoYan0lORNXsvDrrYx0pk7w663ouHIq8Out6LlwWVN+qW39D3BnpKlirWy1/aITq30NTZG2n+ndODs/9X8BnJ3QRuqQZE9W/c3MFfvugJ9A6tAFtZoyB6t85uQafg9D9Br+6MVD9OycTiveUrDG43j8pg3pEXoRqUEbvrubPpmeoLncqy9g7hMyfdXuHU8WH6ZlFyPw58+5Agb6L4/6nSpG+qzF/trnn5bNXLdJ3uebPPnvVkH1XOq989qocd/Vj61Vtod6ZIAiCIFSJ69hTDEWwjxUEQRCE2PkL+Lnsfw==
   </data>
  </layer>
+ <objectgroup name="enemy">
+  <object id="20" name="1" x="256" y="2752" width="224" height="96"/>
+ </objectgroup>
 </map>

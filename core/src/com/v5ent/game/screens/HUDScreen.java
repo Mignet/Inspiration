@@ -1,19 +1,26 @@
 package com.v5ent.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.v5ent.game.audio.AudioObserver;
+import com.v5ent.game.battle.BattleEvent;
 import com.v5ent.game.core.WorldController;
 import com.v5ent.game.dialog.ConversationCommandEvent;
 import com.v5ent.game.dialog.ConversationGraph;
+import com.v5ent.game.entities.Monster;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
+import com.v5ent.game.hud.BattleUI;
 import com.v5ent.game.hud.ButtonUI;
 import com.v5ent.game.hud.DialogUI;
 import com.v5ent.game.hud.InventoryUI;
@@ -23,15 +30,21 @@ import com.v5ent.game.hud.StoreInventoryUI;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.inventory.InventoryItemLocation;
 import com.v5ent.game.quest.QuestGraph;
+import com.v5ent.game.sfx.ScreenTransitionAction;
+import com.v5ent.game.sfx.ScreenTransitionActor;
+import com.v5ent.game.sfx.ShakeCamera;
 import com.v5ent.game.utils.Assets;
 import com.v5ent.game.utils.Constants;
+
+import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
 
 /**
  * Created by Mignet on 2016/11/26.
  */
 public class HUDScreen implements Screen {
-    private WorldController worldController;
     private Stage stage;
+    private WorldController worldController;
+    private ShakeCamera shakeCam;
     private StatusUI statusUI;
     private ButtonUI buttonUI;
     /** speech */
@@ -39,6 +52,7 @@ public class HUDScreen implements Screen {
     private InventoryUI inventoryUI;
     private StoreInventoryUI storeInventoryUI;
     private QuestUI questUI;
+    public BattleUI battleUI;
     /** message box */
     private Dialog messageBoxUI;
     //buttons
@@ -54,7 +68,8 @@ public class HUDScreen implements Screen {
         worldController = controller;
         viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,controller.hudCamera);
         stage = new Stage(viewport);
-
+        _transitionActor = new ScreenTransitionActor();
+        shakeCam = new ShakeCamera(0,0, 30.0f);
         messageBoxUI = new Dialog("消息", Assets.instance.STATUSUI_SKIN, "solidbackground"){
             {
                 button("确定");
@@ -78,8 +93,13 @@ public class HUDScreen implements Screen {
         buttonUI = new ButtonUI();
         buttonUI.setVisible(true);
         buttonUI.setPosition(20,0);
-//        statusUI.setKeepWithinStage(false);
-//        statusUI.setMovable(false);
+
+        battleUI = new BattleUI(this,player);
+        battleUI.setMovable(false);
+        //removes all listeners including ones that handle focus
+        battleUI.clearListeners();
+        battleUI.setVisible(false);
+
         inventoryUI = new InventoryUI(this);
         inventoryUI.setKeepWithinStage(false);
         inventoryUI.setMovable(false);
@@ -110,6 +130,7 @@ public class HUDScreen implements Screen {
         dialogUI.setWidth(stage.getWidth()-40);
         dialogUI.setHeight(160);
 
+        stage.addActor(battleUI);
         stage.addActor(statusUI);
         stage.addActor(questUI);
         stage.addActor(buttonUI);
@@ -118,6 +139,7 @@ public class HUDScreen implements Screen {
         stage.addActor(dialogUI);
         stage.addActor(messageBoxUI);
 
+        battleUI.validate();
         statusUI.validate();
         buttonUI.validate();
         dialogUI.validate();
@@ -202,7 +224,7 @@ public class HUDScreen implements Screen {
 //        profileManager.setProperty("playerInventory", InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
 
         //start the player with some money
-        statusUI.setGoldValue(2000);
+        statusUI.setGoldValue(player.getGoldPoint());
 //        statusUI.setStatusForLevel(1);
     }
 /*************************************************** Conversation Command Event *************************************************************/
@@ -232,6 +254,7 @@ public class HUDScreen implements Screen {
                 break;
         }
     }
+
     /**
      * LOAD_STORE_INVENTORY
       */
@@ -350,12 +373,33 @@ public class HUDScreen implements Screen {
     }
 
     /**
-     * speech
+     * LOAD_CONVERSATION
      * @param npc
      */
     public void loadSpeech(Role npc){
         dialogUI.loadConversation(npc);
         dialogUI.setVisible(true);
+    }
+    /***********************************/
+    /**
+     * ENEMY_SPAWN_LOCATION_CHANGED:
+     */
+    public void enterBattle(String value){
+        String enemyZoneID = value;
+        battleUI.battleZoneTriggered(Integer.parseInt(enemyZoneID));
+    }
+    /**
+     * PLAYER_HAS_MOVED
+     */
+    public void exitBattle() {
+        if (battleUI.isBattleReady()) {
+            addTransitionToScreen();
+//            MainGameScreen.setGameState(MainGameScreen.GameState.SAVING);
+//            worldController.mapMgr.disableCurrentmapMusic();
+//            notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
+            battleUI.toBack();
+            battleUI.setVisible(true);
+        }
     }
 /******************************************************* Inventory Event ************************************************************/
     /**
@@ -432,18 +476,85 @@ public class HUDScreen implements Screen {
     public void levelUp(){
 //        notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
     }
-/********************************************************************************************************************/
+    /********************************************************************************************************************/
+    public void onNotify(Monster enemyEntity, BattleEvent event) {
+        switch (event) {
+            case OPPONENT_HIT_DAMAGE:
+//                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
+                break;
+            case OPPONENT_DEFEATED:
+//                MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
+//                int goldReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_GP_REWARD.toString()));
+                int goldReward = enemyEntity.getGpReward();
+                statusUI.addGoldValue(goldReward);
+//                int xpReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_XP_REWARD.toString()));
+                int xpReward = enemyEntity.getXpReward();
+                statusUI.addXPValue(xpReward);
+//                notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
+//                mapMgr.enableCurrentmapMusic();
+                addTransitionToScreen();
+                battleUI.setVisible(false);
+                break;
+            case PLAYER_RUNNING:
+//                MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
+//                notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
+//                _mapMgr.enableCurrentmapMusic();
+                addTransitionToScreen();
+                battleUI.setVisible(false);
+                break;
+            case PLAYER_HIT_DAMAGE:
+//                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);
+//                int hpVal = ProfileManager.getInstance().getProperty("currentPlayerHP", Integer.class);
+                int hpVal = worldController.player.getHealthPoint();
+                statusUI.setHPValue(hpVal);
+                shakeCam.startShaking();
+
+                if( hpVal <= 0 ){
+                    shakeCam.reset();
+//                    notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
+                    addTransitionToScreen();
+                    battleUI.setVisible(false);
+//                    MainGameScreen.setGameState(MainGameScreen.GameState.GAME_OVER);
+                }
+                break;
+            case PLAYER_USED_MAGIC:
+//                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
+//                int mpVal = ProfileManager.getInstance().getProperty("currentPlayerMP", Integer.class);
+                int mpVal = worldController.player.getMagicPoint();
+                statusUI.setMPValue(mpVal);
+                break;
+            default:
+                break;
+        }
+    }
+    private ScreenTransitionActor _transitionActor;
+    public void addTransitionToScreen(){
+        _transitionActor.setVisible(true);
+        stage.addAction(
+                Actions.sequence(
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)));
+    }
     @Override
     public void show() {
-
+        shakeCam.reset();
     }
 
     @Override
     public void render(float delta) {
+        if( shakeCam.isCameraShaking() ){
+            Vector2 shakeCoords = shakeCam.getNewShakePosition();
+            worldController.camera.position.x = shakeCoords.x + stage.getWidth()/2;
+            worldController.camera.position.y = shakeCoords.y + stage.getHeight()/2;
+        }
+        if(worldController._enemySpawnID!=null){
+            enterBattle(worldController._enemySpawnID);
+        }
+//        Object mapName = mapMgr.getCurrentTiledMap().getProperties().get("mapName");
+//        _mapName.setText(mapName!=null?mapName.toString():"Unkonwn");
         stage.act(delta);
         stage.draw();
     }
-
+    
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -451,7 +562,7 @@ public class HUDScreen implements Screen {
 
     @Override
     public void pause() {
-
+        battleUI.resetDefaults();
     }
 
     @Override

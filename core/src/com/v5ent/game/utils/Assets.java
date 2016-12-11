@@ -7,7 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
+import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,7 +34,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
 	public static final Assets instance = new Assets();
 	/** libGDX 's asset manager*/
-	private AssetManager assetManager;
+	private static AssetManager assetManager;
+	private static InternalFileHandleResolver _filePathResolver =  new InternalFileHandleResolver();
 	/** load all characters */
 	public Map<String,AssetRole> assetRoles = new HashMap<String, AssetRole>();
 	/** load all tiled map */
@@ -47,6 +52,8 @@ public class Assets implements Disposable, AssetErrorListener {
 	public TextureAtlas STATUSUI_TEXTUREATLAS ;
 	public TextureAtlas ITEMS_TEXTUREATLAS ;
 	public Skin STATUSUI_SKIN ;
+	public Texture MONSTERS0;
+	public Texture MONSTERS1;
 	// singleton: prevent instantiation from other classes
 	private Assets() {
 	}
@@ -207,6 +214,8 @@ public class Assets implements Disposable, AssetErrorListener {
 			String value = entry.getValue().toString();
 			assetManager.load(value, TiledMap.class);
 		}
+		assetManager.load(Resource.MONSTERS0,Texture.class);
+		assetManager.load(Resource.MONSTERS1,Texture.class);
 		assetManager.load(Resource.TOUCH,Texture.class);
 		assetManager.load(Resource.SHADOW,Texture.class);
 		assetManager.load(Resource.SELECTED,Texture.class);
@@ -248,6 +257,80 @@ public class Assets implements Disposable, AssetErrorListener {
 		STATUSUI_TEXTUREATLAS = assetManager.get(STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		ITEMS_TEXTUREATLAS = assetManager.get(ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		STATUSUI_SKIN = new Skin(Gdx.files.internal(Resource.STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
+		MONSTERS0 = assetManager.get(Resource.MONSTERS0,Texture.class);
+		MONSTERS1 = assetManager.get(Resource.MONSTERS1,Texture.class);
+	}
+	public static void loadSoundAsset(String soundFilenamePath){
+		if( soundFilenamePath == null || "".equals(soundFilenamePath.trim()) ){
+			return;
+		}
+		if( assetManager.isLoaded(soundFilenamePath) ){
+			return;
+		}
+		//load asset
+		if( _filePathResolver.resolve(soundFilenamePath).exists() ){
+			assetManager.setLoader(Sound.class, new SoundLoader(_filePathResolver));
+			assetManager.load(soundFilenamePath, Sound.class);
+			//Until we add loading screen, just block until we load the map
+			assetManager.finishLoadingAsset(soundFilenamePath);
+			Gdx.app.debug(TAG, "Sound loaded!: " + soundFilenamePath);
+		}
+		else{
+			Gdx.app.debug(TAG, "Sound doesn't exist!: " + soundFilenamePath );
+		}
+	}
+
+
+	public static Sound getSoundAsset(String soundFilenamePath){
+		Sound sound = null;
+
+		// once the asset manager is done loading
+		if( assetManager.isLoaded(soundFilenamePath) ){
+			sound = assetManager.get(soundFilenamePath,Sound.class);
+		} else {
+			Gdx.app.debug(TAG, "Sound is not loaded: " + soundFilenamePath );
+		}
+
+		return sound;
+	}
+
+	public static void loadMusicAsset(String musicFilenamePath){
+		if( musicFilenamePath == null || "".equals(musicFilenamePath.trim()) ){
+			return;
+		}
+
+		if( assetManager.isLoaded(musicFilenamePath) ){
+			return;
+		}
+
+		//load asset
+		if( _filePathResolver.resolve(musicFilenamePath).exists() ){
+			assetManager.setLoader(Music.class, new MusicLoader(_filePathResolver));
+			assetManager.load(musicFilenamePath, Music.class);
+			//Until we add loading screen, just block until we load the map
+			assetManager.finishLoadingAsset(musicFilenamePath);
+			Gdx.app.debug(TAG, "Music loaded!: " + musicFilenamePath);
+		}
+		else{
+			Gdx.app.debug(TAG, "Music doesn't exist!: " + musicFilenamePath );
+		}
+	}
+
+
+	public static Music getMusicAsset(String musicFilenamePath){
+		Music music = null;
+
+		// once the asset manager is done loading
+		if( assetManager.isLoaded(musicFilenamePath) ){
+			music = assetManager.get(musicFilenamePath,Music.class);
+		} else {
+			Gdx.app.debug(TAG, "Music is not loaded: " + musicFilenamePath );
+		}
+
+		return music;
+	}
+	public static boolean isAssetLoaded(String fileName){
+		return assetManager.isLoaded(fileName);
 	}
 
 	@Override

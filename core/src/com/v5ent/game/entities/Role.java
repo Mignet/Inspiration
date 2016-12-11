@@ -27,11 +27,11 @@ public class Role extends Sprite{
 	private boolean isArrived = false;
 	private boolean isSelected = false;
 	private boolean isVisible = true;
-
-	private Animation idleLeftAnimation;
-	private Animation idleRightAnimation;
-	private Animation idleUpAnimation;
-	private Animation idleDownAnimation;
+	/** Animations **/
+	public Animation idleLeftAnimation;
+	public Animation idleRightAnimation;
+	public Animation idleUpAnimation;
+	public Animation idleDownAnimation;
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
 	private Animation walkUpAnimation;
@@ -42,7 +42,7 @@ public class Role extends Sprite{
 	private Direction currentDir = Direction.LEFT;
 	protected float frameTime = 0f;
 	/**just for draw */
-	protected TextureRegion currentFrame = null;
+	public TextureRegion currentFrame = null;
 	public Array<MyNode> path = new Array<MyNode>(true,10);
 	// move to aim
 	private Vector2 movingTarget;
@@ -50,9 +50,17 @@ public class Role extends Sprite{
 	private String questConfigPath;
 	private String currentQuestID;
 	private String itemTypeID = "NONE";
+	/** battle **/
+	private int healthPoint = 100;
+	private int magicPoint = 100;
+	private int attackPoint = 100;
+	private int defensePoint = 100;
+	private int hitDamageTotal = 100;
+	private int goldPoint = 100;
+	private int level = 1;
+
 	// role inventory
 	private Array<InventoryItem.ItemTypeID> inventory = new Array<InventoryItem.ItemTypeID>();
-	
 
 	public Animation getAnimation(State animationType) {
 		if(currentState==State.IDLE || currentState==State.FIXED){
@@ -103,22 +111,24 @@ public class Role extends Sprite{
 		this.nextPosition = new Vector2();
 		this.movingTarget = new Vector2();
 		Assets.AssetRole assetRole = Assets.instance.assetRoles.get(entityId);
-		this.idleLeftAnimation = assetRole.idleLeftAnimation;
-		this.idleRightAnimation = assetRole.idleRightAnimation;
-		this.idleUpAnimation = assetRole.idleUpAnimation;
-		this.idleDownAnimation = assetRole.idleDownAnimation;
-		this.walkLeftAnimation = assetRole.walkLeftAnimation;
-		this.walkRightAnimation = assetRole.walkRightAnimation;
-		this.walkUpAnimation = assetRole.walkUpAnimation;
-		this.walkDownAnimation = assetRole.walkDownAnimation;
-		currentFrame =walkRightAnimation.getKeyFrame(0);
-		// Define sprite size to be 1m x 1m in game world
-		this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
-		// Set origin to sprite's center
-		this.setOrigin(this.getWidth() / 2.0f, 0);
-		//inventory
-		initInventory("items/"+entityId+".json");
-		Gdx.app.debug(TAG, "Construction :"+entityId );
+		if(assetRole!=null){
+			this.idleLeftAnimation = assetRole.idleLeftAnimation;
+			this.idleRightAnimation = assetRole.idleRightAnimation;
+			this.idleUpAnimation = assetRole.idleUpAnimation;
+			this.idleDownAnimation = assetRole.idleDownAnimation;
+			this.walkLeftAnimation = assetRole.walkLeftAnimation;
+			this.walkRightAnimation = assetRole.walkRightAnimation;
+			this.walkUpAnimation = assetRole.walkUpAnimation;
+			this.walkDownAnimation = assetRole.walkDownAnimation;
+			currentFrame =idleRightAnimation.getKeyFrame(0);
+			// Define sprite size to be 1m x 1m in game world
+			this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+			// Set origin to sprite's center
+			this.setOrigin(this.getWidth() / 2.0f, 0);
+			//inventory
+			initInventory("items/"+entityId+".json");
+		}
+//		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
 	/**
@@ -340,5 +350,59 @@ public class Role extends Sprite{
 
 	public void setCurrentDir(Direction currentDir) {
 		this.currentDir = currentDir;
+	}
+	public int getDefensePoint() {
+		return defensePoint;
+	}
+
+	public void setDefensePoint(int defensePoint) {
+		this.defensePoint = defensePoint;
+	}
+
+	public int getAttackPoint() {
+		return attackPoint;
+	}
+
+	public void setAttackPoint(int attackPoint) {
+		this.attackPoint = attackPoint;
+	}
+
+	public int getHealthPoint() {
+		return healthPoint;
+	}
+
+	public void setHealthPoint(int healthPoint) {
+		this.healthPoint = healthPoint;
+	}
+
+	public int getMagicPoint() {
+		return magicPoint;
+	}
+
+	public void setMagicPoint(int magicPoint) {
+		this.magicPoint = magicPoint;
+	}
+	public int getHitDamageTotal() {
+		return hitDamageTotal;
+	}
+
+	public void setHitDamageTotal(int hitDamageTotal) {
+		this.hitDamageTotal = hitDamageTotal;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getGoldPoint() {
+		return goldPoint;
+	}
+
+	public void setGoldPoint(int goldPoint) {
+		this.goldPoint = goldPoint;
 	}
 }

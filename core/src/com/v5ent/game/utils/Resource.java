@@ -13,6 +13,8 @@ public class Resource {
     public static final String ITEMS_TEXTURE_ATLAS_PATH = "items/items.pack";
     public static final String STATUSUI_SKIN_PATH = "skins/statusui.json";
     //single
+    public static final String MONSTERS0 = "battle/Demon0.png";
+    public static final String MONSTERS1 = "battle/Demon1.png";
     public static final String TOUCH = "tools/touch.png";
     public static final String SHADOW = "tools/shadow.png";
     public static final String SELECTED = "tools/selected.png";

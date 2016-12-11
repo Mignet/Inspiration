@@ -13,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.v5ent.game.battle.BattleState;
 import com.v5ent.game.entities.Role;
+import com.v5ent.game.inventory.InventoryEvent;
 import com.v5ent.game.inventory.InventoryItem;
 import com.v5ent.game.inventory.InventoryItemFactory;
 import com.v5ent.game.inventory.InventoryItemLocation;
@@ -30,6 +32,7 @@ public class InventoryUI extends Window{
     public static final String PLAYER_INVENTORY = "Player_Inventory";
     public static final String STORE_INVENTORY = "Store_Inventory";
     private HUDScreen hudScreen;
+    private BattleState battleState;
     private final TextButton closeButton;
     //num of slots
     public final static int _numSlots = 36;
@@ -54,6 +57,7 @@ public class InventoryUI extends Window{
     public InventoryUI(HUDScreen parent){
         super("道具", Assets.instance.STATUSUI_SKIN, "solidbackground");
         hudScreen = parent;
+        battleState = parent.battleUI.getCurrentState();
         closeButton = new TextButton("X", Assets.instance.STATUSUI_SKIN);
         dragAndDrop = new DragAndDrop();
         inventoryActors = new Array<Actor>();
@@ -215,10 +219,10 @@ public class InventoryUI extends Window{
         APVal = 0;
 
         DPValLabel.setText(String.valueOf(DPVal));
-//        notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+//        battleState.updateForFight(String.valueOf(DPVal), InventoryEvent.UPDATED_DP);
 
         APValLabel.setText(String.valueOf(APVal));
-//        notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+//        battleState.updateForFight(String.valueOf(APVal), InventoryEvent.UPDATED_AP);
     }
 
     public static void clearInventoryItems(Table targetTable){
@@ -420,16 +424,16 @@ public class InventoryUI extends Window{
         if( addItem.isInventoryItemOffensive() ){
             APVal += addItem.getItemUseTypeValue();
             APValLabel.setText(String.valueOf(APVal));
-//            notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+            battleState.updateForFight(String.valueOf(APVal), InventoryEvent.UPDATED_AP);
 
             if( addItem.isInventoryItemOffensiveWand() ){
-//                notify(String.valueOf(addItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.ADD_WAND_AP);
+                battleState.updateForFight(String.valueOf(addItem.getItemUseTypeValue()), InventoryEvent.ADD_WAND_AP);
             }
 
         }else if( addItem.isInventoryItemDefensive() ){
             DPVal += addItem.getItemUseTypeValue();
             DPValLabel.setText(String.valueOf(DPVal));
-//            notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+            battleState.updateForFight(String.valueOf(DPVal), InventoryEvent.UPDATED_DP);
         }
     }
     public void removedItem(InventorySlot slot){
@@ -438,60 +442,16 @@ public class InventoryUI extends Window{
         if( removeItem.isInventoryItemOffensive() ){
             APVal -= removeItem.getItemUseTypeValue();
             APValLabel.setText(String.valueOf(APVal));
-//            notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
+            battleState.updateForFight(String.valueOf(APVal), InventoryEvent.UPDATED_AP);
 
             if( removeItem.isInventoryItemOffensiveWand() ){
-//                notify(String.valueOf(removeItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
+                battleState.updateForFight(String.valueOf(removeItem.getItemUseTypeValue()), InventoryEvent.REMOVE_WAND_AP);
             }
 
         }else if( removeItem.isInventoryItemDefensive() ){
             DPVal -= removeItem.getItemUseTypeValue();
             DPValLabel.setText(String.valueOf(DPVal));
-//            notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
+            battleState.updateForFight(String.valueOf(DPVal), InventoryEvent.UPDATED_DP);
         }
     }
-//    @Override
-   /* public void onNotify(InventorySlot slot, SlotEvent event) {
-        switch(event)
-        {
-            case ADDED_ITEM:
-                InventoryItem addItem = slot.getTopInventoryItem();
-                if( addItem == null ) return;
-                if( addItem.isInventoryItemOffensive() ){
-                    APVal += addItem.getItemUseTypeValue();
-                    APValLabel.setText(String.valueOf(APVal));
-                    notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
-
-                    if( addItem.isInventoryItemOffensiveWand() ){
-                        notify(String.valueOf(addItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.ADD_WAND_AP);
-                    }
-
-                }else if( addItem.isInventoryItemDefensive() ){
-                    DPVal += addItem.getItemUseTypeValue();
-                    DPValLabel.setText(String.valueOf(DPVal));
-                    notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
-                }
-                break;
-            case REMOVED_ITEM:
-                InventoryItem removeItem = slot.getTopInventoryItem();
-                if( removeItem == null ) return;
-                if( removeItem.isInventoryItemOffensive() ){
-                    APVal -= removeItem.getItemUseTypeValue();
-                    APValLabel.setText(String.valueOf(APVal));
-                    notify(String.valueOf(APVal), InventoryObserver.InventoryEvent.UPDATED_AP);
-
-                    if( removeItem.isInventoryItemOffensiveWand() ){
-                        notify(String.valueOf(removeItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
-                    }
-
-                }else if( removeItem.isInventoryItemDefensive() ){
-                    DPVal -= removeItem.getItemUseTypeValue();
-                    DPValLabel.setText(String.valueOf(DPVal));
-                    notify(String.valueOf(DPVal), InventoryObserver.InventoryEvent.UPDATED_DP);
-                }
-                break;
-            default:
-                break;
-        }
-    }*/
 }

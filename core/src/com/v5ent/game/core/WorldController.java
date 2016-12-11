@@ -11,8 +11,12 @@ import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -93,6 +97,9 @@ public class WorldController extends InputAdapter {
         if(isCollisionWithTrap(cx,cy)){
             //
             Gdx.app.debug(TAG,"Trap");
+        }
+        if(isCollisionWithEnemy(mapMgr)){
+            Gdx.app.debug(TAG,"Let's Fight!");
         }
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
@@ -438,6 +445,52 @@ public class WorldController extends InputAdapter {
             Gdx.app.debug(TAG, "Player is here");
             return true;
         }
+        return false;
+    }
+    private String _previousEnemySpawn = "0";
+    public String _enemySpawnID = null;
+    private boolean isCollisionWithEnemy(MapsManager mapMgr){
+        MapLayer mapEnemySpawnLayer =  mapMgr.getEnemySpawnLayer();
+
+        if( mapEnemySpawnLayer == null ){
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapEnemySpawnLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                Rectangle _boundingBox = player.getBoundingRectangle();
+                if (_boundingBox.overlaps(rectangle) ){
+                    String enemySpawnID = object.getName();
+
+                    if( enemySpawnID == null ) {
+                        return false;
+                    }
+
+                    if( _previousEnemySpawn.equalsIgnoreCase(enemySpawnID) ){
+                        //Gdx.app.debug(TAG, "Enemy Spawn Area already activated " + enemySpawnID);
+                        return true;
+                    }else{
+                        Gdx.app.debug(TAG, "Enemy Spawn Area " + enemySpawnID + " Activated with previous Spawn value: " + _previousEnemySpawn);
+                        _previousEnemySpawn = enemySpawnID;
+                    }
+                    _enemySpawnID = enemySpawnID;
+//                    notify(enemySpawnID, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
+                    return true;
+                }
+            }
+        }
+
+        //If no collision, reset the value
+        if( !_previousEnemySpawn.equalsIgnoreCase(String.valueOf(0)) ){
+            Gdx.app.debug(TAG, "Enemy Spawn Area RESET with previous value " + _previousEnemySpawn);
+            _previousEnemySpawn = String.valueOf(0);
+            _enemySpawnID = _previousEnemySpawn;
+//            notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
+        }
+
         return false;
     }
 
