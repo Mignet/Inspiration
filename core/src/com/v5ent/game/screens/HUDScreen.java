@@ -36,8 +36,6 @@ import com.v5ent.game.sfx.ShakeCamera;
 import com.v5ent.game.utils.Assets;
 import com.v5ent.game.utils.Constants;
 
-import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
-
 /**
  * Created by Mignet on 2016/11/26.
  */

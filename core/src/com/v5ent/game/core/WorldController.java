@@ -98,6 +98,9 @@ public class WorldController extends InputAdapter {
             //
             Gdx.app.debug(TAG,"Trap");
         }
+        /*if(_enemySpawnID==null||"0".equals(_enemySpawnID)){
+            return;
+        }*/
         if(isCollisionWithEnemy(mapMgr)){
             Gdx.app.debug(TAG,"Let's Fight!");
         }
@@ -448,7 +451,7 @@ public class WorldController extends InputAdapter {
         return false;
     }
     private String _previousEnemySpawn = "0";
-    public String _enemySpawnID = null;
+    public String _enemySpawnID = "0";
     private boolean isCollisionWithEnemy(MapsManager mapMgr){
         MapLayer mapEnemySpawnLayer =  mapMgr.getEnemySpawnLayer();
 
