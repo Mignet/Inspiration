@@ -54,7 +54,7 @@ public class BattleState {
         if( _currentZoneLevel == 0 ) return false;
         int randomVal = MathUtils.random(1,100);
 
-        Gdx.app.error(TAG, "CHANGE OF ATTACK: " + _chanceOfAttack + " randomval: " + randomVal);
+        Gdx.app.error(TAG, "CHANGE OF ATTACK: " + _chanceOfAttack + " random val: " + randomVal);
 
         if( _chanceOfAttack > randomVal  ){
             setCurrentOpponent();

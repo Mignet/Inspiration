@@ -26,6 +26,8 @@ public class Role extends Sprite{
 	/** path is arrived **/
 	private boolean isArrived = false;
 	private boolean isSelected = false;
+	private boolean isEntryBattle = false;
+	public int battleZoneSteps = 0;
 	private boolean isVisible = true;
 	/** Animations **/
 	public Animation idleLeftAnimation;
@@ -63,21 +65,21 @@ public class Role extends Sprite{
 	private Array<InventoryItem.ItemTypeID> inventory = new Array<InventoryItem.ItemTypeID>();
 
 	public Animation getAnimation(State animationType) {
-		if(currentState==State.IDLE || currentState==State.FIXED){
+		if(animationType==State.IDLE || animationType==State.FIXED){
 			switch (currentDir) {
 				case UP:
-					return walkUpAnimation;
+					return idleUpAnimation;
 				case RIGHT:
-					return walkRightAnimation;
+					return idleRightAnimation;
 				case DOWN:
-					return walkDownAnimation;
+					return idleDownAnimation;
 				case LEFT:
-					return walkLeftAnimation;
+					return idleLeftAnimation;
 				default:
 					break;
 			}
 		}
-		if(currentState==State.WALKING){
+		if(animationType==State.WALKING){
 			switch (currentDir) {
 				case UP:
 					return walkUpAnimation;
@@ -128,7 +130,7 @@ public class Role extends Sprite{
 			//inventory
 			initInventory("items/"+entityId+".json");
 		}
-//		Gdx.app.debug(TAG, "Construction :"+entityId );
+		Gdx.app.debug(TAG, "Construction :"+entityId );
 	}
 
 	/**
@@ -150,6 +152,9 @@ public class Role extends Sprite{
 	public void update(float delta) {
 		if(this.currentState==State.WALKING){
 			calcNextPosition(delta);
+			if(isEntryBattle){
+				battleZoneSteps++;
+			}
 			if(Math.abs(this.nextPosition.x-this.movingTarget.x*32f)<speed*delta && Math.abs(this.nextPosition.y-this.movingTarget.y*32f)<speed*delta){
 				this.setPosInMap(movingTarget);
 				if(path!=null&&path.size>0){
@@ -405,4 +410,14 @@ public class Role extends Sprite{
 	public void setGoldPoint(int goldPoint) {
 		this.goldPoint = goldPoint;
 	}
+
+
+	public boolean isEntryBattle() {
+		return isEntryBattle;
+	}
+
+	public void setEntryBattle(boolean entryBattle) {
+		isEntryBattle = entryBattle;
+	}
+
 }

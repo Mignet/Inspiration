@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.v5ent.game.battle.BattleEvent;
 import com.v5ent.game.battle.BattleState;
-import com.v5ent.game.entities.AnimatedImage;
+import com.v5ent.game.battle.AnimatedImage;
 import com.v5ent.game.entities.Monster;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.screens.HUDScreen;
@@ -37,7 +37,7 @@ public class BattleUI extends Window{
     private BattleState battleState = null;
     private TextButton _attackButton = null;
     private TextButton _runButton = null;
-    private Label _damageValLabel = null;
+    private Label damageValLabel = null;
 
     private float battleTimer = 0;
     private final float _checkTimer = 1;
@@ -49,7 +49,8 @@ public class BattleUI extends Window{
     private Vector2 _currentImagePosition;
 
     public BattleUI(HUDScreen parent,final Role player){
-        super("", Assets.instance.STATUSUI_SKIN, "solidbackground");
+        super("战斗", Assets.instance.STATUSUI_SKIN);
+        this.setModal(true);
         hudScreen = parent;
         this.player = player;
         battleTimer = 0;
@@ -59,8 +60,8 @@ public class BattleUI extends Window{
         _effects = new Array<ParticleEffect>();
         _currentImagePosition = new Vector2(0,0);
 
-        _damageValLabel = new Label("0", Assets.instance.STATUSUI_SKIN);
-        _damageValLabel.setVisible(false);
+        damageValLabel = new Label("0", Assets.instance.STATUSUI_SKIN);
+        damageValLabel.setVisible(false);
 
      // + Background
         Image imgBackground = new Image(new Texture(Gdx.files.internal("battle/background.png")));
@@ -78,14 +79,19 @@ public class BattleUI extends Window{
 
         //layout
         this.setFillParent(true);
-        this.add(_damageValLabel).align(Align.left).padLeft(_enemyWidth / 2).row();
+        this.add(damageValLabel).align(Align.left).padLeft(_enemyWidth / 2).row();
         this.add(_image).size(_enemyWidth, _enemyHeight).pad(10, 10, 10, _enemyWidth / 2);
         this.add(table);
 
         this.pack();
 
-        _origDamageValLabelY = _damageValLabel.getY()+_enemyHeight;
-
+        _origDamageValLabelY = damageValLabel.getY()+_enemyHeight;
+        this.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.debug(TAG,"you are in battle!");
+            }
+        });
         _attackButton.addListener(
                 new ClickListener() {
                     @Override
@@ -145,14 +151,14 @@ public class BattleUI extends Window{
             case OPPONENT_HIT_DAMAGE:
 //                int damage = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_HIT_DAMAGE_TOTAL.toString()));
                 int damage = entity.getHitDamageTotal();
-                _damageValLabel.setText(String.valueOf(damage));
-                _damageValLabel.setY(_origDamageValLabelY);
+                damageValLabel.setText(String.valueOf(damage));
+                damageValLabel.setY(_origDamageValLabelY);
                 battleShakeCam.startShaking();
-                _damageValLabel.setVisible(true);
+                damageValLabel.setVisible(true);
                 break;
             case OPPONENT_DEFEATED:
-                _damageValLabel.setVisible(false);
-                _damageValLabel.setY(_origDamageValLabelY);
+                damageValLabel.setVisible(false);
+                damageValLabel.setY(_origDamageValLabelY);
                 break;
             case OPPONENT_TURN_DONE:
                  _attackButton.setDisabled(false);
@@ -193,8 +199,8 @@ public class BattleUI extends Window{
     @Override
     public void act(float delta){
         battleTimer = (battleTimer + delta)%60;
-        if( _damageValLabel.isVisible() && _damageValLabel.getY() < this.getHeight()){
-            _damageValLabel.setY(_damageValLabel.getY()+5);
+        if( damageValLabel.isVisible() && damageValLabel.getY() < this.getHeight()){
+            damageValLabel.setY(damageValLabel.getY()+5);
         }
 
         if( battleShakeCam != null && battleShakeCam.isCameraShaking() ){

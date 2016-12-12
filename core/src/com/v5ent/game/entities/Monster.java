@@ -21,9 +21,10 @@ public class Monster extends Role {
         this.idleRightAnimation =loadAnimation(x,y);
         currentFrame =idleRightAnimation.getKeyFrame(0);
         // Define sprite size to be 1m x 1m in game world
-//        this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
+        this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
         // Set origin to sprite's center
         this.setOrigin(this.getWidth() / 2.0f, 0);
+        //inventory
     }
     //Specific to two frame animations where each frame is stored in a separate texture
     protected Animation loadAnimation(int x,int y){
@@ -32,9 +33,12 @@ public class Monster extends Role {
         TextureRegion[][] texture2Frames = TextureRegion.split(Assets.instance.MONSTERS1, 16, 16);
 
         Array<TextureRegion> animationKeyFrames = new Array<TextureRegion>(2);
-
-        animationKeyFrames.add(texture1Frames[x][y]);
-        animationKeyFrames.add(texture2Frames[x][y]);
+        TextureRegion t1 = texture1Frames[x][y];
+        t1.flip(true,false);
+        TextureRegion t2 = texture2Frames[x][y];
+        t2.flip(true,false);
+        animationKeyFrames.add(t1);
+        animationKeyFrames.add(t2);
 
         return new Animation(0.5f, animationKeyFrames, Animation.PlayMode.LOOP);
     }

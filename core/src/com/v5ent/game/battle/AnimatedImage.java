@@ -1,4 +1,4 @@
-package com.v5ent.game.entities;
+package com.v5ent.game.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+import com.v5ent.game.entities.Role;
 
 public class AnimatedImage extends Image {
     private static final String TAG = AnimatedImage.class.getSimpleName();

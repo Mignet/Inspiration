@@ -1,6 +1,5 @@
 package com.v5ent.game.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.v5ent.game.audio.AudioObserver;
 import com.v5ent.game.battle.BattleEvent;
 import com.v5ent.game.core.WorldController;
 import com.v5ent.game.dialog.ConversationCommandEvent;
@@ -78,7 +76,6 @@ public class HUDScreen implements Screen {
                 cancel();
                 setVisible(false);
             }
-
         };
 
         messageBoxUI.setVisible(false);
@@ -366,6 +363,7 @@ public class HUDScreen implements Screen {
         //health++,money--
         statusUI.setHPValue(statusUI.getHPValueMax());
         statusUI.setGoldValue(statusUI.getGoldValue()-10);
+//        messageBoxUI.clear();
 //        messageBoxUI.text("You HP is resrmed,and cost 10 GoldPoint!").setWidth(stage.getWidth());
 //        messageBoxUI.setVisible(true);
     }
@@ -382,14 +380,19 @@ public class HUDScreen implements Screen {
     /**
      * ENEMY_SPAWN_LOCATION_CHANGED:
      */
-    public void enterBattle(String value){
+    public void enterBattleZone(String value){
         String enemyZoneID = value;
         battleUI.battleZoneTriggered(Integer.parseInt(enemyZoneID));
+        if(worldController.player.battleZoneSteps>=5){
+            enterBattle();
+            worldController.player.battleZoneSteps = 0;
+        }
     }
     /**
      * PLAYER_HAS_MOVED
+     * when player move some steps,start fight
      */
-    public void exitBattle() {
+    public void enterBattle() {
         if (battleUI.isBattleReady()) {
             addTransitionToScreen();
 //            MainGameScreen.setGameState(MainGameScreen.GameState.SAVING);
@@ -512,7 +515,9 @@ public class HUDScreen implements Screen {
 //                    notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                     addTransitionToScreen();
                     battleUI.setVisible(false);
-//                    MainGameScreen.setGameState(MainGameScreen.GameState.GAME_OVER);
+//                    messageBoxUI.text("你死了!").setWidth(stage.getWidth());
+//                    messageBoxUI.setVisible(true);
+                    worldController.setOver(true);
                 }
                 break;
             case PLAYER_USED_MAGIC:
@@ -545,7 +550,7 @@ public class HUDScreen implements Screen {
             worldController.camera.position.y = shakeCoords.y + stage.getHeight()/2;
         }
         if(worldController._enemySpawnID!=null){
-            enterBattle(worldController._enemySpawnID);
+            enterBattleZone(worldController._enemySpawnID);
         }
 //        Object mapName = mapMgr.getCurrentTiledMap().getProperties().get("mapName");
 //        _mapName.setText(mapName!=null?mapName.toString():"Unkonwn");
