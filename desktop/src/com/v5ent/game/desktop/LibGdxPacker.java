@@ -16,7 +16,7 @@ public class LibGdxPacker {
             settings.maxWidth = 1024;
             settings.maxHeight = 1024;
             settings.debug = drawDebugOutline;
-            TexturePacker.process(settings, "hud", "hud", "canyonbunny");
+            TexturePacker.process(settings, "hud", "hud", "status-ui");
         }
     }
 }
