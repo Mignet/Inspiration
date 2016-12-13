@@ -29,19 +29,18 @@ public class MonsterFactory {
 
     private MonsterFactory(){
         entities = Monsters.initDatas();//json.fromJson(Hashtable.class, Gdx.files.internal("scripts/monsters.json"));
-        monsterZones = MonsterZone.getMonsterZones("scripts/monster_zones.json");
+        monsterZones = MonsterZone.getMonsterZones("data/monster_zones.json");
     }
 
     public static MonsterFactory getInstance() {
         if (instance == null) {
             instance = new MonsterFactory();
         }
-
         return instance;
     }
 
     public Monster getMonster(MonsterType monsterMonsterType){
-       return entities.get(monsterMonsterType.toString());
+       return Monsters.initData(entities.get(monsterMonsterType.toString()));
     }
 
     public Monster getRandomMonster(int monsterZoneID){

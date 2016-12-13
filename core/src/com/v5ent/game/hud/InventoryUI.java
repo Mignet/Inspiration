@@ -219,10 +219,10 @@ public class InventoryUI extends Window{
         APVal = 0;
 
         DPValLabel.setText(String.valueOf(DPVal));
-//        battleState.updateForFight(String.valueOf(DPVal), InventoryEvent.UPDATED_DP);
+        battleState.updateForFight(String.valueOf(DPVal), InventoryEvent.UPDATED_DP);
 
         APValLabel.setText(String.valueOf(APVal));
-//        battleState.updateForFight(String.valueOf(APVal), InventoryEvent.UPDATED_AP);
+        battleState.updateForFight(String.valueOf(APVal), InventoryEvent.UPDATED_AP);
     }
 
     public static void clearInventoryItems(Table targetTable){

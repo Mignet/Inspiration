@@ -59,6 +59,7 @@ public class WorldController extends InputAdapter {
 
     public MapsManager mapMgr;
     public Role player;
+    private boolean isOver = false;
     //A path
     private Array<MyNode> path = new Array<MyNode>(true, 10);
     public Aim aim;
@@ -66,12 +67,15 @@ public class WorldController extends InputAdapter {
     public WorldController() {
         init();
     }
-
+    public void resetGame(){
+        init();
+    }
     private void init() {
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(0, 0, 0);
         camera.update();
 
+        isOver = false;
         player = new Role("lante");
         mapMgr = new MapsManager(player);
 
@@ -102,7 +106,7 @@ public class WorldController extends InputAdapter {
             return;
         }*/
         if(isCollisionWithEnemy(mapMgr)){
-            Gdx.app.debug(TAG,"Let's Fight!");
+//            Gdx.app.debug(TAG,"Let's Fight!");
         }
         player.update(deltaTime);
         for (Npc npc : mapMgr.npcs) {
@@ -418,6 +422,14 @@ public class WorldController extends InputAdapter {
             }
         }
     }
+
+    public boolean isOver() {
+        return isOver;
+    }
+
+    public void setOver(boolean over) {
+        isOver = over;
+    }
     public boolean isCollisionWithBlock(int x, int y) {
         TiledMapTileLayer mapCollisionLayer = mapMgr.getBlockLayer();
 
@@ -480,6 +492,7 @@ public class WorldController extends InputAdapter {
                         _previousEnemySpawn = enemySpawnID;
                     }
                     _enemySpawnID = enemySpawnID;
+                    player.setEntryBattle(true);
 //                    notify(enemySpawnID, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
                     return true;
                 }
@@ -491,6 +504,8 @@ public class WorldController extends InputAdapter {
             Gdx.app.debug(TAG, "Enemy Spawn Area RESET with previous value " + _previousEnemySpawn);
             _previousEnemySpawn = String.valueOf(0);
             _enemySpawnID = _previousEnemySpawn;
+            player.setEntryBattle(false);
+            player.battleZoneSteps = 0;
 //            notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
         }
 

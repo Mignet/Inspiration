@@ -44,8 +44,7 @@ public class Npc extends Role {
         int x = MathUtils.floor(getX()/32);
         int y = MathUtils.floor(getY()/32);
         if(this.getState()==State.IDLE){
-            Random r = new Random();
-            int randInt = r.nextInt(128);
+            int randInt = MathUtils.random(128);
             Gdx.app.debug(TAG,"randInt:"+randInt);
             if(randInt<4){
                 switch (randInt){
