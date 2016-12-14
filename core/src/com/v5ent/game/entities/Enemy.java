@@ -85,12 +85,18 @@ public class Enemy extends Role {
     @Override
     public void draw(Batch batch) {
 
-        batch.draw(hpBar,getX(),getHeight()+getY()-2,hpBar.getWidth()*getHealthPoint()/200,hpBar.getHeight());
-        batch.draw(bar,getX(),getHeight()+getY()-2,bar.getWidth()/2,bar.getHeight());
+        batch.draw(hpBar,getX(),getHeight()+getY()-2,32*getHealthPoint()/100,hpBar.getHeight());
+        batch.draw(bar,getX(),getHeight()+getY()-2,32,bar.getHeight());
         batch.draw(Assets.instance.shadow,getX(),getY()-2);
-        // Draw image
-        batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
-                getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+        if(getState()==State.ATTACK){
+            // Draw image
+            batch.draw(currentFrame.getTexture(), getX()-32, getY(),getOriginX(), getOriginY(), getWidth()*2,getHeight(), getScaleX(), getScaleY(),
+                    getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+        }else{
+            // Draw image
+            batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
+                    getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+        }
         // Reset color to white
         batch.setColor(1, 1, 1, 1);
     }

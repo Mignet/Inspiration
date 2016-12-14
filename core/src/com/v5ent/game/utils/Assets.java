@@ -35,7 +35,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final Assets instance = new Assets();
 	/** libGDX 's asset manager*/
 	private static AssetManager assetManager;
-	private static InternalFileHandleResolver _filePathResolver =  new InternalFileHandleResolver();
+	private static InternalFileHandleResolver filePathResolver =  new InternalFileHandleResolver();
 	/** load all characters */
 	public Map<String,AssetRole> assetRoles = new HashMap<String, AssetRole>();
 	/** load all tiled map */
@@ -137,7 +137,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			attackRightAnimation = null;
 			attackUpAnimation = null;
 			if(attack!=null){
-				TextureRegion[][] attackFrames = TextureRegion.split(attack, 32, 48);
+				TextureRegion[][] attackFrames = TextureRegion.split(attack, 64, 48);
 				Array<TextureRegion> attackDownFrames = new Array<TextureRegion>(3);
 				Array<TextureRegion> attackLeftFrames = new Array<TextureRegion>(3);
 				Array<TextureRegion> attackRightFrames = new Array<TextureRegion>(3);
@@ -318,8 +318,8 @@ public class Assets implements Disposable, AssetErrorListener {
 			return;
 		}
 		//load asset
-		if( _filePathResolver.resolve(soundFilenamePath).exists() ){
-			assetManager.setLoader(Sound.class, new SoundLoader(_filePathResolver));
+		if( filePathResolver.resolve(soundFilenamePath).exists() ){
+			assetManager.setLoader(Sound.class, new SoundLoader(filePathResolver));
 			assetManager.load(soundFilenamePath, Sound.class);
 			//Until we add loading screen, just block until we load the map
 			assetManager.finishLoadingAsset(soundFilenamePath);
@@ -354,8 +354,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		}
 
 		//load asset
-		if( _filePathResolver.resolve(musicFilenamePath).exists() ){
-			assetManager.setLoader(Music.class, new MusicLoader(_filePathResolver));
+		if( filePathResolver.resolve(musicFilenamePath).exists() ){
+			assetManager.setLoader(Music.class, new MusicLoader(filePathResolver));
 			assetManager.load(musicFilenamePath, Music.class);
 			//Until we add loading screen, just block until we load the map
 			assetManager.finishLoadingAsset(musicFilenamePath);

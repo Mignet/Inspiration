@@ -103,11 +103,11 @@ public class Role extends Sprite{
 	public enum State {
 		FIXED,IDLE, WALKING,ATTACK
 	}
-	
+
 	public enum Direction {
 		UP,RIGHT,DOWN,LEFT;
 	}
-	
+
 	public Role(String entityId){
 		init(entityId);
 	}
@@ -250,11 +250,16 @@ public class Role extends Sprite{
 		}else{
 			batch.draw(Assets.instance.shadow,getX(),getY()-2);
 		}
-		// Draw image
-//		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
-//				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
-		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), getScaleX(), getScaleY(),
-				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+		if(currentState==State.ATTACK){
+			// Draw image
+			batch.draw(currentFrame.getTexture(), getX()-32, getY(),getOriginX(), getOriginY(), getWidth()*2,getHeight(), getScaleX(), getScaleY(),
+					getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+		}else{
+			// Draw image
+			batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
+					getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+		}
+
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);
 	}

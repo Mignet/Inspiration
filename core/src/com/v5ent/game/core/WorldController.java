@@ -70,9 +70,11 @@ public class WorldController extends InputAdapter {
     public WorldController() {
         init();
     }
-    public void resetGame(){
+
+    public void resetGame() {
         init();
     }
+
     private void init() {
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
         camera.position.set(0, 0, 0);
@@ -92,7 +94,7 @@ public class WorldController extends InputAdapter {
         input.setInputProcessor(multiplexer);
     }
 
-    public void update(float deltaTime) {
+    public void update(final float deltaTime) {
         if (player.isArrived()) {
             aim = null;
         }
@@ -101,11 +103,11 @@ public class WorldController extends InputAdapter {
         }
         int cx = MathUtils.floor(player.getX() / 32);
         int cy = MathUtils.floor(player.getY() / 32);
-        if(isCollisionWithTrap(cx,cy)){
+        if (isCollisionWithTrap(cx, cy)) {
             //
-            Gdx.app.debug(TAG,"Trap");
+            Gdx.app.debug(TAG, "Trap");
         }
-        if(isCollisionWithEnemy(mapMgr)){
+        if (isCollisionWithEnemy(mapMgr)) {
 //            Gdx.app.debug(TAG,"Let's Fight!");
         }
         player.update(deltaTime);
@@ -117,16 +119,18 @@ public class WorldController extends InputAdapter {
             e.update(deltaTime);
 //            e.randomMove(this);
         }
-        if(skill!=null)skill.update(deltaTime);
-        if(skill!=null&&skill.isEnded())skill = null;
+        if (skill != null) skill.update(deltaTime);
+        if (skill != null && skill.isEnded()) skill = null;
         //scan fight
         //1.for player: player distance 1 has enemy,fight it
-        if(fighting==0) {
+        if (fighting == 0 && player.getState() == Role.State.IDLE) {
             final Enemy enemy = scanTarget();
             if (enemy != null) {
                 fighting = 1;
                 //stop walk
-                player.clearPathAndStop();
+                path.clear();
+                aim = null;
+//                player.clearPathAndStop();
                 //player attack enemy
                 player.setState(Role.State.ATTACK);
                 Timer.schedule(new Timer.Task() {
@@ -139,13 +143,46 @@ public class WorldController extends InputAdapter {
                             //remove from enemy
                             mapMgr.enemies.remove(enemy);
                         }
-                        fighting = 0 ;
-                        player.setState(Role.State.IDLE);
+                        fighting = 0;
+                        if (player.getState() == Role.State.ATTACK) {
+                            player.setState(Role.State.IDLE);
+                        }
                     }
-                },1);
-
+                }, 0.5f);
             }
         }
+        //2. for Enemy,
+        for (Enemy e : mapMgr.enemies) {
+            Vector2 from = player.getPosInMap();
+            Vector2 to = e.getPosInMap();
+            float distance = (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
+            if (distance <= 2) {
+                if (cycleTime == 0) {
+                    e.setState(Role.State.ATTACK);
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            int damage = MathUtils.random(15, 25);
+                            if (player.getHealthPoint() - damage > 0) {
+                                player.setHealthPoint(player.getHealthPoint() - damage);
+                            } else {
+                                //game over
+                            }
+                            cycleTime += deltaTime;
+                            if (cycleTime > 4) {
+                                cycleTime = 0;
+                            }
+                        }
+                    }, 0.5f);
+                }
+            }else {
+                if (e.getState() == Role.State.ATTACK) {
+                    e.setState(Role.State.IDLE);
+                    cycleTime = 0;
+                }
+            }
+        }
+
         //forbidden keyboard
 //        handleDebugInput(deltaTime);
         //follow the Player
@@ -156,28 +193,31 @@ public class WorldController extends InputAdapter {
         offsetCamera(mapMgr.width, mapMgr.height, camera);
         camera.update();
     }
+
     private int fighting = 0;
-    private Enemy scanTarget(){
+    private float cycleTime = 0;
+
+    private Enemy scanTarget() {
         List<Enemy> temp = new ArrayList<Enemy>();
-        for(Enemy e:mapMgr.enemies){
+        for (Enemy e : mapMgr.enemies) {
             Vector2 from = player.getPosInMap();
             Vector2 to = e.getPosInMap();
             float distance = (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
-            if(distance<=1){
+            if (distance <= 2) {
                 temp.add(e);
             }
         }
-        if(temp.size()<=0){
+        if (temp.size() <= 0) {
             return null;
         }
-        if(temp.size()==1){
+        if (temp.size() == 1) {
             return temp.get(0);
         }
         Collections.sort(temp, new Comparator<Role>() {
             @Override
             public int compare(Role lhs, Role rhs) {
                 // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getHealthPoint() > rhs.getHealthPoint() ? -1 : (lhs.getHealthPoint() < rhs.getHealthPoint() ) ? 1 : 0;
+                return lhs.getHealthPoint() > rhs.getHealthPoint() ? -1 : (lhs.getHealthPoint() < rhs.getHealthPoint()) ? 1 : 0;
             }
         });
         return temp.get(0);
@@ -231,7 +271,7 @@ public class WorldController extends InputAdapter {
             int x = MathUtils.floor(player.getX() / 32);
             int y = MathUtils.floor(player.getY() / 32);
             //triggle
-            if(isCollisionWithTrap(x,y)){
+            if (isCollisionWithTrap(x, y)) {
                 return;
             }
             //Keyboard input
@@ -280,54 +320,60 @@ public class WorldController extends InputAdapter {
         return false;
     }
 
-    /**轨迹点*/
+    /**
+     * 轨迹点
+     */
     List<Vector2> points = new ArrayList<Vector2>();
-    Vector2 startPoint = new Vector2(),endPoint = new Vector2();
+    Vector2 startPoint = new Vector2(), endPoint = new Vector2();
 
     @Override
-    public boolean touchUp(int screenX,int screenY, int pointer, int button) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector3 input = new Vector3(screenX, screenY, 0);
         camera.unproject(input);
         float x = input.x;
         float y = input.y;
-        Gdx.app.debug(TAG, "pointer END:"+pointer+"=>("+x+","+y+")");
-        endPoint.set(x,y);
+        Gdx.app.debug(TAG, "pointer END:" + pointer + "=>(" + x + "," + y + ")");
+        endPoint.set(x, y);
         //如果起点和终点一样，我们认为是点击
-        if(MathUtils.floor(startPoint.x/32)==MathUtils.floor(endPoint.x/32)&&
-                MathUtils.floor(startPoint.y/32)==MathUtils.floor(endPoint.y/32)){
-                //移动到该位置
-            touchToMove(screenX,screenY);
+        if (MathUtils.floor(startPoint.x / 32) == MathUtils.floor(endPoint.x / 32) &&
+                MathUtils.floor(startPoint.y / 32) == MathUtils.floor(endPoint.y / 32)) {
+            //移动到该位置
+            touchToMove(screenX, screenY);
             points.clear();
             return false;
         }
         //判断是否施法成功
-        if(!Trace.symbol(this,points,player)){
+        if (!Trace.symbol(this, points, player)) {
             //TODO:自动物理攻击
-        };
+        }
+        ;
         points.clear();
         return false;
     }
+
     @Override
-    public boolean touchDragged(int screenX,int screenY, int pointer) {
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
         Vector3 input = new Vector3(screenX, screenY, 0);
         camera.unproject(input);
         float x = input.x;
         float y = input.y;
 //		Gdx.app.debug(TAG, "pointer:"+pointer+"=>("+x+","+y+")=>Cursor:("+cursor.getX()+","+cursor.getY()+")");
-        points.add(new Vector2(x,y));
+        points.add(new Vector2(x, y));
         return false;
     }
+
     @Override
-    public boolean touchDown(int screenX,int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 input = new Vector3(screenX, screenY, 0);
         camera.unproject(input);
         float x = input.x;
         float y = input.y;
         startPoint.set(x, y);
-        Gdx.app.debug(TAG, "pointer START:"+pointer+"=>("+x+","+y+")");
+        Gdx.app.debug(TAG, "pointer START:" + pointer + "=>(" + x + "," + y + ")");
         return false;
     }
-    public void touchToMove(int screenX,int screenY){
+
+    public void touchToMove(int screenX, int screenY) {
         Vector3 input = new Vector3(screenX, screenY, 0);
         camera.unproject(input);
         int x = MathUtils.floor(input.x / 32);
@@ -345,11 +391,11 @@ public class WorldController extends InputAdapter {
             Gdx.app.debug(TAG, "From:" + start + " to " + end + "|numCols:" + numCols + "|numRows:" + numRows);
             int s = (int) start.x + ((int) start.y) * numCols;
             int t = (int) end.x + ((int) (end.y)) * numCols;
-            List<Sprite> temp =new ArrayList<Sprite>();
+            List<Sprite> temp = new ArrayList<Sprite>();
             temp.addAll(mapMgr.npcs);
             temp.addAll(mapMgr.enemies);
 //            temp.addAll(mapMgr.events);
-            final MyGraph graph = GraphGenerator.generateGraph(mapMgr.getBlockLayer(),temp, numCols, numRows, 32, 32, start);
+            final MyGraph graph = GraphGenerator.generateGraph(mapMgr.getBlockLayer(), temp, numCols, numRows, 32, 32, start);
             final IndexedAStarPathFinder<MyNode> pathfinder = new IndexedAStarPathFinder<MyNode>(graph);
             final GraphPath<MyNode> outPath = new DefaultGraphPath<MyNode>();
             final boolean searchResult = pathfinder.searchNodePath(graph.getNodes().get(s), graph.getNodes().get(t), new ManhattanDistance(), outPath);
@@ -357,7 +403,7 @@ public class WorldController extends InputAdapter {
             pathSmoother.smoothPath(outPath);
             StringBuilder sb = new StringBuilder();
             for (int i = outPath.getCount() - 1; i >= 0; i--) {
-                sb.append("("+outPath.get(i).getX() + "," + outPath.get(i).getY() + ")|");
+                sb.append("(" + outPath.get(i).getX() + "," + outPath.get(i).getY() + ")|");
                 path.add(outPath.get(i));
             }
             if (searchResult) {
@@ -372,7 +418,7 @@ public class WorldController extends InputAdapter {
 
     public void closeSpeechWithNpc() {
         Npc npc = getCurrentSelectedNpc();
-        if(npc!=null){
+        if (npc != null) {
             npc.setSelected(false);
             npc.setCurrentDir(npc.getDefaultDir());
             npc.setState(npc.getDefaultState());
@@ -381,6 +427,7 @@ public class WorldController extends InputAdapter {
 
     /**
      * select a npc
+     *
      * @param x
      * @param y
      * @return
@@ -444,8 +491,8 @@ public class WorldController extends InputAdapter {
                 float distance = (x - x0) * (x - x0) + (y - y0) * (y - y0);
                 //I trap you
                 if (distance <= 0f) {
-                    Gdx.app.debug(TAG,"trigger event:"+eo.getName()+"|toggle:"+eo.isToggled());
-                    if(!eo.isToggled()){
+                    Gdx.app.debug(TAG, "trigger event:" + eo.getName() + "|toggle:" + eo.isToggled());
+                    if (!eo.isToggled()) {
                         //1.face to item
                         int gapX = x0 - eoX;
                         int gapY = y0 - eoY;
@@ -477,11 +524,12 @@ public class WorldController extends InputAdapter {
 
     /**
      * toggle all the same name tiles
+     *
      * @param name
      */
-    private void setToggleOnGroup(String name){
+    private void setToggleOnGroup(String name) {
         for (Trap eo : this.mapMgr.traps) {
-            if(name.equals(eo.getName())){
+            if (name.equals(eo.getName())) {
                 eo.setToggled(true);
             }
         }
@@ -494,6 +542,7 @@ public class WorldController extends InputAdapter {
     public void setGameOver(boolean gameOver) {
         isGameOver = gameOver;
     }
+
     public boolean isCollisionWithBlock(int x, int y) {
         TiledMapTileLayer mapCollisionLayer = mapMgr.getBlockLayer();
 
@@ -532,32 +581,34 @@ public class WorldController extends InputAdapter {
         }
         return false;
     }
+
     private String _previousEnemySpawn = "0";
     public String _enemySpawnID = "0";
-    private boolean isCollisionWithEnemy(MapsManager mapMgr){
-        MapLayer mapEnemySpawnLayer =  mapMgr.getEnemySpawnLayer();
 
-        if( mapEnemySpawnLayer == null ){
+    private boolean isCollisionWithEnemy(MapsManager mapMgr) {
+        MapLayer mapEnemySpawnLayer = mapMgr.getEnemySpawnLayer();
+
+        if (mapEnemySpawnLayer == null) {
             return false;
         }
 
         Rectangle rectangle = null;
 
-        for( MapObject object: mapEnemySpawnLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
+        for (MapObject object : mapEnemySpawnLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject) object).getRectangle();
                 Rectangle _boundingBox = player.getBoundingRectangle();
-                if (_boundingBox.overlaps(rectangle) ){
+                if (_boundingBox.overlaps(rectangle)) {
                     String enemySpawnID = object.getName();
 
-                    if( enemySpawnID == null ) {
+                    if (enemySpawnID == null) {
                         return false;
                     }
 
-                    if( _previousEnemySpawn.equalsIgnoreCase(enemySpawnID) ){
+                    if (_previousEnemySpawn.equalsIgnoreCase(enemySpawnID)) {
                         //Gdx.app.debug(TAG, "Enemy Spawn Area already activated " + enemySpawnID);
                         return true;
-                    }else{
+                    } else {
                         Gdx.app.debug(TAG, "Enemy Spawn Area " + enemySpawnID + " Activated with previous Spawn value: " + _previousEnemySpawn);
                         _previousEnemySpawn = enemySpawnID;
                     }
@@ -570,7 +621,7 @@ public class WorldController extends InputAdapter {
         }
 
         //If no collision, reset the value
-        if( !_previousEnemySpawn.equalsIgnoreCase(String.valueOf(0)) ){
+        if (!_previousEnemySpawn.equalsIgnoreCase(String.valueOf(0))) {
             Gdx.app.debug(TAG, "Enemy Spawn Area RESET with previous value " + _previousEnemySpawn);
             _previousEnemySpawn = String.valueOf(0);
             _enemySpawnID = _previousEnemySpawn;
@@ -591,35 +642,41 @@ public class WorldController extends InputAdapter {
         return null;
     }
 
- /********************************************* COMMAND ********************************************************/
-    public void executeCommand(String cmd){
-        Gdx.app.debug(TAG,"preform cmd:"+cmd);
+    /*********************************************
+     * COMMAND
+     ********************************************************/
+    public void executeCommand(String cmd) {
+        Gdx.app.debug(TAG, "preform cmd:" + cmd);
         String[] list = cmd.split(",");
-        if("MapTo".equals(list[0])){
-            Transfer(list[1],new Vector2(Integer.valueOf(list[2]),Integer.valueOf(list[3])),Role.Direction.valueOf(list[4]));
+        if ("MapTo".equals(list[0])) {
+            Transfer(list[1], new Vector2(Integer.valueOf(list[2]), Integer.valueOf(list[3])), Role.Direction.valueOf(list[4]));
 
         }
-        if("openBox".equals(list[0])){
+        if ("openBox".equals(list[0])) {
             OpenBox();
         }
     }
 
-    /******************************************** Triggle Event*************************************/
-    public void Transfer(final String mapName,final Vector2 pos,final Role.Direction dir){
+    /********************************************
+     * Triggle Event
+     *************************************/
+    public void Transfer(final String mapName, final Vector2 pos, final Role.Direction dir) {
         float delay = 0.1000f; // seconds
         player.setVisible(false);
-        Timer.schedule(new Timer.Task(){
+        Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 mapMgr.loadMap(mapName);
                 player.setCurrentDir(dir);
                 player.setPosInMap(pos);
                 player.setVisible(true);
+                fighting = 0;
+                cycleTime = 0;
             }
         }, delay);
     }
 
-    public void OpenBox(){
+    public void OpenBox() {
         //add money
     }
     /*******************************************************************************************/

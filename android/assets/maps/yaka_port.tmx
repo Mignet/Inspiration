@@ -235,7 +235,7 @@
   <object id="20" name="1" x="256" y="2752" width="224" height="96"/>
  </objectgroup>
  <objectgroup name="new_enemy">
-  <object id="21" name="XFD" x="225" y="2465" width="32" height="32">
+  <object id="21" name="XFD" x="256" y="2464" width="32" height="32">
    <properties>
     <property name="Dir" value="RIGHT"/>
    </properties>
