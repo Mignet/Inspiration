@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.v5ent.game.entities.Aim;
+import com.v5ent.game.entities.Enemy;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
 import com.v5ent.game.entities.Trap;
@@ -37,6 +38,8 @@ import com.v5ent.game.utils.Constants;
 import com.v5ent.game.utils.Trace;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -59,7 +62,7 @@ public class WorldController extends InputAdapter {
 
     public MapsManager mapMgr;
     public Role player;
-    private boolean isOver = false;
+    private boolean isGameOver = false;
     //A path
     private Array<MyNode> path = new Array<MyNode>(true, 10);
     public Aim aim;
@@ -75,7 +78,7 @@ public class WorldController extends InputAdapter {
         camera.position.set(0, 0, 0);
         camera.update();
 
-        isOver = false;
+        isGameOver = false;
         player = new Role("lante");
         mapMgr = new MapsManager(player);
 
@@ -102,9 +105,6 @@ public class WorldController extends InputAdapter {
             //
             Gdx.app.debug(TAG,"Trap");
         }
-        /*if(_enemySpawnID==null||"0".equals(_enemySpawnID)){
-            return;
-        }*/
         if(isCollisionWithEnemy(mapMgr)){
 //            Gdx.app.debug(TAG,"Let's Fight!");
         }
@@ -113,8 +113,39 @@ public class WorldController extends InputAdapter {
             npc.update(deltaTime);
 //            npc.randomMove(this);
         }
+        for (Enemy e : mapMgr.enemies) {
+            e.update(deltaTime);
+//            e.randomMove(this);
+        }
         if(skill!=null)skill.update(deltaTime);
         if(skill!=null&&skill.isEnded())skill = null;
+        //scan fight
+        //1.for player: player distance 1 has enemy,fight it
+        if(fighting==0) {
+            final Enemy enemy = scanTarget();
+            if (enemy != null) {
+                fighting = 1;
+                //stop walk
+                player.clearPathAndStop();
+                //player attack enemy
+                player.setState(Role.State.ATTACK);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        int damage = MathUtils.random(15, 25);
+                        if (enemy.getHealthPoint() - damage > 0) {
+                            enemy.setHealthPoint(enemy.getHealthPoint() - damage);
+                        } else {
+                            //remove from enemy
+                            mapMgr.enemies.remove(enemy);
+                        }
+                        fighting = 0 ;
+                        player.setState(Role.State.IDLE);
+                    }
+                },1);
+
+            }
+        }
         //forbidden keyboard
 //        handleDebugInput(deltaTime);
         //follow the Player
@@ -124,6 +155,32 @@ public class WorldController extends InputAdapter {
         //make sure camera in map
         offsetCamera(mapMgr.width, mapMgr.height, camera);
         camera.update();
+    }
+    private int fighting = 0;
+    private Enemy scanTarget(){
+        List<Enemy> temp = new ArrayList<Enemy>();
+        for(Enemy e:mapMgr.enemies){
+            Vector2 from = player.getPosInMap();
+            Vector2 to = e.getPosInMap();
+            float distance = (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
+            if(distance<=1){
+                temp.add(e);
+            }
+        }
+        if(temp.size()<=0){
+            return null;
+        }
+        if(temp.size()==1){
+            return temp.get(0);
+        }
+        Collections.sort(temp, new Comparator<Role>() {
+            @Override
+            public int compare(Role lhs, Role rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getHealthPoint() > rhs.getHealthPoint() ? -1 : (lhs.getHealthPoint() < rhs.getHealthPoint() ) ? 1 : 0;
+            }
+        });
+        return temp.get(0);
     }
 
     private void offsetCamera(int mapWidth, int mapHeight, Camera cam) {
@@ -290,6 +347,7 @@ public class WorldController extends InputAdapter {
             int t = (int) end.x + ((int) (end.y)) * numCols;
             List<Sprite> temp =new ArrayList<Sprite>();
             temp.addAll(mapMgr.npcs);
+            temp.addAll(mapMgr.enemies);
 //            temp.addAll(mapMgr.events);
             final MyGraph graph = GraphGenerator.generateGraph(mapMgr.getBlockLayer(),temp, numCols, numRows, 32, 32, start);
             final IndexedAStarPathFinder<MyNode> pathfinder = new IndexedAStarPathFinder<MyNode>(graph);
@@ -321,6 +379,12 @@ public class WorldController extends InputAdapter {
         }
     }
 
+    /**
+     * select a npc
+     * @param x
+     * @param y
+     * @return
+     */
     private boolean isCollisionWithNpc(int x, int y) {
         for (Npc npc : this.mapMgr.npcs) {
             int npcX = MathUtils.floor(npc.getX() / 32);
@@ -423,12 +487,12 @@ public class WorldController extends InputAdapter {
         }
     }
 
-    public boolean isOver() {
-        return isOver;
+    public boolean isGameOver() {
+        return isGameOver;
     }
 
-    public void setOver(boolean over) {
-        isOver = over;
+    public void setGameOver(boolean gameOver) {
+        isGameOver = gameOver;
     }
     public boolean isCollisionWithBlock(int x, int y) {
         TiledMapTileLayer mapCollisionLayer = mapMgr.getBlockLayer();
@@ -444,6 +508,12 @@ public class WorldController extends InputAdapter {
         //Npc's block
         for (Npc npc : mapMgr.npcs) {
             if (MathUtils.floor(npc.getX() / 32) == x && MathUtils.floor(npc.getY() / 32) == y) {
+                return true;
+            }
+        }
+        //Enemy's block
+        for (Enemy e : mapMgr.enemies) {
+            if (MathUtils.floor(e.getX() / 32) == x && MathUtils.floor(e.getY() / 32) == y) {
                 return true;
             }
         }

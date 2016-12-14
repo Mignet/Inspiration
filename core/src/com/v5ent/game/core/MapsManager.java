@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.v5ent.game.entities.Enemy;
 import com.v5ent.game.entities.Trap;
 import com.v5ent.game.entities.Npc;
 import com.v5ent.game.entities.Role;
@@ -41,6 +42,8 @@ public class MapsManager {
     private String mapName;
     private TiledMap map;
     public List<Npc> npcs ;
+    public List<Enemy> enemies ;
+
     public List<Trap> traps;
 
     /**START POINT*/
@@ -62,6 +65,7 @@ public class MapsManager {
 
     public void loadMap(String mapId) {
         npcs = new ArrayList<Npc>();
+        enemies = new ArrayList<Enemy>();
         traps = new ArrayList<Trap>();
         Assets.AssetTiledMap assetTiledMap = Assets.instance.assetTiledMaps.get(mapId);
         this.mapName = assetTiledMap.mapName;
@@ -92,6 +96,31 @@ public class MapsManager {
                             n.setDefaultState(Role.State.IDLE);
                         }
                         this.npcs.add(n);
+                    }
+                }
+            }
+        }
+        MapLayer enemyLayer = this.map.getLayers().get("new_enemy");
+        if(enemyLayer!=null){
+            for(MapObject o:enemyLayer.getObjects()){
+                if(o instanceof RectangleMapObject) {
+                    RectangleMapObject r = (RectangleMapObject)o;
+                    Enemy n = new Enemy(r.getName());
+                    if (n != null) {
+                        Gdx.app.debug(TAG,"enemy:"+r.getRectangle().x/32+","+r.getRectangle().y/32+"|"+r.getRectangle()+"|"+r.getProperties().get("Dir")+"|"+r.getProperties().get("State"));
+                        n.setPosInMap(new Vector2(r.getRectangle().x/32,r.getRectangle().y/32));
+                        n.setCurrentDir(Role.Direction.valueOf(r.getProperties().get("Dir",String.class)));
+                        //enemy needs a default
+                        n.setDefaultDir(Role.Direction.valueOf(r.getProperties().get("Dir",String.class)));
+                        //enemy state
+                        if("FIXED".equals(r.getProperties().get("State",String.class))){
+                            n.setState(Role.State.FIXED);
+                            n.setDefaultState(Role.State.FIXED);
+                        }else{
+                            n.setState(Role.State.IDLE);
+                            n.setDefaultState(Role.State.IDLE);
+                        }
+                        this.enemies.add(n);
                     }
                 }
             }

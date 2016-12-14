@@ -517,7 +517,7 @@ public class HUDScreen implements Screen {
                     battleUI.setVisible(false);
 //                    messageBoxUI.text("你死了!").setWidth(stage.getWidth());
 //                    messageBoxUI.setVisible(true);
-                    worldController.setOver(true);
+                    worldController.setGameOver(true);
                 }
                 break;
             case PLAYER_USED_MAGIC:

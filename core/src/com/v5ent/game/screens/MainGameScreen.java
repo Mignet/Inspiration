@@ -3,7 +3,6 @@ package com.v5ent.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.v5ent.game.Inspiration;
 import com.v5ent.game.core.WorldController;
 import com.v5ent.game.core.WorldRenderer;
@@ -22,6 +21,7 @@ public class MainGameScreen implements Screen{
 			this.game = game;
 		}
 
+	//make input.setInputProcessor(multiplexer);
 	public void resetGame(){
 		// Initialize controller and renderer
 		worldController = new WorldController();
@@ -38,7 +38,7 @@ public class MainGameScreen implements Screen{
 
 		@Override
 		public void render (float delta) {
-			if( worldController.isOver() ){
+			if( worldController.isGameOver() ){
 //				_mapMgr.disableCurrentmapMusic();
 				game.setScreen(game.gameOverScreen);
 			}

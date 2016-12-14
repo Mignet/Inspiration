@@ -38,6 +38,10 @@ public class Role extends Sprite{
 	private Animation walkRightAnimation;
 	private Animation walkUpAnimation;
 	private Animation walkDownAnimation;
+	private Animation attackLeftAnimation;
+	private Animation attackRightAnimation;
+	private Animation attackUpAnimation;
+	private Animation attackDownAnimation;
 	/**temp position**/
 	protected Vector2 nextPosition;
 	private State currentState = State.IDLE;
@@ -97,7 +101,7 @@ public class Role extends Sprite{
 	}
 
 	public enum State {
-		FIXED,IDLE, WALKING
+		FIXED,IDLE, WALKING,ATTACK
 	}
 	
 	public enum Direction {
@@ -122,6 +126,10 @@ public class Role extends Sprite{
 			this.walkRightAnimation = assetRole.walkRightAnimation;
 			this.walkUpAnimation = assetRole.walkUpAnimation;
 			this.walkDownAnimation = assetRole.walkDownAnimation;
+			this.attackLeftAnimation = assetRole.attackLeftAnimation;
+			this.attackRightAnimation = assetRole.attackRightAnimation;
+			this.attackUpAnimation = assetRole.attackUpAnimation;
+			this.attackDownAnimation = assetRole.attackDownAnimation;
 			currentFrame =idleRightAnimation.getKeyFrame(0);
 			// Define sprite size to be 1m x 1m in game world
 			this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
@@ -211,6 +219,24 @@ public class Role extends Sprite{
 					break;
 			}
 		}
+		if(currentState==State.ATTACK){
+			switch (currentDir) {
+				case UP:
+					currentFrame = attackUpAnimation.getKeyFrame(frameTime);
+					break;
+				case RIGHT:
+					currentFrame = attackRightAnimation.getKeyFrame(frameTime);
+					break;
+				case DOWN:
+					currentFrame = attackDownAnimation.getKeyFrame(frameTime);
+					break;
+				case LEFT:
+					currentFrame = attackLeftAnimation.getKeyFrame(frameTime);
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	@Override
@@ -225,7 +251,9 @@ public class Role extends Sprite{
 			batch.draw(Assets.instance.shadow,getX(),getY()-2);
 		}
 		// Draw image
-		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
+//		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), getWidth(),getHeight(), getScaleX(), getScaleY(),
+//				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
+		batch.draw(currentFrame.getTexture(), getX(), getY(),getOriginX(), getOriginY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), getScaleX(), getScaleY(),
 				getRotation(), currentFrame.getRegionX(), currentFrame.getRegionY(), currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),false, false);
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);

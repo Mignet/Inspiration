@@ -67,8 +67,12 @@ public class Assets implements Disposable, AssetErrorListener {
 		public final Animation walkLeftAnimation;
 		public final Animation walkRightAnimation;
 		public final Animation walkUpAnimation;
+		public  Animation attackDownAnimation;
+		public  Animation attackLeftAnimation;
+		public  Animation attackRightAnimation;
+		public  Animation attackUpAnimation;
 
-		public AssetRole(Texture atlas) {
+		public AssetRole(Texture atlas,Texture attack) {
 			//role's animation png is 0-idle,1-walk,2-walk
 			TextureRegion[][] textureFrames = TextureRegion.split(atlas, 32, 48);
 			Array<TextureRegion> idleDownFrames = new Array<TextureRegion>(1);
@@ -128,6 +132,43 @@ public class Assets implements Disposable, AssetErrorListener {
 			walkLeftAnimation = new Animation(0.25f, walkLeftFrames, Animation.PlayMode.LOOP);
 			walkRightAnimation = new Animation(0.25f, walkRightFrames, Animation.PlayMode.LOOP);
 			walkUpAnimation = new Animation(0.25f, walkUpFrames, Animation.PlayMode.LOOP);
+			attackDownAnimation = null;
+			attackLeftAnimation = null;
+			attackRightAnimation = null;
+			attackUpAnimation = null;
+			if(attack!=null){
+				TextureRegion[][] attackFrames = TextureRegion.split(attack, 32, 48);
+				Array<TextureRegion> attackDownFrames = new Array<TextureRegion>(3);
+				Array<TextureRegion> attackLeftFrames = new Array<TextureRegion>(3);
+				Array<TextureRegion> attackRightFrames = new Array<TextureRegion>(3);
+				Array<TextureRegion> attackUpFrames = new Array<TextureRegion>(3);
+				for (int i = 0; i < 4; i++) {
+					for (int j = 0; j < 3; j++) {
+						TextureRegion region = attackFrames[i][j];
+						if (region == null) {
+							Gdx.app.debug(TAG, "Got null animation frame " + i + "," + j);
+						}
+						switch (i) {
+							case 0:
+								attackDownFrames.insert(j, region);
+								break;
+							case 1:
+								attackLeftFrames.insert(j, region);
+								break;
+							case 2:
+								attackUpFrames.insert(j, region);
+								break;
+							case 3:
+								attackRightFrames.insert(j, region);
+								break;
+						}
+					}
+				}
+				attackDownAnimation = new Animation(0.25f, attackDownFrames, Animation.PlayMode.LOOP);
+				attackLeftAnimation = new Animation(0.25f, attackLeftFrames, Animation.PlayMode.LOOP);
+				attackRightAnimation = new Animation(0.25f, attackRightFrames, Animation.PlayMode.LOOP);
+				attackUpAnimation = new Animation(0.25f, attackUpFrames, Animation.PlayMode.LOOP);
+			}
 		}
 	}
 
@@ -202,6 +243,10 @@ public class Assets implements Disposable, AssetErrorListener {
 			String key = entry.getKey();
 			String value = entry.getValue().toString();
 			assetManager.load(value, Texture.class);
+			String attackFilePath = Resource.instance.fighters.get(key);
+			if(attackFilePath!=null){
+				assetManager.load(attackFilePath, Texture.class);
+			}
 		}
 		for (Map.Entry<String, String> entry : Resource.instance.npcs.entrySet()) {
 			String key = entry.getKey();
@@ -234,15 +279,20 @@ public class Assets implements Disposable, AssetErrorListener {
 			String key = entry.getKey();
 			String value = entry.getValue().toString();
 			Texture atlas = assetManager.get(value);
+			String attackFilePath = Resource.instance.fighters.get(key);
+			Texture attackAtlas = null;
+			if(attackFilePath!=null){
+				attackAtlas = assetManager.get(attackFilePath);
+			}
 			// create game resource objects
-			assetRoles.put(key,new AssetRole(atlas));
+			assetRoles.put(key,new AssetRole(atlas,attackAtlas));
 		}
 		for (Map.Entry<String, String> entry : Resource.instance.npcs.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue().toString();
 			Texture atlas = assetManager.get(value);
 			// create game resource objects
-			assetRoles.put(key,new AssetRole(atlas));
+			assetRoles.put(key,new AssetRole(atlas,null));
 		}
 		for (Map.Entry<String, String> entry : Resource.instance.maps.entrySet()) {
 			String key = entry.getKey();
