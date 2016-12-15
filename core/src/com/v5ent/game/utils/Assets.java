@@ -43,6 +43,7 @@ public class Assets implements Disposable, AssetErrorListener {
 	public AssetTouch touch;
 	public Texture shadow;
 	public Texture selected;
+	public Texture hpBar,bar;
 
 	public static TextureRegion[] water;
 	public static TextureRegion[] earth;
@@ -264,6 +265,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		assetManager.load(Resource.TOUCH,Texture.class);
 		assetManager.load(Resource.SHADOW,Texture.class);
 		assetManager.load(Resource.SELECTED,Texture.class);
+		assetManager.load(Resource.HP_BAR,Texture.class);
+		assetManager.load(Resource.BAR,Texture.class);
 
 		assetManager.load(Resource.STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		assetManager.load(Resource.ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
@@ -304,6 +307,8 @@ public class Assets implements Disposable, AssetErrorListener {
 		touch = new AssetTouch(assetManager.get(Resource.TOUCH,Texture.class));
 		shadow = assetManager.get(Resource.SHADOW,Texture.class);
 		selected = assetManager.get(Resource.SELECTED,Texture.class);
+		hpBar = assetManager.get(Resource.HP_BAR,Texture.class);
+		bar = assetManager.get(Resource.BAR,Texture.class);
 		STATUSUI_TEXTUREATLAS = assetManager.get(STATUSUI_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		ITEMS_TEXTUREATLAS = assetManager.get(ITEMS_TEXTURE_ATLAS_PATH,TextureAtlas.class);
 		STATUSUI_SKIN = new Skin(Gdx.files.internal(Resource.STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);

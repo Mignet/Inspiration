@@ -137,9 +137,12 @@ public class WorldController extends InputAdapter {
                     @Override
                     public void run() {
                         int damage = MathUtils.random(15, 25);
-                        if (enemy.getHealthPoint() - damage > 0) {
+                        if (enemy.getHealthPoint() > 0) {
                             enemy.setHealthPoint(enemy.getHealthPoint() - damage);
-                        } else {
+                            Gdx.app.debug(TAG,"you hit "+enemy.getEntityId()+damage+" points,it left:"+(enemy.getHealthPoint() - damage));
+                        }
+                        //if dead
+                        if(enemy.getHealthPoint()<=0){
                             //remove from enemy
                             mapMgr.enemies.remove(enemy);
                         }
@@ -152,26 +155,28 @@ public class WorldController extends InputAdapter {
             }
         }
         //2. for Enemy,
-        for (Enemy e : mapMgr.enemies) {
+        for (final Enemy e : mapMgr.enemies) {
             Vector2 from = player.getPosInMap();
             Vector2 to = e.getPosInMap();
             float distance = (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
             if (distance <= 2) {
                 if (cycleTime == 0) {
                     e.setState(Role.State.ATTACK);
+                    cycleTime = 1;
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
-                            int damage = MathUtils.random(15, 25);
-                            if (player.getHealthPoint() - damage > 0) {
+                            int damage = MathUtils.random(10, 15);
+                            Gdx.app.debug(TAG,e.getEntityId()+" hit you "+damage+" points,you left:"+(player.getHealthPoint() - damage));
+                            if (player.getHealthPoint() > 0) {
                                 player.setHealthPoint(player.getHealthPoint() - damage);
-                            } else {
+                            }
+                            //if dead
+                            if(player.getHealthPoint()<=0){
                                 //game over
+                                isGameOver = true;
                             }
-                            cycleTime += deltaTime;
-                            if (cycleTime > 4) {
-                                cycleTime = 0;
-                            }
+                            cycleTime = 0;
                         }
                     }, 0.5f);
                 }

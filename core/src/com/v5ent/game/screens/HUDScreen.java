@@ -59,12 +59,11 @@ public class HUDScreen implements Screen {
         return stage;
     }
 
-    private ExtendViewport viewport;
     public HUDScreen(WorldController controller, Role player) {
         worldController = controller;
-        viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,controller.hudCamera);
+        ExtendViewport viewport = new ExtendViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT,controller.hudCamera);
         stage = new Stage(viewport);
-        _transitionActor = new ScreenTransitionActor();
+        transitionActor = new ScreenTransitionActor();
         shakeCam = new ShakeCamera(0,0, 30.0f);
         messageBoxUI = new Dialog("消息", Assets.instance.STATUSUI_SKIN, "solidbackground"){
             {
@@ -92,7 +91,8 @@ public class HUDScreen implements Screen {
         battleUI = new BattleUI(this,player);
         battleUI.setMovable(false);
         //removes all listeners including ones that handle focus
-        battleUI.clearListeners();
+//        battleUI.clearListeners();
+        battleUI.setModal(true);
         battleUI.setVisible(false);
 
         inventoryUI = new InventoryUI(this);
@@ -361,6 +361,7 @@ public class HUDScreen implements Screen {
      */
     public void sleepInHotel(){
         //health++,money--
+        worldController.player.setHealthPoint(statusUI.getHPValueMax());
         statusUI.setHPValue(statusUI.getHPValueMax());
         statusUI.setGoldValue(statusUI.getGoldValue()-10);
 //        messageBoxUI.clear();
@@ -530,12 +531,12 @@ public class HUDScreen implements Screen {
                 break;
         }
     }
-    private ScreenTransitionActor _transitionActor;
+    private ScreenTransitionActor transitionActor;
     public void addTransitionToScreen(){
-        _transitionActor.setVisible(true);
+        transitionActor.setVisible(true);
         stage.addAction(
                 Actions.sequence(
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)));
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), transitionActor)));
     }
     @Override
     public void show() {
@@ -551,6 +552,10 @@ public class HUDScreen implements Screen {
         }
         if(worldController._enemySpawnID!=null){
             enterBattleZone(worldController._enemySpawnID);
+        }
+        if(worldController.player.getHealthPoint()>0){
+            int hpVal = worldController.player.getHealthPoint();
+            statusUI.setHPValue(hpVal);
         }
 //        Object mapName = mapMgr.getCurrentTiledMap().getProperties().get("mapName");
 //        _mapName.setText(mapName!=null?mapName.toString():"Unkonwn");

@@ -50,7 +50,6 @@ public class BattleUI extends Window{
 
     public BattleUI(HUDScreen parent,final Role player){
         super("战斗", Assets.instance.STATUSUI_SKIN);
-        this.setModal(true);
         hudScreen = parent;
         this.player = player;
         battleTimer = 0;
@@ -65,6 +64,13 @@ public class BattleUI extends Window{
 
      // + Background
         Image imgBackground = new Image(new Texture(Gdx.files.internal("battle/background.png")));
+        imgBackground.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        imgBackground.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.debug(TAG,"you are in battle!");
+            }
+        });
         this.addActor(imgBackground);
         
         _image = new AnimatedImage();

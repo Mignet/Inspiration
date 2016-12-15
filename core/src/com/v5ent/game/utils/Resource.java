@@ -18,6 +18,9 @@ public class Resource {
     public static final String TOUCH = "tools/touch.png";
     public static final String SHADOW = "tools/shadow.png";
     public static final String SELECTED = "tools/selected.png";
+    public static final String HP_BAR = "hud/hp_bar.png";
+    public static final String BAR = "hud/bar.png";
+
     public Map<String,String> players = new HashMap<String,String>();
     public Map<String,String> fighters = new HashMap<String,String>();
     public Map<String,String> npcs = new HashMap<String,String>();

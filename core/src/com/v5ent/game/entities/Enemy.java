@@ -42,8 +42,8 @@ public class Enemy extends Role {
         super(entityId);
         this.setCurrentDir(Direction.UP);
         this.setState(State.IDLE);
-        hpBar = new Texture(Gdx.files.internal("hud/hp_bar.png"));
-         bar = new Texture(Gdx.files.internal("hud/bar.png"));
+        hpBar = Assets.instance.hpBar;
+        bar = Assets.instance.bar;
     }
 
     public void randomMove(WorldController worldController){
