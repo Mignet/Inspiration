@@ -138,7 +138,7 @@ public class Assets implements Disposable, AssetErrorListener {
 			attackRightAnimation = null;
 			attackUpAnimation = null;
 			if(attack!=null){
-				TextureRegion[][] attackFrames = TextureRegion.split(attack, 64, 48);
+				TextureRegion[][] attackFrames = TextureRegion.split(attack, 32, 48);
 				Array<TextureRegion> attackDownFrames = new Array<TextureRegion>(3);
 				Array<TextureRegion> attackLeftFrames = new Array<TextureRegion>(3);
 				Array<TextureRegion> attackRightFrames = new Array<TextureRegion>(3);
